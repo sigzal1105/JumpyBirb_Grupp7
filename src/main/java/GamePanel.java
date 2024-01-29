@@ -15,7 +15,9 @@ public class GamePanel extends JPanel {
 
     private int birbSpeed = 4;
     private int playerWidth = 15; // birb width
-    private int playerHight = 15; // birb hight
+    private int playerHeight = 15; // birb hight
+
+    private Image backgroundImage; 
 
     KeyControls keyControls = new KeyControls();
 
@@ -25,43 +27,20 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
         this.setFocusable(true);
+        backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawBackground(g);
+        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, this);
         drawPlayer(g);
-
     }
 
     private void drawPlayer(Graphics g) {
-        g.setColor(Color.ORANGE); // color of birb
-        g.fillRect(birbX, birbY, playerWidth, playerHight); // rectangle birb
-    }
-
-    private void drawBackground(Graphics g) {
-        // set dimensions
-        int upperHeight = screenHeight * 15 / 100;
-        int middleHeight = screenHeight * 65 / 100;
-        int groundHeight = screenHeight * 5 / 100;
-        int bottomHeight = screenHeight * 15 / 100;
-
-        // pant the top
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, 0, screenWidth, upperHeight);
-
-        // paint the middle
-        g.setColor(Color.CYAN);
-        g.fillRect(0, upperHeight, screenWidth, middleHeight);
-
-        // paint the ground
-        g.setColor(Color.GREEN);
-        g.fillRect(0, upperHeight + middleHeight, screenWidth, groundHeight);
-
-        // paint the bottom
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, upperHeight + middleHeight + groundHeight, screenWidth, bottomHeight);
+        g.setColor(Color.ORANGE);
+        g.fillRect(birbX, birbY, playerWidth, playerHeight);
     }
 
     public void update() {
