@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Window {
 
@@ -15,5 +16,6 @@ public class Window {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
     }
 }
