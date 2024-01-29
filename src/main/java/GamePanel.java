@@ -10,10 +10,14 @@ public class GamePanel extends JPanel {
     private final int screenWidth = tileSize * maxScreenColumn; // 160 pixels
     private final int screenHeight = tileSize * getMaxScreenRow; // 224 pixels
 
-    /**
-     * This method is to be used in the game-loop.
-     * update() will enable controls.
-     */
+    private int birbX = screenWidth / 2 - 50; // x-cordinate for birb
+    private int birbY = screenHeight / 2 - 50; // y-cordinate for birb
+
+    private int birbSpeed = 4;
+    private int playerWidth = 15; // birb width
+    private int playerHight = 15; // birb hight
+
+    KeyControls keyControls = new KeyControls();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -21,5 +25,27 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
         this.setFocusable(true);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        drawPlayer(g);
+
+    }
+
+    private void drawPlayer(Graphics g) {
+        g.setColor(Color.ORANGE); // color of birb
+        g.fillRect(birbX, birbY, playerWidth, playerHight); // rectangle birb
+    }
+
+    public void update() {
+        if (keyControls.getSpacebar()) {
+            birbY = birbY - birbSpeed;
+
+        } else {
+
+            birbY = birbY - Integer.MAX_VALUE;
+        }
     }
 }
