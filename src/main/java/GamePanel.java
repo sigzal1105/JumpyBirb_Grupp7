@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Runnable{
     private final int originalTileSize = 16; // 16x16 tile
     private final int scale = 3;
     private final int tileSize = originalTileSize * scale; // Size of the tiles scaled, 48x48
@@ -17,10 +17,17 @@ public class GamePanel extends JPanel {
     private int playerWidth = 15; // birb width
     private int playerHeight = 15; // birb hight
 
+
     private Image backgroundImage; 
     private Image groundImage;
 
+
+
     KeyControls keyControls = new KeyControls();
+
+    //Frames Per Second
+    private final int FPS = 60;
+    Thread gameThread;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -53,6 +60,34 @@ public class GamePanel extends JPanel {
         } else {
 
             birbY = birbY - Integer.MAX_VALUE;
+        }
+    }
+
+    @Override
+    public void run() {
+
+        //Tell the system when to draw the screen again.
+        double drawInterval = 1000000000/FPS; //0.016666 seconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (gameThread != null) {
+            update();
+            repaint();
+
+            try {
+
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+
+                //If game doesn't have any
+                if(remainingTime < 0){
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
