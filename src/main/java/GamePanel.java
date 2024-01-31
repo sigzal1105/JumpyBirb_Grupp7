@@ -21,6 +21,10 @@ public class GamePanel extends JPanel {
 
     KeyControls keyControls = new KeyControls();
 
+    Thread gameThread;
+    //Frames Per Second
+    int FPS = 60;
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -50,6 +54,33 @@ public class GamePanel extends JPanel {
         } else {
 
             birbY = birbY - Integer.MAX_VALUE;
+        }
+    }
+
+    public void run() {
+
+        //Tell the system when to draw the screen again.
+        double drawInterval = 1000000000/FPS; //0.016666 seconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (gameThread != null) {
+            update();
+            repaint();
+
+            try {
+
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+
+                //If game doesn't have any
+                if(remainingTime < 0){
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
