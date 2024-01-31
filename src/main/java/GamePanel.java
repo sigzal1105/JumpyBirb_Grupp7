@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int birbX = (screenWidth / 2 - 50); // x-cordinate for birb
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
 
-    private int birbSpeed = 4;
+    private int birbSpeed = 8;
     private int playerWidth = 15; // birb width
     private int playerHeight = 15; // birb hight
 
@@ -67,8 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     /**
-     * @param g
-     * This method loops the ground tiles.
+     * @param g This method loops the ground tiles.
      */
     private void drawGround(Graphics g) {
 
@@ -90,13 +89,14 @@ public class GamePanel extends JPanel implements Runnable {
      * update() is to be put in the run() method.
      * This methods contains the controls to the birb.
      */
-    public void update() {
+    public void update()  {
         if (keyControls.getSpacebar()) {
             birbY = birbY - birbSpeed;
 
         } else {
 
-            birbY = birbY + 3;
+            //birbY = birbY;
+            birbY = birbY + (birbSpeed / 2);
         }
     }
 
