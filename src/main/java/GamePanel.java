@@ -10,14 +10,14 @@ public class GamePanel extends JPanel {
     private final int screenWidth = tileSize * maxScreenColumn; // 160 pixels
     private final int screenHeight = tileSize * getMaxScreenRow; // 224 pixels
 
-    private int birbX = screenWidth / 2 - 50; // x-cordinate for birb
-    private int birbY = screenHeight / 2 - 50; // y-cordinate for birb
+    private int birbX = (screenWidth / 2 - 50); // x-cordinate for birb
+    private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
 
     private int birbSpeed = 4;
     private int playerWidth = 15; // birb width
     private int playerHeight = 15; // birb hight
 
-    private Image backgroundImage; 
+    private Image backgroundImage;
 
     KeyControls keyControls = new KeyControls();
 
@@ -38,11 +38,20 @@ public class GamePanel extends JPanel {
         drawPlayer(g);
     }
 
+
+    /**
+     * @param g This method draws the birb.
+     */
     private void drawPlayer(Graphics g) {
         g.setColor(Color.ORANGE);
         g.fillRect(birbX, birbY, playerWidth, playerHeight);
     }
 
+
+    /**
+     * update() is to be put in the run() method.
+     * This methods contains the controls to the birb.
+     */
     public void update() {
         if (keyControls.getSpacebar()) {
             birbY = birbY - birbSpeed;
