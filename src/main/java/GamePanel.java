@@ -18,6 +18,7 @@ public class GamePanel extends JPanel {
     private int playerHeight = 15; // birb hight
 
     private Image backgroundImage; 
+    private Image groundImage;
 
     KeyControls keyControls = new KeyControls();
 
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel {
         this.addKeyListener(keyControls);
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
+        groundImage = new ImageIcon("Images/ground_test.jpg").getImage();
 
     }
 
@@ -35,6 +37,7 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, this);
+        g.drawImage(groundImage, 0, 500, screenWidth, 70, this); // y for placement in height, 70 for image height
         drawPlayer(g);
     }
 
