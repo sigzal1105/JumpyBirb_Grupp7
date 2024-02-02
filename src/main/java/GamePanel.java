@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyControls);
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
-        groundImage = new ImageIcon("Images/ground_test.jpg").getImage();
+        groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
 
     }
 
@@ -74,11 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
         for (int i = 0; i < 20; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
 
-            g.drawImage(groundImage, x, 500, screenWidth, 70, this);
-            // y for placement in height, 70 for image height
-
-            //x = 0
-            //y = 500
+            g.drawImage(groundImage, x, 500, tileSize, tileSize, this);
         }
 
 
@@ -89,13 +85,12 @@ public class GamePanel extends JPanel implements Runnable {
      * update() is to be put in the run() method.
      * This methods contains the controls to the birb.
      */
-    public void update()  {
+    public void update() {
         if (keyControls.getSpacebar()) {
             birbY = birbY - birbSpeed;
 
         } else {
 
-            //birbY = birbY;
             birbY = birbY + (birbSpeed / 2);
         }
     }
