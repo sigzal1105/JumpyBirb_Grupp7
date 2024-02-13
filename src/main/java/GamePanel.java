@@ -19,7 +19,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Image backgroundImage;
     private Image groundImage;
-    private Image pipeImage;
+    private Image bottomPipe;
+    private Image topPipe;
+    private Image shortBottomPipe;
+    private Image shortTopPipe;
+
 
     KeyControls keyControls = new KeyControls();
 
@@ -40,7 +44,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
         groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
-
+        bottomPipe = new ImageIcon("Images/bottomPipe.png").getImage();
+//        topPipe = new ImageIcon("Images/topPipe.png").getImage();
+//        shortBottomPipe = new ImageIcon("Images/shortBottomPipe.png").getImage();
+//        shortTopPipe = new ImageIcon("Images/shortTopPipe.png").getImage();
     }
 
     @Override
@@ -49,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
         g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, this);
         drawPlayer(g);
         drawGround(g);
+        drawPipe(g);
     }
 
     /**
@@ -67,10 +75,19 @@ public class GamePanel extends JPanel implements Runnable {
 
         for (int i = 0; i < 20; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
-
             g.drawImage(groundImage, x, 624, tileSize, tileSize, this);
         }
+    }
 
+    /**
+     * @param g This method loops the pipe objects.
+     */
+    private void drawPipe(Graphics g){
+
+        for (int i = 0; i < 20; i = i+5) {
+            int x = i * tileSize % tileSize;
+            g.drawImage(bottomPipe, x, 530, tileSize+5, 200, this);
+        }
     }
 
     /**
