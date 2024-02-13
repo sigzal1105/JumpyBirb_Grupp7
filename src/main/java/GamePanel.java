@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private int scrollPosition = 0;
     private final int scrollSpeed = 2;
+    private final int pipeSpeed = 1;
 
     private int birbX = (screenWidth / 2 - 130); // x-cordinate for birb
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
@@ -54,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight+50, this);
+        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight + 50, this);
         drawPlayer(g);
         drawPipe(g);
         drawGround(g);
@@ -74,10 +75,12 @@ public class GamePanel extends JPanel implements Runnable {
      */
     private void drawGround(Graphics g) {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 100; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
             g.drawImage(groundImage, x, 624, tileSize, tileSize, this);
+
         }
+
     }
 
     /**
@@ -85,9 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
      */
     private void drawPipe(Graphics g) {
 
-        for (int i = 0; i < 20; i = i + 5) {
-            //int x = i * tileSize % tileSize;
-            int x = i * tileSize - scrollPosition % tileSize;
+        for (int i = 0; i < 1; i = i + 5) {
+            int x = i * 200 - scrollSpeed % 200;
             g.drawImage(bottomPipe, x, 530, tileSize, 200, this);
         }
     }
