@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable {
     private final int originalTileSize = 16; // 16x16 tile
@@ -17,9 +18,9 @@ public class GamePanel extends JPanel implements Runnable {
     private int birbX = (screenWidth / 2 - 130); // x-cordinate for birb
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
 
-    //Pipe
-    private final int pipeWidth = 95;
-    private int pipeHeight = 200;
+    //Obstacles
+    private final int obstacleWidth = 95;
+    private int obstacleHeight;
 
     private Image backgroundImage;
     private Image groundImage;
@@ -77,8 +78,6 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method loops the ground tiles.
      */
     private void drawGround(Graphics g) {
-
-
         for (int i = 0; i < 20; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
             g.drawImage(groundImage, x, 624, tileSize, tileSize, this);
@@ -88,15 +87,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * @param g This method loops the pipe objects.
+     * @param g This method loops the obstacle objects.
      */
-
     private void drawPipe(Graphics g) {
+        obstacleHeight = ThreadLocalRandom.current().nextInt(100, 600);
         for (int i = 0; i < 20; i++) {
 
             int x = i * 300 - scrollPosition % 300;
-            g.drawImage(bottomPipe, x, screenHeight - pipeHeight, pipeWidth, pipeHeight, this);
-            g.drawImage(topPipe, x, 0, pipeWidth, pipeHeight + 130, this);
+            g.drawImage(bottomPipe, x, screenHeight - obstacleHeight, obstacleWidth, obstacleHeight, this);
+            g.drawImage(topPipe, x, 0, obstacleWidth, obstacleHeight + 130, this);
         }
     }
 
