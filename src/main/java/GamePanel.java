@@ -6,7 +6,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int scale = 3;
 
     private final int tileSize = originalTileSize * scale; // Size of the tiles scaled, 48x48
-    private final int maxScreenColumn = 10; 
+    private final int maxScreenColumn = 10;
     private final int getMaxScreenRow = 14;
     private final int screenWidth = tileSize * maxScreenColumn; // 480 pixels
     private final int screenHeight = tileSize * getMaxScreenRow; // 672 pixels
@@ -56,8 +56,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, this);
         drawPlayer(g);
-        drawGround(g);
         drawPipe(g);
+        drawGround(g);
     }
 
     /**
@@ -83,11 +83,12 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * @param g This method loops the pipe objects.
      */
-    private void drawPipe(Graphics g){
+    private void drawPipe(Graphics g) {
 
-        for (int i = 0; i < 20; i = i+5) {
-            int x = i * tileSize % tileSize;
-            g.drawImage(bottomPipe, x, 530, tileSize+5, 200, this);
+        for (int i = 0; i < 20; i = i + 5) {
+            //int x = i * tileSize % tileSize;
+            int x = i * tileSize - scrollPosition % tileSize;
+            g.drawImage(bottomPipe, x, 530, tileSize, 200, this);
         }
     }
 
