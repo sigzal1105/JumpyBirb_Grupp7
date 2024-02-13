@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class Birb {
-    private final int playerWidth = 22;
-    private final int playerHeight = 22;
+    private final int playerWidth = 40;
+    private final int playerHeight = 36;
     private final int birbSpeed = 8;
     private Rectangle hitbox;
     private Image sprite1;
