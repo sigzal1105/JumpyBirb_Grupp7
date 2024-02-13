@@ -8,18 +8,14 @@ public class GamePanel extends JPanel implements Runnable {
     private final int tileSize = originalTileSize * scale; // Size of the tiles scaled, 48x48
     private final int maxScreenColumn = 10;
     private final int getMaxScreenRow = 14;
-    private final int screenWidth = tileSize * maxScreenColumn; // 160 pixels
-    private final int screenHeight = tileSize * getMaxScreenRow; // 224 pixels
+    private final int screenWidth = tileSize * maxScreenColumn; // 480 pixels
+    private final int screenHeight = tileSize * getMaxScreenRow; // 672 pixels
 
     private int scrollPosition = 0;
     private final int scrollSpeed = 4;
 
     private int birbX = (screenWidth / 2 - 50); // x-cordinate for birb
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
-
-    private int birbSpeed = 8;
-    private int playerWidth = 15; // birb width
-    private int playerHeight = 15; // birb hight
 
 
     private Image backgroundImage;
@@ -61,10 +57,10 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method draws the birb.
      */
     private void drawPlayer(Graphics g) {
+        Birb birb = new Birb();
         g.setColor(Color.ORANGE);
-        g.fillRect(birbX, birbY, playerWidth, playerHeight);
+        g.fillRect(birbX, birbY, birb.getPlayerWidth(), birb.getPlayerHeight());
     }
-
 
     /**
      * @param g This method loops the ground tiles.
@@ -86,12 +82,13 @@ public class GamePanel extends JPanel implements Runnable {
      * This methods contains the controls to the birb.
      */
     public void update() {
+        Birb birb = new Birb();
         if (keyControls.getSpacebar()) {
-            birbY = birbY - birbSpeed;
+            birbY = birbY - birb.getBirbSpeed();
 
         } else {
 
-            birbY = birbY + (birbSpeed / 2);
+            birbY = birbY + (birb.getBirbSpeed() / 2);
         }
     }
 
