@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Image backgroundImage;
     private Image groundImage;
+    private Image pipeImage;
 
     KeyControls keyControls = new KeyControls();
 
