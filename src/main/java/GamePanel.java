@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
         this.setFocusable(true);
-        backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
+        backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
         bottomPipe = new ImageIcon("Images/bottomPipe.png").getImage();
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight, this);
+        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight+50, this);
         drawPlayer(g);
         drawPipe(g);
         drawGround(g);
