@@ -75,7 +75,8 @@ public class GamePanel extends JPanel implements Runnable {
      */
     private void drawGround(Graphics g) {
 
-        for (int i = 0; i < 100; i++) {
+
+        for (int i = 0; i < 20; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
             g.drawImage(groundImage, x, 624, tileSize, tileSize, this);
 
@@ -86,11 +87,12 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * @param g This method loops the pipe objects.
      */
-    private void drawPipe(Graphics g) {
 
-        for (int i = 0; i < 1; i = i + 5) {
-            int x = i * 200 - scrollSpeed % 200;
-            g.drawImage(bottomPipe, x, 530, tileSize, 200, this);
+    private void drawPipe(Graphics g) {
+        for (int i = 0; i < 20; i++) {
+            int x = i * 300 - scrollPosition % 300;
+            g.drawImage(bottomPipe, x, 530, 95, 200, this);
+
         }
     }
 
