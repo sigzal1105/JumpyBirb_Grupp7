@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable {
     private final int originalTileSize = 16; // 16x16 tile
@@ -19,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Pipe
     private int pipeWidth = 60;
-    private int pipeHeight = 200;
+    private int pipeHeight;
 
     private Image backgroundImage;
     private Image groundImage;
@@ -87,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method loops the pipe objects.
      */
     private void drawPipe(Graphics g){
+        pipeHeight = ThreadLocalRandom.current().nextInt(100, 600);
         for (int i = 0; i < 20; i++) {
             int x = i * 500 - scrollPosition % 500;
             g.drawImage(bottomPipe, x, screenHeight - pipeHeight, pipeWidth, pipeHeight, this);
