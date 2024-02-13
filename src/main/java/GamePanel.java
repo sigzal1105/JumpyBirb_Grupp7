@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyControls);
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
-        groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+        groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
 
     }
 
