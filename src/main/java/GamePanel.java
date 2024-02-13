@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/background_test.jpg").getImage();
         groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+        groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
         bottomPipe = new ImageIcon("Images/bottomPipe.png").getImage();
 //        topPipe = new ImageIcon("Images/topPipe.png").getImage();
 //        shortBottomPipe = new ImageIcon("Images/shortBottomPipe.png").getImage();
