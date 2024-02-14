@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable {
+    private Birb birb = new Birb();
     private final int originalTileSize = 16; // 16x16 tile
     private final int scale = 3;
 
@@ -19,15 +20,16 @@ public class GamePanel extends JPanel implements Runnable {
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
 
     //Obstacles
+    private int obstacleX = screenWidth;
+    private int obstacleY = 0;
     private final int obstacleWidth = 95;
-    private int obstacleHeight;
+    private int spaceBetweenObstacles = 130;
 
+    //Images
     private Image backgroundImage;
     private Image groundImage;
-    private Image bottomPipe;
-    private Image topPipe;
-    private Image shortBottomPipe;
-    private Image shortTopPipe;
+    private Image bottomPipeImg;
+    private Image topPipeImg;
 
 
     KeyControls keyControls = new KeyControls();
@@ -48,20 +50,18 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyControls);
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-        groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+        //groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
-        bottomPipe = new ImageIcon("Images/bottomPipe.png").getImage();
-        topPipe = new ImageIcon("Images/topPipe.png").getImage();
-//        shortBottomPipe = new ImageIcon("Images/shortBottomPipe.png").getImage();
-//        shortTopPipe = new ImageIcon("Images/shortTopPipe.png").getImage();
+        bottomPipeImg = new ImageIcon("Images/bottomPipe.png").getImage();
+        topPipeImg = new ImageIcon("Images/topPipe.png").getImage();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight + 50, this);
+        g.drawImage(backgroundImage, 0, 0, screenWidth, screenHeight + 50, null);
         drawPlayer(g);
-        drawPipe(g);
+        //drawObstacle(g);
         drawGround(g);
     }
 
@@ -69,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method draws the birb.
      */
     private void drawPlayer(Graphics g) {
-        Birb birb = new Birb();
         g.setColor(Color.ORANGE);
         g.fillRect(birbX, birbY, birb.getPlayerWidth(), birb.getPlayerHeight());
     }
@@ -80,23 +79,26 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawGround(Graphics g) {
         for (int i = 0; i < 20; i++) {
             int x = i * tileSize - scrollPosition % tileSize;
-            g.drawImage(groundImage, x, 624, tileSize, tileSize, this);
-
+            g.drawImage(groundImage, x, 624, tileSize, tileSize, null);
         }
-
     }
 
     /**
      * @param g This method loops the obstacle objects.
      */
-    private void drawPipe(Graphics g) {
-        obstacleHeight = ThreadLocalRandom.current().nextInt(100, 600);
-        for (int i = 0; i < 20; i++) {
+    private void drawObstacle(Graphics g) {
+        int bottomObstacleHeight = generateRandomHeight();
+        int topObstacleHeight = screenHeight - bottomObstacleHeight - spaceBetweenObstacles;
 
+        for (int i = 0; i < 2; i++) {
             int x = i * 300 - scrollPosition % 300;
-            g.drawImage(bottomPipe, x, screenHeight - obstacleHeight, obstacleWidth, obstacleHeight, this);
-            g.drawImage(topPipe, x, 0, obstacleWidth, obstacleHeight + 130, this);
+            g.drawImage(bottomPipeImg, x, screenHeight - bottomObstacleHeight, obstacleWidth, bottomObstacleHeight, null);
+            g.drawImage(topPipeImg, x, 0, obstacleWidth, topObstacleHeight, null);
         }
+    }
+
+    public int generateRandomHeight(){
+        return (int) (Math.random() * (screenHeight - spaceBetweenObstacles));
     }
 
     /**
@@ -104,7 +106,6 @@ public class GamePanel extends JPanel implements Runnable {
      * This methods contains the controls to the birb.
      */
     public void update() {
-        Birb birb = new Birb();
         if (keyControls.getSpacebar()) {
             birbY = birbY - birb.getBirbSpeed();
 
