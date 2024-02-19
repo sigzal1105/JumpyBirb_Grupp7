@@ -16,6 +16,8 @@ public class GamePanel extends JPanel implements Runnable {
     private int scrollPosition = 0;
     private final int scrollSpeed = 2;
 
+    private boolean gameStarted = false;
+
     private int birbX = (screenWidth / 2 - 130); // x-cordinate for birb
     private int birbY = (screenHeight / 2 - 50); // y-cordinate for birb
 
@@ -87,6 +89,10 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method loops the obstacle objects.
      */
     private void drawObstacle(Graphics g) {
+        if (!gameStarted) {
+            return;
+        }
+            
         int bottomObstacleHeight = generateRandomHeight();
         int topObstacleHeight = screenHeight - bottomObstacleHeight - spaceBetweenObstacles;
 
@@ -106,6 +112,13 @@ public class GamePanel extends JPanel implements Runnable {
      * This methods contains the controls to the birb.
      */
     public void update() {
+        if (!gameStarted) {
+            if (keyControls.getSpacebar()) {
+                gameStarted = true;
+            }
+            return;  
+        }
+
         if (keyControls.getSpacebar()) {
             birbY = birbY - birb.getBirbSpeed();
 
