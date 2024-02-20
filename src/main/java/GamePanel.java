@@ -11,16 +11,23 @@ public class GamePanel extends JPanel implements Runnable {
     private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
     private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
+    Birb birb = new Birb();
+    private boolean gameStarted = false;
+
     //Obstacles
     private final int OBSTACLE_WIDTH = 100;
     private int obstacleHeight = 210;
+    private int spaceBetweenObstacles = 130;
+    private int obstacleX = SCREEN_WIDTH;
+    private int obstacleY = 0;
 
+    //Images
     private Image backgroundImage;
     private Image groundImage;
     private Image bottomObstacle;
     private Image topObstacle;
-    private Image shortBottomPipe;
-    private Image shortTopPipe;
+    //private Image shortBottomPipe;
+    //private Image shortTopPipe;
 
 
     Thread gameThread;
@@ -39,24 +46,23 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyControls);
         this.setFocusable(true);
         backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-        groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+        //groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
         bottomObstacle = new ImageIcon("Images/icecreamred.png").getImage();
         topObstacle = new ImageIcon("Images/icecreamtwisterUpsideDown.png").getImage();
-//        shortBottomPipe = new ImageIcon("Images/shortBottomPipe.png").getImage();
-//        shortTopPipe = new ImageIcon("Images/shortTopPipe.png").getImage();
+        //shortBottomPipe = new ImageIcon("Images/shortBottomPipe.png").getImage();
+        //shortTopPipe = new ImageIcon("Images/shortTopPipe.png").getImage();
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, this);
+        g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
         drawPlayer(g);
         drawObstacle(g);
         drawGround(g);
     }
-
-    Birb birb = new Birb();
 
     /**
      * @param g This method draws the birb.
@@ -75,20 +81,34 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawGround(Graphics g) {
         for (int i = 0; i < 20; i++) {
             int x = i * TILE_SIZE - scrollPosition % TILE_SIZE;
-            g.drawImage(groundImage, x, 624, TILE_SIZE, TILE_SIZE, this);
+            g.drawImage(groundImage, x, 624, TILE_SIZE, TILE_SIZE, null);
         }
-
     }
+
+    long start = System.nanoTime();
+    long end;
 
     /**
      * @param g This method loops the obstacle objects.
      */
     private void drawObstacle(Graphics g) {
+        if (!gameStarted) {
+            return;
+        }
+
         for (int i = 0; i < 20; i++) {
 
             int x = i * 300 - scrollPosition % 300;
-            g.drawImage(bottomObstacle, x, SCREEN_HEIGHT - obstacleHeight, OBSTACLE_WIDTH, obstacleHeight, this);
-            g.drawImage(topObstacle, x, 0, OBSTACLE_WIDTH, obstacleHeight + 130, this);
+            g.drawImage(bottomObstacle, x, SCREEN_HEIGHT - obstacleHeight, OBSTACLE_WIDTH, obstacleHeight, null);
+            g.drawImage(topObstacle, x, 0, OBSTACLE_WIDTH, obstacleHeight + 130, null);
+
+
+            //int bottomObstacleHeight = generateRandomHeight();
+            //int topObstacleHeight = screenHeight - bottomObstacleHeight - spaceBetweenObstacles;
+
+
+            //public int generateRandomHeight () {
+            //return (int) (Math.random() * (screenHeight - spaceBetweenObstacles));
         }
     }
 
@@ -97,6 +117,14 @@ public class GamePanel extends JPanel implements Runnable {
      * This methods contains the controls to the birb.
      */
     public void update() {
+
+        if (!gameStarted) {
+            if (keyControls.getSpacebar()) {
+                gameStarted = true;
+            }
+            return;
+        }
+
         if (keyControls.getSpacebar()) {
             birb.setBirbY(birb.getBirbY() - birb.getBIRB_SPEED());
 
