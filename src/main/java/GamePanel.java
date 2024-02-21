@@ -4,7 +4,7 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     private final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     private final int SCALE = 3;
-
+    private int score = 0;
     private final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // Size of the original tiles scaled by 3, 48x48
     private final int MAX_SCREEN_COLUMN = 10;
     private final int MAX_SCREEN_ROW = 14;
@@ -58,10 +58,13 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
         g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
         drawPlayer(g);
         drawObstacle(g);
         drawGround(g);
+        drawScore(g);
+        
     }
 
     /**
@@ -72,7 +75,15 @@ public class GamePanel extends JPanel implements Runnable {
         //g.fillRect(birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT());
         g.drawImage(birb.getSprite3(), birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
     }
-
+    /**
+     * 
+     * @param g draws the current score
+     */
+    private void drawScore(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Serif", Font.BOLD, 50));
+        g.drawString("" + score, 220, 50);
+    }
     private int scrollPosition = 0;
 
     /**
@@ -111,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
             //return (int) (Math.random() * (screenHeight - spaceBetweenObstacles));
         }
     }
-
+    
     /**
      * update() is to be put in the run() method.
      * This methods contains the controls to the birb.
