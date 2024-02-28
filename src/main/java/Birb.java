@@ -7,10 +7,18 @@ public class Birb {
     private final int PLAYER_WIDTH = 70;
     private final int PLAYER_HEIGHT = 56;
     private final int BIRB_SPEED = 8;
-    private Rectangle hitbox = new Rectangle(BIRB_X, birbY, PLAYER_WIDTH, PLAYER_HEIGHT);
+    private Rectangle birbHitbox;
     private Image sprite1;
     private Image sprite2;
     private Image sprite3 = new ImageIcon("Images/birb_sprite.png").getImage();
+
+    public Birb() {
+        this.birbHitbox = new Rectangle(BIRB_X, birbY, PLAYER_WIDTH, PLAYER_HEIGHT);
+    }
+
+    public void updateHitbox() {
+        birbHitbox.setBounds(BIRB_X, birbY, PLAYER_WIDTH, PLAYER_HEIGHT);
+    }
 
     public int getBIRB_X() {
         return BIRB_X;
@@ -24,8 +32,8 @@ public class Birb {
         this.birbY = birbY;
     }
 
-    public Rectangle getHitbox() {
-        return hitbox;
+    public Rectangle getBirbHitbox() {
+        return birbHitbox;
     }
 
     public int getBIRB_SPEED() {

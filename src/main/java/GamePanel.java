@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH);
     }
 
-    private void loadImages(){
+    private void loadImages() {
         backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
         //groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
@@ -77,10 +77,11 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawPlayer(Graphics g) {
         //g.setColor(Color.ORANGE);
         //g.fillRect(birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT());
-        g.drawImage(birb.getSprite3(), birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
+        g.drawImage(birb.getSprite3(), birb.getBIRB_X(), birb.getBirbY(),
+                birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
     }
+
     /**
-     *
      * @param g draws the current score
      */
     private void drawScore(Graphics g) {
@@ -88,29 +89,27 @@ public class GamePanel extends JPanel implements Runnable {
         g.setFont(new Font("Serif", Font.BOLD, 50));
         g.drawString("" + score, 220, 50);
     }
+
     private int scrollPosition = 0;
 
     /**
      * @param g This method loops the ground tiles.
      */
     private void drawGround(Graphics g) {
-        int visibleTiles = (SCREEN_WIDTH/TILE_SIZE) + 2;
-        int startTile = scrollPosition/TILE_SIZE;
+        int visibleTiles = (SCREEN_WIDTH / TILE_SIZE) + 2;
+        int startTile = scrollPosition / TILE_SIZE;
         int groundY = 624;
 
-        for (int i = 0; i < startTile+visibleTiles; i++) {
+        for (int i = 0; i < startTile + visibleTiles; i++) {
             int x = (i * TILE_SIZE) - (scrollPosition % TILE_SIZE);
             g.drawImage(groundImage, x, groundY, TILE_SIZE, TILE_SIZE, null);
         }
     }
 
-    long start = System.nanoTime();
-    long end;
-
     private void addObstacles(int x) {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-        int bottomObstY = SCREEN_HEIGHT - randBottomHeight ;
+        int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
         int randTopHeight = bottomObstY - spaceBetweenObstacles;
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
@@ -124,15 +123,24 @@ public class GamePanel extends JPanel implements Runnable {
         if (!gameStarted) {
             return;
         }
-        for(Obstacle obstacle: obstacles){
-            g.drawImage(obstacle.img, obstacle.obstacleX, obstacle.obstacleY, obstacle.obstacleWidth, obstacle.obstacleHeight, null);
+        for (Obstacle obstacle : obstacles) {
+            g.drawImage(obstacle.img, obstacle.obstacleX, obstacle.obstacleY,
+                    obstacle.obstacleWidth, obstacle.obstacleHeight, null);
         }
     }
 
-    public void updateObstacles(){
+    public void updateObstacles() {
         Iterator<Obstacle> iterator = obstacles.iterator();
+
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
+
+            Rectangle obstacleHitbox = new Rectangle(obstacle.obstacleX, obstacle.obstacleY,
+                    obstacle.obstacleWidth, obstacle.obstacleHeight);
+            if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
+                score++;
+            }
+
             obstacle.obstacleX -= SCROLL_SPEED;
             if (obstacle.obstacleX + obstacle.obstacleWidth <= 0) {
                 iterator.remove(); // Remove the current obstacle
@@ -166,6 +174,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             birb.setBirbY(birb.getBirbY() + (birb.getBIRB_SPEED() / 2));
         }
+
+        birb.updateHitbox();
     }
 
     // Frames Per Second
@@ -180,8 +190,8 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
-            update();
             updateObstacles();
+            update();
             scrollPosition = scrollPosition + SCROLL_SPEED;
             SwingUtilities.invokeLater(this::repaint);
 
