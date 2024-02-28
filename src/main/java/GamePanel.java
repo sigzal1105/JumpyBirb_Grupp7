@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GamePanel extends JPanel implements Runnable {
     private final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
@@ -23,7 +24,6 @@ public class GamePanel extends JPanel implements Runnable {
     private int obstacleHeight = 210;
     private int spaceBetweenObstacles = 130;
     private int obstacleX = SCREEN_WIDTH;
-    private int obstacleY = 0;
 
     //Images
     private Image backgroundImage;
@@ -46,22 +46,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
         this.setFocusable(true);
+        this.obstacles = new ArrayList<>();
         loadImages();
-        obstacles = new ArrayList<>();
-//        addObstacle(SCREEN_WIDTH, 0, generateRandomHeight());
-    }
-
-    private void addObstacle(int x, int y, int height) {
-        obstacles.add(new Obstacle(topObstacle, x, y, height));
-        obstacles.add(new Obstacle(bottomObstacle, x, y + height + spaceBetweenObstacles, SCREEN_HEIGHT-height-spaceBetweenObstacles));
+        addObstacles(SCREEN_WIDTH);
     }
 
     private void loadImages(){
         backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
         //groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
-        bottomObstacle = new ImageIcon("Images/icecreamred.png").getImage();
-        topObstacle = new ImageIcon("Images/icecreamtwisterUpsideDown.png").getImage();
+        bottomObstacle = new ImageIcon("Images/icecreamRedBottom.png").getImage();
+        topObstacle = new ImageIcon("Images/twisterTop.png").getImage();
     }
 
     @Override
@@ -74,10 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
         drawGround(g);
         drawScore(g);
 
-    }
-
-    public int generateRandomHeight () {
-        return (int) (Math.random() * (SCREEN_HEIGHT - spaceBetweenObstacles));
     }
 
     /**
@@ -105,15 +96,26 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawGround(Graphics g) {
         int visibleTiles = (SCREEN_WIDTH/TILE_SIZE) + 2;
         int startTile = scrollPosition/TILE_SIZE;
+        int groundY = 624;
 
         for (int i = 0; i < startTile+visibleTiles; i++) {
             int x = (i * TILE_SIZE) - (scrollPosition % TILE_SIZE);
-            g.drawImage(groundImage, x, 624, TILE_SIZE, TILE_SIZE, null);
+            g.drawImage(groundImage, x, groundY, TILE_SIZE, TILE_SIZE, null);
         }
     }
 
     long start = System.nanoTime();
     long end;
+
+    private void addObstacles(int x) {
+        int topObstY = 0;
+        int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
+        int bottomObstY = SCREEN_HEIGHT - randBottomHeight ;
+        int randTopHeight = bottomObstY - spaceBetweenObstacles;
+
+        obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
+        obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
+    }
 
     /**
      * @param g This method loops the obstacle objects.
@@ -122,17 +124,25 @@ public class GamePanel extends JPanel implements Runnable {
         if (!gameStarted) {
             return;
         }
+        for(Obstacle obstacle: obstacles){
+            g.drawImage(obstacle.img, obstacle.obstacleX, obstacle.obstacleY, obstacle.obstacleWidth, obstacle.obstacleHeight, null);
+        }
+    }
 
-        for (int i = 0; i < 3; i++) {
-
-            int x = i * 300 - scrollPosition % 300;
-            g.drawImage(topObstacle, x, -40, OBSTACLE_WIDTH, obstacleHeight + 130, null);
-            g.drawImage(bottomObstacle, x, (SCREEN_HEIGHT - obstacleHeight) + 25, OBSTACLE_WIDTH, obstacleHeight, null);
-
-
-            //int bottomObstacleHeight = generateRandomHeight();
-            //int topObstacleHeight = screenHeight - bottomObstacleHeight - spaceBetweenObstacles;
-
+    public void updateObstacles(){
+        Iterator<Obstacle> iterator = obstacles.iterator();
+        while (iterator.hasNext()) {
+            Obstacle obstacle = iterator.next();
+            obstacle.obstacleX -= SCROLL_SPEED;
+            if (obstacle.obstacleX + obstacle.obstacleWidth <= 0) {
+                iterator.remove(); // Remove the current obstacle
+                if (iterator.hasNext()) {
+                    iterator.next(); // Move to the next obstacle (bottom obstacle)
+                    iterator.remove(); // Remove the bottom obstacle
+                }
+                addObstacles(SCREEN_WIDTH);
+                return; // Exit the loop after removing obstacles
+            }
         }
     }
 
@@ -171,6 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (gameThread != null) {
             update();
+            updateObstacles();
             scrollPosition = scrollPosition + SCROLL_SPEED;
             SwingUtilities.invokeLater(this::repaint);
 
