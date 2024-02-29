@@ -36,8 +36,8 @@ public class GamePanel extends JPanel implements Runnable {
     private int scrollPosition = 0;
 
     // Images
-    private Image backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-    private Image groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
+    private Image backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
+    private Image groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
     private Image bottomObstacle = new ImageIcon("Images/icecreamRedBottom.png").getImage();
     private Image topObstacle = new ImageIcon("Images/twisterTop.png").getImage();
 
@@ -137,8 +137,8 @@ public class GamePanel extends JPanel implements Runnable {
                 score++;
 
                 if (score > 300 && score < 1000) {
-                    backgroundImage = new ImageIcon("Images/Background_sky.jpg").getImage();
-                    groundImage = groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+                    backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
+                    groundImage = groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
                 }
             }
 
