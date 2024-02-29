@@ -91,8 +91,8 @@ public class GamePanel extends JPanel implements Runnable {
             backgroundImage = new ImageIcon("Images/Background_sky.jpg").getImage();
             groundImage = groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         }
+
     }
-    
     /**
      * @param g draws the current score
      */
@@ -196,6 +196,7 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
         
         while (gameThread != null) {
+
             updateObstacles();
             update();
             scrollPosition = scrollPosition + SCROLL_SPEED;
