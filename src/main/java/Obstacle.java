@@ -2,23 +2,46 @@ import java.awt.*;
 
 public class Obstacle {
 
-    int obstacleX;
-    int obstacleY;
-    final int obstacleWidth = 100;
-    int obstacleHeight;
+    private int obstacleX;
+    private int obstacleY;
+    private final int OBSTACLE_WIDTH = 100;
+    private int obstacleHeight;
     Image img;
     boolean passed = false; //Keeps track of when flappy bird passes
-    private Rectangle obstacleHitbox;
 
     public Obstacle(Image img, int obstacleX, int obstacleY, int obstacleHeight) {
         this.img = img;
         this.obstacleX = obstacleX;
         this.obstacleY = obstacleY;
         this.obstacleHeight = obstacleHeight;
-        this.obstacleHitbox = new Rectangle(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
     }
 
-    public Rectangle getObstacleHitbox() {
-        return obstacleHitbox;
+    public int getObstacleX() {
+        return obstacleX;
     }
+
+    public void setObstacleX(int obstacleX) {
+        this.obstacleX = obstacleX;
+    }
+
+    public int getObstacleY() {
+        return obstacleY;
+    }
+
+    public int getOBSTACLE_WIDTH() {
+        return OBSTACLE_WIDTH;
+    }
+
+    public int getObstacleHeight() {
+        return obstacleHeight;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
 }
