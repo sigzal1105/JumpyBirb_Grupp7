@@ -135,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
 
+            // Here we control the point system connnected to the obstacles
             Rectangle obstacleHitbox = new Rectangle(obstacle.obstacleX, obstacle.obstacleY,
                     obstacle.obstacleWidth, obstacle.obstacleHeight);
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
@@ -143,14 +144,31 @@ public class GamePanel extends JPanel implements Runnable {
 
             obstacle.obstacleX -= SCROLL_SPEED;
             if (obstacle.obstacleX + obstacle.obstacleWidth <= 0) {
-                iterator.remove(); // Remove the current obstacle
-                if (iterator.hasNext()) {
-                    iterator.next(); // Move to the next obstacle (bottom obstacle)
-                    iterator.remove(); // Remove the bottom obstacle
-                }
+                removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
-                return; // Exit the loop after removing obstacles
+                return;// Exit the loop after removing obstacles
             }
+
+            //Give obstacles closer distance.
+//            if(obstacle.obstacleX == SCREEN_WIDTH/2){
+//                addObstacles(SCREEN_WIDTH);
+//                if (obstacle.obstacleX + obstacle.obstacleWidth <= 0) {
+//                    iterator.remove(); // Remove the current obstacle
+//                    if (iterator.hasNext()) {
+//                        iterator.next(); // Move to the next obstacle (bottom obstacle)
+//                        iterator.remove(); // Remove the bottom obstacle
+//                    }
+//                    return;// Exit the loop after removing obstacles
+//                }
+//            }
+        }
+    }
+
+    private static void removeObjects(Iterator<Obstacle> iterator) {
+        iterator.remove(); // Remove the current obstacle
+        if (iterator.hasNext()) {
+            iterator.next(); // Move to the next obstacle (bottom obstacle)
+            iterator.remove(); // Remove the bottom obstacle
         }
     }
 
