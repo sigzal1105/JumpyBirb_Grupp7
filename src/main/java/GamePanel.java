@@ -39,8 +39,8 @@ public class GamePanel extends JPanel implements Runnable {
     // Images
     private Image backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
     private Image groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
-    private Image bottomObstacle = new ImageIcon("Images/icecreamRedBottom.png").getImage();
-    private Image topObstacle = new ImageIcon("Images/twisterTop.png").getImage();
+    private final Image bottomObstacle = new ImageIcon("Images/icecreamRedBottom.png").getImage();
+    private final Image topObstacle = new ImageIcon("Images/twisterTop.png").getImage();
 
     // Thread
     Thread gameThread;
@@ -152,35 +152,42 @@ public class GamePanel extends JPanel implements Runnable {
                 //die
             }
 
-            if ( birb.getBirbY() >= 550) {
+            if (birb.getBirbY() >= 550) {
                 //die
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
                 score++;
-
-                if (score > 2000 && score < 10000) {
-                    backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-                    groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
-                }
+                changeBackground();
             }
 
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0) {
-                iterator.remove(); // Remove the current obstacle
-                if (iterator.hasNext()) {
-                    iterator.next(); // Move to the next obstacle (bottom obstacle)
-                    iterator.remove(); // Remove the bottom obstacle
-                }
+                removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
-                return; // Exit the loop after removing obstacles
+                return;// Exit the loop after removing obstacles
             }
+        }
+    }
+
+    private void changeBackground() {
+        if (score > 300 && score < 1000) {
+            backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
+            groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
+        }
+    }
+
+    private static void removeObjects(Iterator<Obstacle> iterator) {
+        iterator.remove(); // Remove the current obstacle
+        if (iterator.hasNext()) {
+            iterator.next(); // Move to the next obstacle (bottom obstacle)
+            iterator.remove(); // Remove the bottom obstacle
         }
     }
 
     /**
      * update() is to be put in the run() method.
-     * This methods contains the controls to the birb.
+     * These methods contain the controls to the birb.
      */
     public void update() {
 
@@ -210,8 +217,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (gameThread != null) {
 
-            updateObstacles();
             update();
+            updateObstacles(); // This should be after update() if the objects should update!
             scrollPosition = scrollPosition + SCROLL_SPEED;
             SwingUtilities.invokeLater(this::repaint);
 
