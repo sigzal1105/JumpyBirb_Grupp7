@@ -8,9 +8,7 @@ public class Birb {
     private final int PLAYER_HEIGHT = 56;
     private final int BIRB_SPEED = 8;
     private Rectangle birbHitbox;
-    private Image sprite1;
-    private Image sprite2;
-    private Image sprite3 = new ImageIcon("Images/birb_sprite.png").getImage();
+    private Image sprite;
 
     public Birb() {
         this.birbHitbox = new Rectangle(BIRB_X, birbY, PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -48,7 +46,11 @@ public class Birb {
         return PLAYER_HEIGHT;
     }
 
-    public Image getSprite3() {
-        return sprite3;
+    public Image getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Image sprite) {
+        this.sprite = sprite;
     }
 }

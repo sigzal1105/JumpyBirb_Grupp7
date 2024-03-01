@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private int spaceBetweenObstacles = 130;
-    private int pointZone;
+    private final int SPACE_BETWEEN_OBSTACLES = 130;
+    private int pointZoneY;
 
     // Frames Per Second
     private final int FPS = 60;
@@ -75,7 +75,14 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g This method draws the birb.
      */
     private void drawPlayer(Graphics g) {
-        g.drawImage(birb.getSprite3(), birb.getBIRB_X(), birb.getBirbY(),
+        if (keyControls.getSpacebar()) {
+            birb.setSprite(new ImageIcon("Images/birb_sprite2.png").getImage());
+
+        } else {
+            birb.setSprite(new ImageIcon("Images/birb_sprite.png").getImage());
+        }
+
+        g.drawImage(birb.getSprite(), birb.getBIRB_X(), birb.getBirbY(),
                 birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
     }
 
@@ -106,9 +113,9 @@ public class GamePanel extends JPanel implements Runnable {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
         int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        int randTopHeight = bottomObstY - spaceBetweenObstacles;
+        int randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
 
-        pointZone = (topObstY + bottomObstY) - spaceBetweenObstacles;
+        pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
@@ -128,20 +135,33 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void updateObstacles() {
+        if (!gameStarted) {
+            return;
+        }
+
         Iterator<Obstacle> iterator = obstacles.iterator();
 
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
 
-            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone, obstacle.getOBSTACLE_WIDTH(), spaceBetweenObstacles);
-            //Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
-            //obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
+            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY, obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+            Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
+                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
+
+            if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
+                //die
+            }
+
+            if ( birb.getBirbY() >= 550) {
+                //die
+            }
+
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
                 score++;
 
-                if (score > 300 && score < 1000) {
+                if (score > 2000 && score < 10000) {
                     backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-                    groundImage = groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
+                    groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
                 }
             }
 
@@ -175,7 +195,6 @@ public class GamePanel extends JPanel implements Runnable {
             birb.setBirbY(birb.getBirbY() - birb.getBIRB_SPEED());
 
         } else {
-
             birb.setBirbY(birb.getBirbY() + (birb.getBIRB_SPEED() / 2));
         }
 

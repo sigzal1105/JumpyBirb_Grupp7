@@ -7,7 +7,7 @@ public class Obstacle {
     private final int OBSTACLE_WIDTH = 100;
     private int obstacleHeight;
     Image img;
-    boolean passed = false; //Keeps track of when flappy bird passes
+
 
     public Obstacle(Image img, int obstacleX, int obstacleY, int obstacleHeight) {
         this.img = img;
@@ -38,10 +38,6 @@ public class Obstacle {
 
     public Image getImg() {
         return img;
-    }
-
-    public boolean isPassed() {
-        return passed;
     }
 
 }
