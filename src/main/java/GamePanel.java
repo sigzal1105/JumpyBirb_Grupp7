@@ -144,16 +144,17 @@ public class GamePanel extends JPanel implements Runnable {
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
 
-            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY, obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY, obstacle.getOBSTACLE_WIDTH(),
+                    SPACE_BETWEEN_OBSTACLES);
             Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-                //die
+                // die
             }
 
             if (birb.getBirbY() >= 550) {
-                //die
+                // die
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
@@ -171,7 +172,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void changeBackground() {
-        if (score > 300 && score < 1000) {
+        if (score > 300) {
+            backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
+        } else if (score > 500) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
         }
