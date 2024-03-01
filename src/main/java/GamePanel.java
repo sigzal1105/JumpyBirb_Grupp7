@@ -148,19 +148,6 @@ public class GamePanel extends JPanel implements Runnable {
                 addObstacles(SCREEN_WIDTH);
                 return;// Exit the loop after removing obstacles
             }
-
-            //Give obstacles closer distance.
-//            if(obstacle.obstacleX == SCREEN_WIDTH/2){
-//                addObstacles(SCREEN_WIDTH);
-//                if (obstacle.obstacleX + obstacle.obstacleWidth <= 0) {
-//                    iterator.remove(); // Remove the current obstacle
-//                    if (iterator.hasNext()) {
-//                        iterator.next(); // Move to the next obstacle (bottom obstacle)
-//                        iterator.remove(); // Remove the bottom obstacle
-//                    }
-//                    return;// Exit the loop after removing obstacles
-//                }
-//            }
         }
     }
 
