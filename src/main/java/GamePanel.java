@@ -39,8 +39,8 @@ public class GamePanel extends JPanel implements Runnable {
     // Images
     private Image backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
     private Image groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
-    private final Image bottomObstacle = new ImageIcon("Images/icecreamRedBottom.png").getImage();
-    private final Image topObstacle = new ImageIcon("Images/twisterTop.png").getImage();
+    private Image bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
+    private Image topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
     // Thread
     Thread gameThread;
@@ -174,9 +174,12 @@ public class GamePanel extends JPanel implements Runnable {
     private void changeBackground() {
         if (score > 300) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
-        } else if (score > 500) {
+        }
+        if (score > 500) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
+            bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
+            topObstacle = new ImageIcon("Images/Obsicle_bat_night_top.png").getImage();
         }
     }
 
