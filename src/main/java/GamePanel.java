@@ -144,7 +144,8 @@ public class GamePanel extends JPanel implements Runnable {
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
 
-            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY, obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY,
+                    obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
             Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
@@ -171,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void changeBackground() {
-        if (score > 300 && score < 1000) {
+        if (score > 3000 && score < 5000) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
         }
@@ -240,5 +241,4 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
 }
