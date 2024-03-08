@@ -17,11 +17,15 @@ public class GamePanel extends JPanel implements Runnable {
     // Before start
     private boolean gameStarted = false;
 
+    // score
     private int panelScore = 0;
 
     public int getPanelScore() {
         return panelScore;
     }
+
+    // GAME OVER
+    private boolean gameOver = false;
 
     // Birb
     Birb birb = new Birb();
@@ -29,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private final int SPACE_BETWEEN_OBSTACLES = 85;
+    private final int SPACE_BETWEEN_OBSTACLES = 130;
     private int pointZoneY;
 
     // Frames Per Second
@@ -123,17 +127,21 @@ public class GamePanel extends JPanel implements Runnable {
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
 
-//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-//        obstacles.add(new Obstacle(topObstacle, x + 240, topObstY, randTopHeight));
-//        obstacles.add(new Obstacle(bottomObstacle, x + 240, bottomObstY, randBottomHeight));
-//
-//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-//        obstacles.add(new Obstacle(topObstacle, x + 480, topObstY, randTopHeight));
-//        obstacles.add(new Obstacle(bottomObstacle, x + 480, bottomObstY, randBottomHeight));
+        // randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4,
+        // (SCREEN_HEIGHT / 4) * 3);
+        // bottomObstY = SCREEN_HEIGHT - randBottomHeight;
+        // randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+        // obstacles.add(new Obstacle(topObstacle, x + 240, topObstY, randTopHeight));
+        // obstacles.add(new Obstacle(bottomObstacle, x + 240, bottomObstY,
+        // randBottomHeight));
+        //
+        // randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4,
+        // (SCREEN_HEIGHT / 4) * 3);
+        // bottomObstY = SCREEN_HEIGHT - randBottomHeight;
+        // randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+        // obstacles.add(new Obstacle(topObstacle, x + 480, topObstY, randTopHeight));
+        // obstacles.add(new Obstacle(bottomObstacle, x + 480, bottomObstY,
+        // randBottomHeight));
     }
 
     /**
@@ -167,7 +175,9 @@ public class GamePanel extends JPanel implements Runnable {
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-                // die
+                gameOver = true;
+                return;
+                // fix so that the SPACE_BETWEEN doesn't kill
             }
 
             if (birb.getBirbY() >= 550) {
@@ -180,9 +190,10 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
-            //Remove object when it reaches the end of the screen
+            // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0 && !addedNew) {
-                addedNew = true;//THIS should become false so that the objects aren't repeatedly added. What to do?
+                addedNew = true;// THIS should become false so that the objects aren't repeatedly added. What to
+                                // do?
                 removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
                 return;// Exit the loop removeObjects(iterator);p after removing obstacles
@@ -240,6 +251,10 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
+            // GAME OVER
+            if (gameOver) {
+                return;
+            }
 
             update();
             updateObstacles(); // This should be after update() if the objects should update
