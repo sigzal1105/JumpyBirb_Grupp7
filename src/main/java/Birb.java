@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Birb {
     private final int BIRB_X = (240 - 130); // x-cordinate for birb. 240 is half of screen width.
-    private int birbY = (336 / 2 - 50); // y-cordinate for birb. 336 is half of screen height.
+    private int birbY = (336 / 2 - (-110)); // y-cordinate for birb. 336 is half of screen height.
     private final int PLAYER_WIDTH = 70;
     private final int PLAYER_HEIGHT = 56;
     private final int BIRB_SPEED = 8;
