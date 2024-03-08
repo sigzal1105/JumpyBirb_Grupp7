@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private final int SPACE_BETWEEN_OBSTACLES = 85;
+    private final int SPACE_BETWEEN_OBSTACLES = 130;
     private int pointZoneY;
 
     // Frames Per Second
@@ -164,7 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-                // die
+                score++;
             }
 
             if (birb.getBirbY() >= 550) {
@@ -172,7 +172,6 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
-                score++;
                 changeBackground();
             }
 
