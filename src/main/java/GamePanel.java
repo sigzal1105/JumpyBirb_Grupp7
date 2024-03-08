@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private final int SPACE_BETWEEN_OBSTACLES = 130;
+    private final int SPACE_BETWEEN_OBSTACLES = 170;
     private int pointZoneY;
 
     // Frames Per Second
@@ -122,18 +122,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
-
-//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-//        obstacles.add(new Obstacle(topObstacle, x + 240, topObstY, randTopHeight));
-//        obstacles.add(new Obstacle(bottomObstacle, x + 240, bottomObstY, randBottomHeight));
-//
-//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-//        obstacles.add(new Obstacle(topObstacle, x + 480, topObstY, randTopHeight));
-//        obstacles.add(new Obstacle(bottomObstacle, x + 480, bottomObstY, randBottomHeight));
     }
 
     /**
@@ -169,11 +157,11 @@ public class GamePanel extends JPanel implements Runnable {
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
                 gameOver = true;
                 return;
-                // fix so that the SPACE_BETWEEN doesn't kill
             }
 
-            if (birb.getBirbY() >= 550) {
-                // die
+            if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT-TILE_SIZE || birb.getBirbY() <= 0) {
+                gameOver = true;
+                return;
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
@@ -182,12 +170,13 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
+
             //Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0 && !addedNew) {
                 addedNew = true;//THIS should become false so that the objects aren't repeatedly added. What to do?
                 removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
-                return;// Exit the loop removeObjects(iterator);p after removing obstacles
+                return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
         }
     }
