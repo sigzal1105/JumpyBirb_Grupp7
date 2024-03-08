@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -70,7 +71,10 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if(gameOver){
-            setBackground(Color.BLACK);
+            g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
+            drawPlayer(g);
+            drawObstacle(g);
+            drawGround(g);
             drawScore(g);
         } else {
             g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
@@ -101,27 +105,37 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g draws the current panelScore
      */
     private void drawScore(Graphics g) {
+        String panelScoreString = Integer.toString(panelScore);
+
+        Color red = Color.RED;
+        Color yellow = Color.YELLOW;
+        Color green = Color.GREEN;
+
         if(gameOver){
+
+            setBorder(BorderFactory.createLineBorder(Color.black));
             g.setFont(new Font("Serif", Font.BOLD, 50));
-            g.setColor(Color.RED);
 
-            String text = "YOU DIED";
-            g.drawString(text, getxtextCenter(text, g), 100);
+            g.setColor(red);
+            String you_died = "YOU DIED";
+            g.drawString(you_died, getxtextCenter(you_died, g), 100);
 
+            g.setColor(green);
             String current_score = "Current score";
             g.drawString(current_score, getxtextCenter(current_score, g), 250);
-            g.drawString("" + panelScore, 220, 300);
-
             String highScore_text = "Highscore";
             g.drawString(highScore_text, getxtextCenter(highScore_text, g), 400);
 
             // Highscore score
 
+            g.setColor(yellow);
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), 300);
 
         } else {
-            g.setColor(Color.GREEN);
+
+            g.setColor(green);
             g.setFont(new Font("Serif", Font.BOLD, 50));
-            g.drawString("" + panelScore, 220, 50);
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), 50);
         }
     }
 
@@ -272,6 +286,11 @@ public class GamePanel extends JPanel implements Runnable {
 
             // GAME OVER
             if (gameOver) {
+//                if (keyControls.getSpacebar()){
+//                    gameOver = false;
+//                    birb.setBirbY(SCREEN_HEIGHT/2);
+//                    continue;
+//                }
                 return;
             }
 
