@@ -17,6 +17,9 @@ public class GamePanel extends JPanel implements Runnable {
     // Before start
     private boolean gameStarted = false;
 
+    //GAME OVER
+    private boolean gameOver = false;
+
     // Score
     private int score = 0;
 
@@ -26,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private final int SPACE_BETWEEN_OBSTACLES = 85;
+    private final int SPACE_BETWEEN_OBSTACLES = 130;
     private int pointZoneY;
 
     // Frames Per Second
@@ -164,7 +167,9 @@ public class GamePanel extends JPanel implements Runnable {
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-                // die
+                gameOver = true;
+                return;
+                // fix so that the SPACE_BETWEEN doesn't kill
             }
 
             if (birb.getBirbY() >= 550) {
@@ -237,6 +242,10 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
+            //GAME OVER
+            if(gameOver){
+                return;
+            }
 
             update();
             updateObstacles(); // This should be after update() if the objects should update
