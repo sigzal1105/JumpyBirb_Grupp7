@@ -17,11 +17,15 @@ public class GamePanel extends JPanel implements Runnable {
     // Before start
     private boolean gameStarted = false;
 
-    //GAME OVER
-    private boolean gameOver = false;
+    // score
+    private int panelScore = 0;
 
-    // Score
-    private int score = 0;
+    public int getPanelScore() {
+        return panelScore;
+    }
+
+    // GAME OVER
+    private boolean gameOver = false;
 
     // Birb
     Birb birb = new Birb();
@@ -29,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
-    private final int SPACE_BETWEEN_OBSTACLES = 130;
+    private final int SPACE_BETWEEN_OBSTACLES = 170;
     private int pointZoneY;
 
     // Frames Per Second
@@ -91,12 +95,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * @param g draws the current score
+     * @param g draws the current panelScore
      */
     private void drawScore(Graphics g) {
         g.setColor(Color.GREEN);
         g.setFont(new Font("Serif", Font.BOLD, 50));
-        g.drawString("" + score, 220, 50);
+        g.drawString("" + panelScore, 220, 50);
     }
 
     /**
@@ -123,7 +127,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
-
     }
 
     /**
@@ -160,34 +163,37 @@ public class GamePanel extends JPanel implements Runnable {
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
                 gameOver = true;
                 return;
-                // fix so that the SPACE_BETWEEN doesn't kill
             }
 
-            if (birb.getBirbY() >= 550) {
-                // die
+            if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
+                gameOver = true;
+                return;
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
+
+                panelScore++;
                 changeBackground();
-                score++;
             }
 
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
-            //Remove object when it reaches the end of the screen
+
+            // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0 && !addedNew) {
-                addedNew = true;//THIS should become false so that the objects aren't repeatedly added. What to do?
+                addedNew = true;// THIS should become false so that the objects aren't repeatedly added. What to
+                // do?
                 removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
-                return;// Exit the loop removeObjects(iterator);p after removing obstacles
+                return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
         }
     }
 
     private void changeBackground() {
-        if (score > 3000 && score < 5000) {
+        if (panelScore > 3000 && panelScore < 5000) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
         }
-        if (score > 5000) {
+        if (panelScore > 5000) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
@@ -233,7 +239,8 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
-            //GAME OVER
+
+            // GAME OVER
             if (gameOver) {
                 return;
             }
