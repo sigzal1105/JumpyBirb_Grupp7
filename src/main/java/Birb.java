@@ -12,9 +12,9 @@ public class Birb {
     private final int BIRB_JUMP = -11;
 
     private final int HITBOX_X = 110;
-    private int hitboxY = 295;
-    private final int HITBOX_WIDTH = 40;
-    private final int HITBOX_HEIGHT = 30;
+    private int hitboxY = 293;
+    private final int HITBOX_WIDTH = 55;
+    private final int HITBOX_HEIGHT = 35;
 
     private Rectangle birbHitbox;
     private Image sprite;
