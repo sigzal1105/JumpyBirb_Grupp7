@@ -69,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
         drawPlayer(g);
         drawObstacle(g);
@@ -238,6 +237,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             // GAME OVER
             if (gameOver) {
+
                 return;
             }
 
