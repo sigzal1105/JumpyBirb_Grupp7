@@ -206,10 +206,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (keyControls.getSpacebar()) {
-            birb.setBirbY(birb.getBirbY() - birb.getBIRB_SPEED());
-
+            birb.setBirbY(birb.getBirbY() + birb.getBIRB_JUMP());
         } else {
-            birb.setBirbY(birb.getBirbY() + (birb.getBIRB_SPEED() / 2));
+            birb.setBirbY(birb.getBirbY() + birb.getBIRB_SPEED() / 2 + birb.getBIRB_GRAVITY());
         }
 
         birb.updateHitbox();

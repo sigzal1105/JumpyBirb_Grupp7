@@ -7,6 +7,8 @@ public class Birb {
     private final int PLAYER_WIDTH = 70;
     private final int PLAYER_HEIGHT = 56;
     private final int BIRB_SPEED = 8;
+    private final int BIRB_GRAVITY = 1;
+    private final int BIRB_JUMP = -11;
     private Rectangle birbHitbox;
     private Image sprite;
 
@@ -44,6 +46,14 @@ public class Birb {
 
     public int getPLAYER_HEIGHT() {
         return PLAYER_HEIGHT;
+    }
+
+    public int getBIRB_GRAVITY() {
+        return BIRB_GRAVITY;
+    }
+
+    public int getBIRB_JUMP() {
+        return BIRB_JUMP;
     }
 
     public Image getSprite() {
