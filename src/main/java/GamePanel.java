@@ -120,17 +120,17 @@ public class GamePanel extends JPanel implements Runnable {
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
 
-        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-        obstacles.add(new Obstacle(topObstacle, x + 240, topObstY, randTopHeight));
-        obstacles.add(new Obstacle(bottomObstacle, x + 240, bottomObstY, randBottomHeight));
-
-        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
-        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
-        obstacles.add(new Obstacle(topObstacle, x + 480, topObstY, randTopHeight));
-        obstacles.add(new Obstacle(bottomObstacle, x + 480, bottomObstY, randBottomHeight));
+//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
+//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
+//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+//        obstacles.add(new Obstacle(topObstacle, x + 240, topObstY, randTopHeight));
+//        obstacles.add(new Obstacle(bottomObstacle, x + 240, bottomObstY, randBottomHeight));
+//
+//        randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
+//        bottomObstY = SCREEN_HEIGHT - randBottomHeight;
+//        randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+//        obstacles.add(new Obstacle(topObstacle, x + 480, topObstY, randTopHeight));
+//        obstacles.add(new Obstacle(bottomObstacle, x + 480, bottomObstY, randBottomHeight));
     }
 
     /**
