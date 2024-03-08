@@ -88,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
             birb.setSprite(new ImageIcon("Images/birb_sprite.png").getImage());
         }
 
+        g.fillRect(birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT());
         g.drawImage(birb.getSprite(), birb.getBIRB_X(), birb.getBirbY(),
                 birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
     }
@@ -135,6 +136,7 @@ public class GamePanel extends JPanel implements Runnable {
             return;
         }
         for (Obstacle obstacle : obstacles) {
+            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(), obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
             g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
         }
@@ -162,12 +164,13 @@ public class GamePanel extends JPanel implements Runnable {
                 return;
             }
 
-            if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT-TILE_SIZE || birb.getBirbY() <= 0) {
+            if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
                 gameOver = true;
                 return;
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
+
                 panelScore++;
                 changeBackground();
             }
@@ -177,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
             // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0 && !addedNew) {
                 addedNew = true;// THIS should become false so that the objects aren't repeatedly added. What to
-                                // do?
+                // do?
                 removeObjects(iterator);
                 addObstacles(SCREEN_WIDTH);
                 return;// Exit the loop removeObjects(iterator); after removing obstacles
@@ -193,7 +196,7 @@ public class GamePanel extends JPanel implements Runnable {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsicle_bat_night_top.png").getImage();
+            topObstacle = new ImageIcon("Images/Obsticle_bat_night_top.png").getImage();
         }
     }
 
@@ -235,6 +238,7 @@ public class GamePanel extends JPanel implements Runnable {
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
+
             // GAME OVER
             if (gameOver) {
 
