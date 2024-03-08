@@ -59,22 +59,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyControls);
-        this.setFocusable(true);
-        this.obstacles = new ArrayList<>();
-        addObstacles(SCREEN_WIDTH);
+            this.setDoubleBuffered(true);
+            this.addKeyListener(keyControls);
+            this.setFocusable(true);
+            this.obstacles = new ArrayList<>();
+            addObstacles(SCREEN_WIDTH);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-        drawPlayer(g);
-        drawObstacle(g);
-        drawGround(g);
-        drawScore(g);
-
+        if(gameOver){
+            setBackground(Color.BLACK);
+            drawScore(g);
+        } else {
+            g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
+            drawPlayer(g);
+            drawObstacle(g);
+            drawGround(g);
+            drawScore(g);
+        }
     }
 
     /**
@@ -97,9 +101,34 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g draws the current panelScore
      */
     private void drawScore(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.setFont(new Font("Serif", Font.BOLD, 50));
-        g.drawString("" + panelScore, 220, 50);
+        if(gameOver){
+            g.setFont(new Font("Serif", Font.BOLD, 50));
+            g.setColor(Color.RED);
+
+            String text = "YOU DIED";
+            g.drawString(text, getxtextCenter(text, g), 100);
+
+            String current_score = "Current score";
+            g.drawString(current_score, getxtextCenter(current_score, g), 250);
+            g.drawString("" + panelScore, 220, 300);
+
+            String highScore_text = "Highscore";
+            g.drawString(highScore_text, getxtextCenter(highScore_text, g), 400);
+
+            // Highscore score
+
+
+        } else {
+            g.setColor(Color.GREEN);
+            g.setFont(new Font("Serif", Font.BOLD, 50));
+            g.drawString("" + panelScore, 220, 50);
+        }
+    }
+
+    public int getxtextCenter(String text, Graphics g) {
+        int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
+        int x = SCREEN_WIDTH/2 - length/2;
+        return x;
     }
 
     /**
@@ -159,11 +188,13 @@ public class GamePanel extends JPanel implements Runnable {
             Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
 
+            // GAME OVER when birb hit obstacle
             if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
                 gameOver = true;
                 return;
             }
 
+            // GAME OVER when birb hits edges of window
             if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
                 gameOver = true;
                 return;
@@ -241,7 +272,6 @@ public class GamePanel extends JPanel implements Runnable {
 
             // GAME OVER
             if (gameOver) {
-
                 return;
             }
 
