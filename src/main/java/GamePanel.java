@@ -17,8 +17,11 @@ public class GamePanel extends JPanel implements Runnable {
     // Before start
     private boolean gameStarted = false;
 
-    // Score
-    private int score = 0;
+    private int panelScore = 0;
+
+    public int getPanelScore() {
+        return panelScore;
+    }
 
     // Birb
     Birb birb = new Birb();
@@ -87,12 +90,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * @param g draws the current score
+     * @param g draws the current panelScore
      */
     private void drawScore(Graphics g) {
         g.setColor(Color.GREEN);
         g.setFont(new Font("Serif", Font.BOLD, 50));
-        g.drawString("" + score, 220, 50);
+        g.drawString("" + panelScore, 220, 50);
     }
 
     /**
@@ -172,7 +175,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
-                score++;
+                panelScore++;
                 changeBackground();
             }
 
@@ -188,10 +191,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void changeBackground() {
-        if (score > 3000 && score < 5000) {
+        if (panelScore > 3000 && panelScore < 5000) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
         }
-        if (score > 5000) {
+        if (panelScore > 5000) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
