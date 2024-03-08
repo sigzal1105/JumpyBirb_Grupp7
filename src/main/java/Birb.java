@@ -13,7 +13,7 @@ public class Birb {
     private Image sprite;
 
     public Birb() {
-        this.birbHitbox = new Rectangle(BIRB_X, birbY, PLAYER_WIDTH, PLAYER_HEIGHT);
+        this.birbHitbox = new Rectangle(BIRB_X, birbY, PLAYER_WIDTH, 56);
     }
 
     public void updateHitbox() {
