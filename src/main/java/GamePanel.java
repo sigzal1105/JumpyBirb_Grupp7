@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,27 +59,27 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-            this.setDoubleBuffered(true);
-            this.addKeyListener(keyControls);
-            this.setFocusable(true);
-            this.obstacles = new ArrayList<>();
-            addObstacles(SCREEN_WIDTH);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyControls);
+        this.setFocusable(true);
+        this.obstacles = new ArrayList<>();
+        addObstacles(SCREEN_WIDTH);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(gameOver){
+        if (gameOver) {
             g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-            drawPlayer(g);
             drawObstacle(g);
             drawGround(g);
+            drawBirb(g);
             drawScore(g);
         } else {
             g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-            drawPlayer(g);
             drawObstacle(g);
             drawGround(g);
+            drawBirb(g);
             drawScore(g);
         }
     }
@@ -88,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * @param g This method draws the birb.
      */
-    private void drawPlayer(Graphics g) {
+    private void drawBirb(Graphics g) {
         if (keyControls.getSpacebar()) {
             birb.setSprite(new ImageIcon("Images/birb_sprite2.png").getImage());
 
@@ -96,9 +95,10 @@ public class GamePanel extends JPanel implements Runnable {
             birb.setSprite(new ImageIcon("Images/birb_sprite.png").getImage());
         }
 
-        g.fillRect(birb.getBIRB_X(), birb.getBirbY(), birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT());
+        g.fillRect(birb.getHITBOX_X(), birb.getHitboxY(), birb.getHITBOX_WIDTH(), birb.getHITBOX_HEIGHT());
+        // Draws Birb hitbox for test.
         g.drawImage(birb.getSprite(), birb.getBIRB_X(), birb.getBirbY(),
-                birb.getPLAYER_WIDTH(), birb.getPLAYER_HEIGHT(), this);
+                birb.getBIRB_WIDTH(), birb.getBIRB_HEIGHT(), this);
     }
 
     /**
@@ -111,7 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
         Color yellow = Color.YELLOW;
         Color green = Color.GREEN;
 
-        if(gameOver){
+        if (gameOver) {
 
             setBorder(BorderFactory.createLineBorder(Color.black));
             g.setFont(new Font("Serif", Font.BOLD, 50));
@@ -141,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int getxtextCenter(String text, Graphics g) {
         int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
-        int x = SCREEN_WIDTH/2 - length/2;
+        int x = SCREEN_WIDTH / 2 - length / 2;
         return x;
     }
 
@@ -179,7 +179,8 @@ public class GamePanel extends JPanel implements Runnable {
             return;
         }
         for (Obstacle obstacle : obstacles) {
-            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(), obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
+            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
+            obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
             g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
         }
@@ -209,7 +210,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // GAME OVER when birb hits edges of window
-            if (birb.getBirbY() + birb.getPLAYER_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
+            if (birb.getBirbY() + birb.getBIRB_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
                 gameOver = true;
                 return;
             }
@@ -268,8 +269,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (keyControls.getSpacebar()) {
             birb.setBirbY(birb.getBirbY() + birb.getBIRB_JUMP());
+            birb.setHitboxY(birb.getHitboxY() + birb.getBIRB_JUMP());
+
         } else {
             birb.setBirbY(birb.getBirbY() + birb.getBIRB_SPEED() / 2 + birb.getBIRB_GRAVITY());
+            birb.setHitboxY(birb.getHitboxY() + birb.getBIRB_SPEED() / 2 + birb.getBIRB_GRAVITY());
         }
 
         birb.updateHitbox();
