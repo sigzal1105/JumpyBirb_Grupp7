@@ -1,5 +1,6 @@
 import org.w3c.dom.css.Rect;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Birb {
@@ -13,11 +14,13 @@ public class Birb {
 
     private final int HITBOX_X = 110;
     private int hitboxY = 293;
-    private final int HITBOX_WIDTH = 55;
-    private final int HITBOX_HEIGHT = 35;
-
+    private final int HITBOX_WIDTH = 45;
+    private final int HITBOX_HEIGHT = 33;
     private Rectangle birbHitbox;
+
     private Image sprite;
+
+    private GamePanel gamePanel;
 
     public Birb() {
         this.birbHitbox = new Rectangle(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
@@ -25,10 +28,6 @@ public class Birb {
 
     public void updateHitbox() {
         birbHitbox.setBounds(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
-    }
-
-    public int getBIRB_X() {
-        return BIRB_X;
     }
 
     public int getBirbY() {
@@ -47,10 +46,6 @@ public class Birb {
         return BIRB_SPEED;
     }
 
-    public int getBIRB_WIDTH() {
-        return BIRB_WIDTH;
-    }
-
     public int getBIRB_HEIGHT() {
         return BIRB_HEIGHT;
     }
@@ -63,18 +58,6 @@ public class Birb {
         return BIRB_JUMP;
     }
 
-    public Image getSprite() {
-        return sprite;
-    }
-
-    public void setSprite(Image sprite) {
-        this.sprite = sprite;
-    }
-
-    public int getHITBOX_X() {
-        return HITBOX_X;
-    }
-
     public int getHitboxY() {
         return hitboxY;
     }
@@ -83,11 +66,34 @@ public class Birb {
         this.hitboxY = hitboxY;
     }
 
-    public int getHITBOX_WIDTH() {
-        return HITBOX_WIDTH;
+    /**
+     * @param g This method draws the birb.
+     */
+    public void drawBirb(Graphics g, KeyControls keyControls) {
+
+        if (keyControls.getSpacebar()) {
+            sprite = new ImageIcon("Images/birb_sprite2.png").getImage();
+
+        } else {
+            sprite = new ImageIcon("Images/birb_sprite.png").getImage();
+        }
+
+        g.fillRect(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
+        // Draws Birb hitbox for test.
+        g.drawImage(sprite, BIRB_X, birbY,
+                BIRB_WIDTH, BIRB_HEIGHT, null);
     }
 
-    public int getHITBOX_HEIGHT() {
-        return HITBOX_HEIGHT;
+    public void birbControls(KeyControls keyControls) {
+        if (keyControls.getSpacebar()) {
+            birbY = birbY + BIRB_JUMP;
+            hitboxY = hitboxY + BIRB_JUMP;
+
+        } else {
+            birbY = birbY + BIRB_SPEED / 2 + BIRB_GRAVITY;
+            hitboxY = hitboxY + BIRB_SPEED / 2 + BIRB_GRAVITY;
+        }
+
+        updateHitbox();
     }
 }

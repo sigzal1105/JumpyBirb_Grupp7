@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.List;
 
 public class Obstacle {
 
@@ -6,7 +7,7 @@ public class Obstacle {
     private int obstacleY;
     private final int OBSTACLE_WIDTH = 100;
     private int obstacleHeight;
-    Image img;
+    private Image img;
 
 
     public Obstacle(Image img, int obstacleX, int obstacleY, int obstacleHeight) {
@@ -36,8 +37,20 @@ public class Obstacle {
         return obstacleHeight;
     }
 
-    public Image getImg() {
-        return img;
+    /**
+     * @param g This method loops the obstacle objects.
+     */
+    public static void drawObstacle(Graphics g, List<Obstacle> obstacles, boolean gameStarted) {
+        if (!gameStarted) {
+            return;
+        }
+        for (Obstacle obstacle : obstacles) {
+
+            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
+                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
+            g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
+                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
+        }
     }
 
 }

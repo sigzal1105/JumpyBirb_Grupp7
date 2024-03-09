@@ -14,8 +14,9 @@ public class GamePanel extends JPanel implements Runnable {
     private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
     private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
-    // Before start
+    // Game start & Game over
     private boolean gameStarted = false;
+    private boolean gameOver = false;
 
     // score
     private int panelScore = 0;
@@ -24,12 +25,9 @@ public class GamePanel extends JPanel implements Runnable {
         return panelScore;
     }
 
-    // GAME OVER
-    private boolean gameOver = false;
-
     // Birb
-    Birb birb = new Birb();
-    KeyControls keyControls = new KeyControls();
+    private Birb birb = new Birb();
+    private KeyControls keyControls = new KeyControls();
 
     // Obstacles
     private List<Obstacle> obstacles;
@@ -69,37 +67,15 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (gameOver) {
+
             g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-            drawObstacle(g);
+            Obstacle.drawObstacle(g, obstacles, gameStarted);
             drawGround(g);
-            drawBirb(g);
+            birb.drawBirb(g, keyControls);
             drawScore(g);
-        } else {
-            g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-            drawObstacle(g);
-            drawGround(g);
-            drawBirb(g);
-            drawScore(g);
-        }
+
     }
 
-    /**
-     * @param g This method draws the birb.
-     */
-    private void drawBirb(Graphics g) {
-        if (keyControls.getSpacebar()) {
-            birb.setSprite(new ImageIcon("Images/birb_sprite2.png").getImage());
-
-        } else {
-            birb.setSprite(new ImageIcon("Images/birb_sprite.png").getImage());
-        }
-
-        g.fillRect(birb.getHITBOX_X(), birb.getHitboxY(), birb.getHITBOX_WIDTH(), birb.getHITBOX_HEIGHT());
-        // Draws Birb hitbox for test.
-        g.drawImage(birb.getSprite(), birb.getBIRB_X(), birb.getBirbY(),
-                birb.getBIRB_WIDTH(), birb.getBIRB_HEIGHT(), this);
-    }
 
     /**
      * @param g draws the current panelScore
@@ -139,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public int getxtextCenter(String text, Graphics g) {
+    private int getxtextCenter(String text, Graphics g) {
         int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
         int x = SCREEN_WIDTH / 2 - length / 2;
         return x;
@@ -171,22 +147,35 @@ public class GamePanel extends JPanel implements Runnable {
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
     }
 
-    /**
-     * @param g This method loops the obstacle objects.
-     */
-    private void drawObstacle(Graphics g) {
-        if (!gameStarted) {
-            return;
-        }
-        for (Obstacle obstacle : obstacles) {
-            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
-            obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
-            g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
-                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
+    private void ifPassPointZone(Obstacle obstacle) {
+        Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY,
+                obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+
+        if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
+
+            panelScore++;
+            changeBackground();
         }
     }
 
-    public void updateObstacles() {
+    private void ifDie(Obstacle obstacle) {
+        Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
+                obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
+
+        // GAME OVER when birb hit obstacle
+        if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
+            gameOver = true;
+            return;
+        }
+
+        // GAME OVER when birb hits edges of window
+        if (birb.getBirbY() + birb.getBIRB_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
+            gameOver = true;
+            return;
+        }
+    }
+
+    private void updateObstacles() {
         if (!gameStarted) {
             return;
         }
@@ -197,29 +186,11 @@ public class GamePanel extends JPanel implements Runnable {
             boolean addedNew = false;
             Obstacle obstacle = iterator.next();
 
-            Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY,
-                    obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+            //This method runs if birb gets points.
+            ifPassPointZone(obstacle);
 
-            Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
-                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
-
-            // GAME OVER when birb hit obstacle
-            if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-                gameOver = true;
-                return;
-            }
-
-            // GAME OVER when birb hits edges of window
-            if (birb.getBirbY() + birb.getBIRB_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
-                gameOver = true;
-                return;
-            }
-
-            if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
-
-                panelScore++;
-                changeBackground();
-            }
+            //This method runs if birb dies.
+            ifDie(obstacle);
 
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
 
@@ -233,6 +204,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
+
 
     private void changeBackground() {
         if (panelScore > 3000 && panelScore < 5000) {
@@ -258,7 +230,7 @@ public class GamePanel extends JPanel implements Runnable {
      * update() is to be put in the run() method.
      * These methods contain the controls to the birb.
      */
-    public void update() {
+    private void update() {
 
         if (!gameStarted) {
             if (keyControls.getSpacebar()) {
@@ -267,16 +239,7 @@ public class GamePanel extends JPanel implements Runnable {
             return;
         }
 
-        if (keyControls.getSpacebar()) {
-            birb.setBirbY(birb.getBirbY() + birb.getBIRB_JUMP());
-            birb.setHitboxY(birb.getHitboxY() + birb.getBIRB_JUMP());
-
-        } else {
-            birb.setBirbY(birb.getBirbY() + birb.getBIRB_SPEED() / 2 + birb.getBIRB_GRAVITY());
-            birb.setHitboxY(birb.getHitboxY() + birb.getBIRB_SPEED() / 2 + birb.getBIRB_GRAVITY());
-        }
-
-        birb.updateHitbox();
+        birb.birbControls(keyControls);
     }
 
     @Override
