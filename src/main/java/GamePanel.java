@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
+        this.addMouseListener(keyControls);
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         addObstacles(SCREEN_WIDTH);
@@ -169,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // GAME OVER when birb hits edges of window
-        if (birb.getBirbY() + birb.getBIRB_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getBirbY() <= 0) {
+        if (birb.getHitboxY() + birb.getHITBOX_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getHitboxY() <= 0) {
             gameOver = true;
             return;
         }
@@ -233,7 +234,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
 
         if (!gameStarted) {
-            if (keyControls.getSpacebar()) {
+            if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
                 gameStarted = true;
             }
             return;

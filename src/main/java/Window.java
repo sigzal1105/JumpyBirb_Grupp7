@@ -15,6 +15,7 @@ public class Window {
         window.pack();
 
         window.setLocationRelativeTo(null);
+        gamePanel.requestFocusInWindow();
         window.setVisible(true);
         gamePanel.startGame();
 
