@@ -5,6 +5,7 @@ out/
 !**/src/test/**/out/
 *.iml
 target
+AllTimeHigh.txt
 
 ### Eclipse ###
 .apt_generated
