@@ -21,8 +21,10 @@ public class SaveScore {
                 if (Integer.parseInt(line) < panelScore) {
 
                     highScore = Integer.toString(panelScore);
-                    BufferedWriter writer = Files.newBufferedWriter(Path.of("AllTimeHigh.txt")); {
+                    try (BufferedWriter writer = Files.newBufferedWriter(Path.of("AllTimeHigh.txt"))) {
                         writer.write(Integer.toString(panelScore));
+                    } catch (IOException e) {
+                        System.err.println("Something went wrong" + e.getMessage());
                     }
                 } else {
                     highScore = line;
