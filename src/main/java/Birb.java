@@ -51,7 +51,7 @@ public class Birb {
         }
 
         // Draws Birb hitbox for test.
-        g.fillRect(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
+        //g.fillRect(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
         g.drawImage(sprite, BIRB_X, birbY,
                 BIRB_WIDTH, BIRB_HEIGHT, null);
     }

@@ -46,8 +46,8 @@ public class Obstacle {
         }
         for (Obstacle obstacle : obstacles) {
 
-            g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
-                    obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
+            //g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
+                    //obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
             g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
         }

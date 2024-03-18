@@ -31,8 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Obstacles
     private List<Obstacle> obstacles;
+    private List<Obstacle> obstacles2;
     private final int SPACE_BETWEEN_OBSTACLES = 170;
     private int pointZoneY;
+    private int pointZoneY2;
 
     // Frames Per Second
     private final int FPS = 60;
@@ -62,18 +64,23 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseListener(keyControls);
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
-        addObstacles(SCREEN_WIDTH);
+        this.obstacles2 = new ArrayList<>();
+        //Adds to list 1.
+        addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
+        //Adds to list 2.
+        addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-            g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-            Obstacle.drawObstacle(g, obstacles, gameStarted);
-            drawGround(g);
-            birb.drawBirb(g, keyControls);
-            drawScore(g);
+        g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
+        Obstacle.drawObstacle(g, obstacles, gameStarted);
+        Obstacle.drawObstacle(g, obstacles2, gameStarted);
+        drawGround(g);
+        birb.drawBirb(g, keyControls);
+        drawScore(g);
 
     }
 
@@ -136,21 +143,26 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void addObstacles(int x) {
+    private void addObstacles(int x, List<Obstacle> obstacles, int pointZone) {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
         int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
         int randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
 
-        pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+        if (pointZone == pointZoneY) {
+            pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+        } else if (pointZone == pointZoneY2) {
+            pointZoneY2 = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+        }
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
     }
 
-    private void ifPassPointZone(Obstacle obstacle) {
-        Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZoneY,
+    private void ifPassPointZone(Obstacle obstacle, int pointZone) {
+        Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
                 obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+
 
         if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
 
@@ -176,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void updateObstacles() {
+    private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStarted) {
             return;
         }
@@ -184,11 +196,9 @@ public class GamePanel extends JPanel implements Runnable {
         Iterator<Obstacle> iterator = obstacles.iterator();
 
         while (iterator.hasNext()) {
-            boolean addedNew = false;
             Obstacle obstacle = iterator.next();
-
             //This method runs if birb gets points.
-            ifPassPointZone(obstacle);
+            ifPassPointZone(obstacle, pointZone);
 
             //This method runs if birb dies.
             ifDie(obstacle);
@@ -196,16 +206,14 @@ public class GamePanel extends JPanel implements Runnable {
             obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
 
             // Remove object when it reaches the end of the screen
-            if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= 0 && !addedNew) {
-                addedNew = true;// THIS should become false so that the objects aren't repeatedly added. What to
-                // do?
+            if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= -obstacle.getOBSTACLE_WIDTH()) {
                 removeObjects(iterator);
-                addObstacles(SCREEN_WIDTH);
+                addObstacles(SCREEN_WIDTH, obstacles, pointZone);
                 return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
         }
-    }
 
+    }
 
     private void changeBackground() {
         if (panelScore > 3000 && panelScore < 5000) {
@@ -263,7 +271,10 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             update();
-            updateObstacles(); // This should be after update() if the objects should update
+            //Update list 1.
+            updateObstacles(obstacles, pointZoneY); // This should be after update() if the objects should update
+            //Update list 2.
+            updateObstacles(obstacles2, pointZoneY2);
             scrollPosition = scrollPosition + SCROLL_SPEED;
             SwingUtilities.invokeLater(this::repaint);
 
