@@ -22,10 +22,6 @@ public class GamePanel extends JPanel implements Runnable {
     private int panelScore = 0;
     private SaveScore highscore = new SaveScore();
 
-    public int getPanelScore() {
-        return panelScore;
-    }
-
     // Birb
     private Birb birb = new Birb();
     private KeyControls keyControls = new KeyControls();
@@ -80,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
         Obstacle.drawObstacle(g, obstacles, gameStarted);
         Obstacle.drawObstacle(g, obstacles2, gameStarted);
         drawGround(g);
-        birb.drawBirb(g, keyControls);
+        birb.drawBirb(g, keyControls, gameOver);
         drawScore(g);
 
     }

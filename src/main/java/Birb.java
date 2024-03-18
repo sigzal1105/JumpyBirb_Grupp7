@@ -41,7 +41,7 @@ public class Birb {
     /**
      * @param g This method draws the birb.
      */
-    public void drawBirb(Graphics g, KeyControls keyControls) {
+    public void drawBirb(Graphics g, KeyControls keyControls, boolean gameOver) {
 
         if (birbVelocity < 0) {
             sprite = new ImageIcon("Images/birb_sprite2.png").getImage();
@@ -50,6 +50,9 @@ public class Birb {
             sprite = new ImageIcon("Images/birb_sprite.png").getImage();
         }
 
+        if (gameOver) {
+            sprite = new ImageIcon("Images/explosion.png").getImage();
+        }
         // Draws Birb hitbox for test.
         //g.fillRect(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
         g.drawImage(sprite, BIRB_X, birbY,
