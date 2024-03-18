@@ -7,30 +7,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class SaveScore {
-    // Score
-    private int finalScore = 0;
+    private String highScore = "0";
 
-    public void setFinalScore(int finalScore) {
-        this.finalScore = finalScore;
-    }
-
-    public void saveAndLoadScore() {
-        try (
-                BufferedWriter writer = Files.newBufferedWriter(Path.of("AllTimeHigh"));) {
-            writer.write(finalScore);
-        } catch (IOException eWriter) {
-            System.err.println("Could not find file: " + eWriter.getMessage());
-        }
-
-        try (
-                BufferedReader reader = Files.newBufferedReader(Path.of("AllTimeHigh"));) {
+    public void saveAndLoadScore(int panelScore) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of("AllTimeHigh.txt"));) {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                if (Integer.parseInt(line) < panelScore) {
+                    highScore = Integer.toString(panelScore);
+                    try (BufferedWriter writer = Files.newBufferedWriter(Path.of("AllTimeHigh.txt"));) {
+                        writer.write(Integer.toString(panelScore));
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                    }
+                } else {
+                    highScore = line;
+                }
             }
 
-        } catch (IOException eReader) {
-            System.err.println("Could not find file: " + eReader.getMessage());
+        } catch (IOException e) {
+            System.err.println("Something went wrong" + e.getMessage());
         }
+    }
+
+    public String getHighScore() {
+        return highScore;
     }
 }

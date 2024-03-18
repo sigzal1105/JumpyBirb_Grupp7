@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // score
     private int panelScore = 0;
+    private SaveScore highscore = new SaveScore();
 
     public int getPanelScore() {
         return panelScore;
@@ -114,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             g.setColor(yellow);
             g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), 300);
+            g.drawString(highscore.getHighScore(), getxtextCenter(panelScoreString, g), 450);
 
         } else {
 
@@ -177,14 +179,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         // GAME OVER when birb hit obstacle
         if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
+            highscore.saveAndLoadScore(panelScore);
             gameOver = true;
             return;
         }
-
+        
         // GAME OVER when birb hits edges of window
         if (birb.getHitboxY() + birb.getHITBOX_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getHitboxY() <= 0) {
+            highscore.saveAndLoadScore(panelScore);
             gameOver = true;
-            return;
         }
     }
 
