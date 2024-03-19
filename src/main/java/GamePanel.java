@@ -123,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
             g.setColor(yellow);
 
             g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+50);
-            g.drawString(highscore.getHighScore(), getxtextCenter(panelScoreString, g), highscoreY+50);
+            g.drawString(highscore.getHighScore(), getxtextCenter(highscore.getHighScore(), g), highscoreY+50);
 
         } else {
 
