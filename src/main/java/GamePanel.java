@@ -22,6 +22,12 @@ public class GamePanel extends JPanel implements Runnable {
     private int panelScore = 0;
     private SaveScore highscore = new SaveScore();
 
+    //Menu
+    private final int menuX = 80;
+    private final int menuY = 80;
+    private final int menuWidth = SCREEN_WIDTH-160;
+    private final int menuHeight = SCREEN_HEIGHT-160;
+
     // Birb
     private Birb birb = new Birb();
     private KeyControls keyControls = new KeyControls();
@@ -93,25 +99,31 @@ public class GamePanel extends JPanel implements Runnable {
         Color green = Color.GREEN;
 
         if (gameOver) {
-            menuWindow(80, 80, SCREEN_WIDTH-160, SCREEN_HEIGHT-160, g);
+            menuWindow(menuX, menuY, menuWidth, menuHeight, g);
             setBorder(BorderFactory.createLineBorder(Color.black));
-            g.setFont(new Font("Serif", Font.BOLD, 50));
 
+            int you_diedY = 60;
+            int currentScoreY = 150;
+            int highscoreY = 250;
+
+            g.setFont(new Font("Serif", Font.BOLD, 50));
             g.setColor(red);
             String you_died = "YOU DIED";
-            g.drawString(you_died, getxtextCenter(you_died, g), 100);
+            g.drawString(you_died, getxtextCenter(you_died, g), you_diedY);
 
+            g.setFont(new Font("Serif", Font.BOLD, 30));
             g.setColor(green);
             String current_score = "Current score";
-            g.drawString(current_score, getxtextCenter(current_score, g), 150);
+
+            g.drawString(current_score, getxtextCenter(current_score, g), currentScoreY);
             String highScore_text = "Highscore";
-            g.drawString(highScore_text, getxtextCenter(highScore_text, g), 300);
+            g.drawString(highScore_text, getxtextCenter(highScore_text, g), highscoreY);
 
             // Highscore score
-
             g.setColor(yellow);
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), 200);
-            g.drawString(highscore.getHighScore(), getxtextCenter(panelScoreString, g), 350);
+
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+50);
+            g.drawString(highscore.getHighScore(), getxtextCenter(panelScoreString, g), highscoreY+50);
 
         } else {
 
@@ -143,27 +155,39 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //MENU
-    public void menuWindow(int x, int y, int width, int height, Graphics g){
+    public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g){
         int roundedCorner = 35;
 
-
         //Transparent rectangle
+        int whiteValue = 255;
         int alpha = 127;//50% transparency
-        Color transparentColor = new Color(255, 255, 255, alpha);
+        Color transparentColor = new Color(whiteValue, whiteValue, whiteValue, alpha);
         g.setColor(transparentColor);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //Black border
         g.setColor(Color.black);
-        g.fillRoundRect(x-2, y-2, width+4, height+4, roundedCorner+2, roundedCorner+2);
+        g.fillRoundRect(menuX-2, menuY-2, menuWidth+4, menuHeight+4, roundedCorner+2, roundedCorner+2);
 
         //White border
         g.setColor(Color.white);
-        g.fillRoundRect(x, y, width, height, roundedCorner, roundedCorner);
+        g.fillRoundRect(menuX, menuY, menuWidth, menuHeight, roundedCorner, roundedCorner);
        
         //Main menu
         g.setColor(Color.black);
-        g.fillRoundRect(x+5, y+5, width-10, height-10, roundedCorner-10, roundedCorner-10);
+        g.fillRoundRect(menuX+5, menuY+5, menuWidth-10, menuHeight-10, roundedCorner-10, roundedCorner-10);
+
+        makeButton(menuX+30, menuY*4, menuWidth-60, menuHeight/10, g);
+        makeButton(menuX+30, menuY+300, menuWidth-60, menuHeight/10, g);
+        makeButton(menuX+30, menuY+360, menuWidth-60, menuHeight/10, g);
+        makeButton(menuX+30, menuY+420, menuWidth-60, menuHeight/10, g);
+
+    }
+
+    public void makeButton(int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g){
+        int roundedCorner = 35;
+        g.setColor(Color.lightGray);
+        g.fillRoundRect(buttonX, buttonY, buttonWidth, buttonHeight, roundedCorner, roundedCorner);
     }
 
     private void addObstacles(int x, List<Obstacle> obstacles, int pointZone) {
