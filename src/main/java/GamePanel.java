@@ -146,13 +146,22 @@ public class GamePanel extends JPanel implements Runnable {
     public void menuWindow(int x, int y, int width, int height, Graphics g){
         int roundedCorner = 35;
 
+
+        //Transparent rectangle
+        int alpha = 127;//50% transparency
+        Color transparentColor = new Color(255, 255, 255, alpha);
+        g.setColor(transparentColor);
+        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        //Black border
         g.setColor(Color.black);
         g.fillRoundRect(x-2, y-2, width+4, height+4, roundedCorner+2, roundedCorner+2);
 
+        //White border
         g.setColor(Color.white);
-        g.fillRoundRect(x, y, width, height, 35, 35);
-    
-
+        g.fillRoundRect(x, y, width, height, roundedCorner, roundedCorner);
+       
+        //Main menu
         g.setColor(Color.black);
         g.fillRoundRect(x+5, y+5, width-10, height-10, roundedCorner-10, roundedCorner-10);
     }
