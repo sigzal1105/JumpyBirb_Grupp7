@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
         Color green = Color.GREEN;
 
         if (gameOver) {
-            menuWindow(100, 100, 300, 300, g);
+            menuWindow(80, 80, SCREEN_WIDTH-160, SCREEN_HEIGHT-160, g);
             setBorder(BorderFactory.createLineBorder(Color.black));
             g.setFont(new Font("Serif", Font.BOLD, 50));
 
