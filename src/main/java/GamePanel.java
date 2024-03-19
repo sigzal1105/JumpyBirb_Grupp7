@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
         Color green = Color.GREEN;
 
         if (gameOver) {
-
+            menuWindow(100, 100, 300, 300, g);
             setBorder(BorderFactory.createLineBorder(Color.black));
             g.setFont(new Font("Serif", Font.BOLD, 50));
 
@@ -139,6 +139,13 @@ public class GamePanel extends JPanel implements Runnable {
             int x = (i * TILE_SIZE) - (scrollPosition % TILE_SIZE);
             g.drawImage(groundImage, x, groundY, TILE_SIZE, TILE_SIZE, null);
         }
+    }
+
+
+    //MENU
+    public void menuWindow(int x, int y, int width, int height, Graphics g){
+        g.setColor(Color.black);
+        g.fillRoundRect(x, y, width, height, 35, 35);
     }
 
     private void addObstacles(int x, List<Obstacle> obstacles, int pointZone) {
