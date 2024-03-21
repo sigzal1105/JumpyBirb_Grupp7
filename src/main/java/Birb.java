@@ -18,6 +18,8 @@ public class Birb {
     private Rectangle birbHitbox;
     private Image sprite;
 
+    SoundPlayer soundPlayer = new SoundPlayer();
+
     public Birb() {
         this.birbHitbox = new Rectangle(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
     }
@@ -69,6 +71,7 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
+            // soundPlayer.playSound("SoundFiles/Explosion.wav");
             birbVelocity = -10;
 
         }
