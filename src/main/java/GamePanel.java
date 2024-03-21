@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Obstacles
     private List<Obstacle> obstacles;
     private List<Obstacle> obstacles2;
-    private int spaceBetweenObstacles = 170;
+    private int spaceBetweenObstacles = 200; // 200 = easy. 170 = normal and hard.
     private int pointZoneY;
     private int pointZoneY2;
 
@@ -44,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     // Scroll
-    private final int SCROLL_SPEED = 2;
+    private int scrollSpeed = 2; //2 = easy. 3 = normal. 5 = hard.
     private int scrollPosition = 0;
 
     // Images
@@ -268,11 +267,11 @@ public class GamePanel extends JPanel implements Runnable {
             //This method runs if birb dies.
             ifDie(obstacle);
 
-            obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
+            obstacle.setObstacleX(obstacle.getObstacleX() - scrollSpeed);
 
             // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= -obstacle.getOBSTACLE_WIDTH()) {
-                removeObjects(iterator);
+                removeObstacle(iterator);
                 addObstacles(SCREEN_WIDTH, obstacles, pointZone);
                 return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
@@ -292,7 +291,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private static void removeObjects(Iterator<Obstacle> iterator) {
+    private static void removeObstacle(Iterator<Obstacle> iterator) {
         iterator.remove(); // Remove the current obstacle
         if (iterator.hasNext()) {
             iterator.next(); // Move to the next obstacle (bottom obstacle)
@@ -340,7 +339,7 @@ public class GamePanel extends JPanel implements Runnable {
             updateObstacles(obstacles, pointZoneY); // This should be after update() if the objects should update
             //Update list 2.
             updateObstacles(obstacles2, pointZoneY2);
-            scrollPosition = scrollPosition + SCROLL_SPEED;
+            scrollPosition = scrollPosition + scrollSpeed;
             SwingUtilities.invokeLater(this::repaint);
 
             try {
