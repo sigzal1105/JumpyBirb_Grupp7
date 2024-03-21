@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Obstacles
     private List<Obstacle> obstacles;
     private List<Obstacle> obstacles2;
-    private final int SPACE_BETWEEN_OBSTACLES = 170;
+    private int spaceBetweenObstacles = 170;
     private int pointZoneY;
     private int pointZoneY2;
 
@@ -116,12 +116,14 @@ public class GamePanel extends JPanel implements Runnable {
             g.setFont(new Font("Serif", Font.BOLD, 30));
             g.setColor(green);
             String current_score = "Current score";
+
             g.drawString(current_score, getxtextCenter(current_score, g), currentScoreY);
             String highScore_text = "Highscore";
             g.drawString(highScore_text, getxtextCenter(highScore_text, g), highscoreY);
 
             // Highscore score
             g.setColor(yellow);
+
             g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+50);
             g.drawString(highscore.getHighScore(), getxtextCenter(highscore.getHighScore(), g), highscoreY+50);
 
@@ -194,12 +196,12 @@ public class GamePanel extends JPanel implements Runnable {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
         int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        int randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+        int randTopHeight = bottomObstY - spaceBetweenObstacles;
 
         if (pointZone == pointZoneY) {
-            pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+            pointZoneY = (topObstY + bottomObstY) - spaceBetweenObstacles;
         } else if (pointZone == pointZoneY2) {
-            pointZoneY2 = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+            pointZoneY2 = (topObstY + bottomObstY) - spaceBetweenObstacles;
         }
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
@@ -208,7 +210,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void ifPassPointZone(Obstacle obstacle, int pointZone) {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
-                obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+                obstacle.getOBSTACLE_WIDTH(), spaceBetweenObstacles);
 
 
         if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
