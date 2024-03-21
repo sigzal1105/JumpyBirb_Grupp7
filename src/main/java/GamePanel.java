@@ -95,6 +95,17 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawScore(Graphics g) {
         String panelScoreString = Integer.toString(panelScore);
 
+        String difficulty = "'easy'";
+
+//        switch(difficulty){
+//            case easy: asdkmwaida
+//                    break;
+//            case normal: asdaw
+//                    break;
+//            case hard: aldkw
+//                    break;
+//        }
+
         Color black = Color.black;
         Color red = Color.RED;
         Color yellow = Color.YELLOW;
@@ -105,26 +116,30 @@ public class GamePanel extends JPanel implements Runnable {
             setBorder(BorderFactory.createLineBorder(Color.black));
 
             int you_diedY = 60;
-            int currentScoreY = 150;
-            int highscoreY = 250;
+            int currentScoreY = 130;
+            int highscoreY = currentScoreY+55;
+            int difficultyY = highscoreY+25;
 
             String you_died = "YOU DIED";
-            g.setFont(new Font("Serif", Font.BOLD, 50));
+            g.setFont(new Font("Serif", Font.PLAIN, 50));
             g.setColor(red);
             g.drawString(you_died, getxtextCenter(you_died, g), you_diedY);
 
-            g.setFont(new Font("Serif", Font.BOLD, 30));
+            g.setFont(new Font("Serif", Font.PLAIN, 25));
             g.setColor(green);
             String current_score = "Current score";
-
             g.drawString(current_score, getxtextCenter(current_score, g), currentScoreY);
             String highScore_text = "Highscore";
             g.drawString(highScore_text, getxtextCenter(highScore_text, g), highscoreY);
 
-            // Highscore score
-            g.setColor(yellow);
+            g.setFont(new Font("Serif", Font.PLAIN, 20));
+            g.setColor(Color.cyan);
+            g.drawString(difficulty, getxtextCenter(difficulty, g), difficultyY);
 
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+50);
+            // Scores
+            g.setFont(new Font("Serif", Font.BOLD, 18));
+            g.setColor(yellow);
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+27);
             g.drawString(highscore.getHighScore(), getxtextCenter(highscore.getHighScore(), g), highscoreY+50);
 
         } else {
