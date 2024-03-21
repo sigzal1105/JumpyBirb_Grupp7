@@ -52,6 +52,9 @@ public class GamePanel extends JPanel implements Runnable {
     private Image bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
     private Image topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
+    //SoundPlayer
+    SoundPlayer soundPlayer = new SoundPlayer();
+
     // Thread
     Thread gameThread;
 
@@ -263,6 +266,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // GAME OVER when birb hit obstacle
         if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
+            soundPlayer.playSound("SoundFiles/Explosion.wav");
             highscore.saveAndLoadScore(panelScore);
             gameOver = true;
             return;
@@ -270,6 +274,7 @@ public class GamePanel extends JPanel implements Runnable {
         
         // GAME OVER when birb hits edges of window
         if (birb.getHitboxY() + birb.getHITBOX_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getHitboxY() <= 0) {
+            soundPlayer.playSound("SoundFiles/Explosion.wav");
             highscore.saveAndLoadScore(panelScore);
             gameOver = true;
         }
