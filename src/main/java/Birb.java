@@ -17,8 +17,7 @@ public class Birb {
     private final int HITBOX_HEIGHT = 40;
     private Rectangle birbHitbox;
     private Image sprite;
-
-    SoundPlayer soundPlayer = new SoundPlayer();
+    private boolean dead;
 
     public Birb() {
         this.birbHitbox = new Rectangle(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
@@ -40,10 +39,18 @@ public class Birb {
         return HITBOX_HEIGHT;
     }
 
+    public boolean getDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
     /**
      * @param g This method draws the birb.
      */
-    public void drawBirb(Graphics g, KeyControls keyControls, boolean gameOver) {
+    public void drawBirb(Graphics g, KeyControls keyControls, boolean dead) {
 
         if (birbVelocity < 0) {
             sprite = new ImageIcon("Images/birb_sprite2.png").getImage();
@@ -52,9 +59,10 @@ public class Birb {
             sprite = new ImageIcon("Images/birb_sprite.png").getImage();
         }
 
-        if (gameOver) {
+        if (dead) {
             sprite = new ImageIcon("Images/explosion.png").getImage();
         }
+
         // Draws Birb hitbox for test.
         //g.fillRect(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
         g.drawImage(sprite, BIRB_X, birbY,
@@ -71,7 +79,7 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-            // soundPlayer.playSound("SoundFiles/Explosion.wav");
+            //soundPlayer.playSound("SoundFiles/Explosion.wav");
             birbVelocity = -10;
 
         }
