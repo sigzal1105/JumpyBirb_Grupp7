@@ -5,18 +5,24 @@ import java.awt.event.MouseListener;
 
 public class KeyControls implements KeyListener, MouseListener {
     private boolean spacebar;
+    private boolean up;
+    private boolean down;
     private boolean mouseClick;
 
     public boolean getSpacebar() {
         return spacebar;
     }
-    public boolean getMouseClick() {
-        return mouseClick;
+
+    public boolean getUp() {
+        return up;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+    public boolean getDown() {
+        return down;
+    }
 
+    public boolean getMouseClick() {
+        return mouseClick;
     }
 
     @Override
@@ -25,6 +31,14 @@ public class KeyControls implements KeyListener, MouseListener {
         if (keyCode == KeyEvent.VK_SPACE) {
             spacebar = true;
         }
+
+        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
+            up = true;
+        }
+
+        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+            down = true;
+        }
     }
 
     @Override
@@ -32,6 +46,14 @@ public class KeyControls implements KeyListener, MouseListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_SPACE) {
             spacebar = false;
+        }
+
+        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
+            up = false;
+        }
+
+        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+            down = false;
         }
     }
 
@@ -47,6 +69,11 @@ public class KeyControls implements KeyListener, MouseListener {
         if (e.getButton() == MouseEvent.BUTTON1) {
             mouseClick = true;
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
