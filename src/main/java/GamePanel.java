@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.GlyphVector;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void drawScore(Graphics g) {
         String panelScoreString = Integer.toString(panelScore);
 
+        Color black = Color.black;
         Color red = Color.RED;
         Color yellow = Color.YELLOW;
         Color green = Color.GREEN;
@@ -106,9 +108,9 @@ public class GamePanel extends JPanel implements Runnable {
             int currentScoreY = 150;
             int highscoreY = 250;
 
+            String you_died = "YOU DIED";
             g.setFont(new Font("Serif", Font.BOLD, 50));
             g.setColor(red);
-            String you_died = "YOU DIED";
             g.drawString(you_died, getxtextCenter(you_died, g), you_diedY);
 
             g.setFont(new Font("Serif", Font.BOLD, 30));
