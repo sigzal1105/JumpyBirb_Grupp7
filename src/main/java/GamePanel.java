@@ -143,16 +143,11 @@ public class GamePanel extends JPanel implements Runnable {
             g.setFont(new Font("Serif", Font.BOLD, 18));
             g.setColor(Color.yellow);
             g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+27); //Current Score
-            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+85);
-            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+120);
-            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+155);
-            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+190);
-            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+225);
-            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+85);
-            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+120);
-            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+155);
-            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+190);
-            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+225);
+
+            for(int i = 85; i <= 225; i = i +35){
+                g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+i);
+                g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+i);
+            }
 
         } else {
 
@@ -215,18 +210,17 @@ public class GamePanel extends JPanel implements Runnable {
         g.setColor(Color.black);
         g.fillRoundRect(menuX+5, menuY+5, menuWidth-10, menuHeight-10, roundedCorner-10, roundedCorner-10);
 
+        int buttonHeight = menuHeight/10;
         int buttonWidth = menuWidth-200;
         int leftButtonX = menuX + 30;
         int rightButtonX = leftButtonX + buttonWidth + 20;
-        int leftButtonYTop = menuY+360;
-        int leftButtonYBottom = menuY+420;
-        int rightButtonYTop = menuY+360;
-        int rightButtonYBottom = menuY+420;
+        int topButtonY = menuY+360;
+        int bottomButtonY = menuY+420;
 
-        makeButton(leftButtonX, leftButtonYTop, buttonWidth, menuHeight/10, g);
-        makeButton(leftButtonX, leftButtonYBottom, buttonWidth, menuHeight/10, g);
-        makeButton(rightButtonX, rightButtonYTop, buttonWidth, menuHeight/10, g);
-        makeButton(rightButtonX, rightButtonYBottom, buttonWidth, menuHeight/10, g);
+        makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g);
+        makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g);
+        makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g);
+        makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g);
 
     }
 
