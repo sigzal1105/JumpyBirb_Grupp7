@@ -109,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
             int highscoreY = 250;
 
             String you_died = "YOU DIED";
-            g.setFont(new Font("Serif", Font.BOLD, 50));
+            g.setFont(new Font("Serif", Font.PLAIN, 50));
             g.setColor(red);
             g.drawString(you_died, getxtextCenter(you_died, g), you_diedY);
 

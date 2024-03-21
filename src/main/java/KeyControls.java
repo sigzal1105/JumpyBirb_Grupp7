@@ -7,18 +7,28 @@ public class KeyControls implements KeyListener, MouseListener {
     private boolean spacebar;
     private boolean up;
     private boolean down;
+    private boolean left;
+    private boolean right;
     private boolean mouseClick;
 
     public boolean getSpacebar() {
         return spacebar;
     }
 
-    public boolean getUp() {
+    public boolean Up() {
         return up;
     }
 
-    public boolean getDown() {
+    public boolean Down() {
         return down;
+    }
+
+    public boolean Left() {
+        return left;
+    }
+
+    public boolean Right() {
+        return right;
     }
 
     public boolean getMouseClick() {
@@ -36,9 +46,18 @@ public class KeyControls implements KeyListener, MouseListener {
             up = true;
         }
 
+        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
+            left = true;
+        }
+
         if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
             down = true;
         }
+
+        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+            right = true;
+        }
+
     }
 
     @Override
@@ -52,8 +71,16 @@ public class KeyControls implements KeyListener, MouseListener {
             up = false;
         }
 
+        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
+            left = false;
+        }
+
         if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
             down = false;
+        }
+
+        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+            right = false;
         }
     }
 
