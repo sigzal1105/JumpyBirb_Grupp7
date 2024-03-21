@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     // Scroll
-    private final int SCROLL_SPEED = 2;
+    private final int SCROLL_SPEED = 5;
     private int scrollPosition = 0;
 
     // Images
@@ -96,20 +96,15 @@ public class GamePanel extends JPanel implements Runnable {
         String panelScoreString = Integer.toString(panelScore);
 
         String difficulty = "'easy'";
+        String username = "ULF";
 
-//        switch(difficulty){
-//            case easy: asdkmwaida
-//                    break;
-//            case normal: asdaw
-//                    break;
-//            case hard: aldkw
-//                    break;
+//        if(SCROLL_SPEED==2){
+//            difficulty = "'easy'";
+//        } else if(SCROLL_SPEED==3){
+//            difficulty = "'medium'";
+//        } else if (SCROLL_SPEED==5) {
+//            difficulty = "'hard'";
 //        }
-
-        Color black = Color.black;
-        Color red = Color.RED;
-        Color yellow = Color.YELLOW;
-        Color green = Color.GREEN;
 
         if (gameOver) {
             menuWindow(menuX, menuY, menuWidth, menuHeight, g);
@@ -122,29 +117,46 @@ public class GamePanel extends JPanel implements Runnable {
 
             String you_died = "YOU DIED";
             g.setFont(new Font("Serif", Font.PLAIN, 50));
-            g.setColor(red);
+            g.setColor(Color.red);
             g.drawString(you_died, getxtextCenter(you_died, g), you_diedY);
 
-            g.setFont(new Font("Serif", Font.PLAIN, 25));
-            g.setColor(green);
             String current_score = "Current score";
-            g.drawString(current_score, getxtextCenter(current_score, g), currentScoreY);
             String highScore_text = "Highscore";
+            g.setFont(new Font("Serif", Font.PLAIN, 25));
+            g.setColor(Color.green);
+            g.drawString(current_score, getxtextCenter(current_score, g), currentScoreY);
             g.drawString(highScore_text, getxtextCenter(highScore_text, g), highscoreY);
 
-            g.setFont(new Font("Serif", Font.PLAIN, 20));
+            //Difficulty
+            g.setFont(new Font("Serif", Font.PLAIN, 23));
             g.setColor(Color.cyan);
             g.drawString(difficulty, getxtextCenter(difficulty, g), difficultyY);
 
-            // Scores
+            g.setFont(new Font("Serif", Font.PLAIN, 19));
+            g.setColor(Color.green);
+            String name_score = "name:";
+            String score_text = "score:";
+            g.drawString(score_text, getxNameCenter(highscore.getHighScore(), g, false), highscoreY+50);
+            g.drawString(name_score, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+50);
+
+            // SCORES
             g.setFont(new Font("Serif", Font.BOLD, 18));
-            g.setColor(yellow);
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+27);
-            g.drawString(highscore.getHighScore(), getxtextCenter(highscore.getHighScore(), g), highscoreY+50);
+            g.setColor(Color.yellow);
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), currentScoreY+27); //Current Score
+            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+85);
+            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+120);
+            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+155);
+            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+190);
+            g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false), highscoreY+225);
+            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+85);
+            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+120);
+            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+155);
+            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+190);
+            g.drawString(username, getxNameCenter(highscore.getHighScore(), g, true), highscoreY+225);
 
         } else {
 
-            g.setColor(green);
+            g.setColor(Color.green.darker());
             g.setFont(new Font("Serif", Font.BOLD, 50));
             g.drawString(panelScoreString, getxtextCenter(panelScoreString, g), 50);
         }
@@ -152,8 +164,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     private int getxtextCenter(String text, Graphics g) {
         int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
-        int x = SCREEN_WIDTH / 2 - length / 2;
-        return x;
+        return SCREEN_WIDTH / 2 - length / 2;
+    }
+
+    private int getxNameCenter(String text, Graphics g, boolean username) {
+        if(username){
+        int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
+        return SCREEN_WIDTH / 3 - length / 2;
+        } else {
+            int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
+            return (SCREEN_WIDTH / 3) * 2 - length / 2;
+        }
     }
 
     /**
@@ -194,10 +215,18 @@ public class GamePanel extends JPanel implements Runnable {
         g.setColor(Color.black);
         g.fillRoundRect(menuX+5, menuY+5, menuWidth-10, menuHeight-10, roundedCorner-10, roundedCorner-10);
 
-        makeButton(menuX+30, menuY*4, menuWidth-60, menuHeight/10, g);
-        makeButton(menuX+30, menuY+300, menuWidth-60, menuHeight/10, g);
-        makeButton(menuX+30, menuY+360, menuWidth-60, menuHeight/10, g);
-        makeButton(menuX+30, menuY+420, menuWidth-60, menuHeight/10, g);
+        int buttonWidth = menuWidth-200;
+        int leftButtonX = menuX + 30;
+        int rightButtonX = leftButtonX + buttonWidth + 20;
+        int leftButtonYTop = menuY+360;
+        int leftButtonYBottom = menuY+420;
+        int rightButtonYTop = menuY+360;
+        int rightButtonYBottom = menuY+420;
+
+        makeButton(leftButtonX, leftButtonYTop, buttonWidth, menuHeight/10, g);
+        makeButton(leftButtonX, leftButtonYBottom, buttonWidth, menuHeight/10, g);
+        makeButton(rightButtonX, rightButtonYTop, buttonWidth, menuHeight/10, g);
+        makeButton(rightButtonX, rightButtonYBottom, buttonWidth, menuHeight/10, g);
 
     }
 
