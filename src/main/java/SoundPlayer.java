@@ -10,9 +10,9 @@ public class SoundPlayer {
     public void playSound(String SoundFilePath) {
         try {
 
-           // if (clip != null && clip.isRunning()) {
-            //    return; // Om ett ljud redan spelas, avbryt och spela inte upp igen
-           // }
+            if (clip != null && clip.isRunning()) {
+                return; // Om ett ljud redan spelas, avbryt och spela inte upp igen
+            }
 
             File soundFile = new File(SoundFilePath);
 

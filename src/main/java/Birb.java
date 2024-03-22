@@ -47,6 +47,8 @@ public class Birb {
         this.dead = dead;
     }
 
+    SoundPlayer soundPlayer = new SoundPlayer();
+
     /**
      * @param g This method draws the birb.
      */
@@ -79,7 +81,7 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-            //soundPlayer.playSound("SoundFiles/Explosion.wav");
+            soundPlayer.playSound("SoundFiles/Jump.wav");
             birbVelocity = -10;
 
         }
