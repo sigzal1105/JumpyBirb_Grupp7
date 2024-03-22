@@ -10,8 +10,10 @@ public class SoundPlayer {
     public void playSound(String SoundFilePath) {
         try {
 
+            /*  If a sound is already playing, don't play it again. 
+            If this is not here the game will lag.*/
             if (clip != null && clip.isRunning()) {
-                return; // Om ett ljud redan spelas, avbryt och spela inte upp igen
+                return; 
             }
 
             File soundFile = new File(SoundFilePath);
