@@ -5,22 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GamePanel extends JPanel implements Runnable {
-    private final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
-    private final int SCALE = 3;
-    private final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // Size of the original tiles scaled by 3, 48x48
-    private final int MAX_SCREEN_COLUMN = 10;
-    private final int MAX_SCREEN_ROW = 14;
-    private final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
-    private final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
-
-    public int getSCREEN_WIDTH() {
-        return SCREEN_WIDTH;
-    }
-
-    public int getSCREEN_HEIGHT() {
-        return SCREEN_HEIGHT;
-    }
+public class GamePanel extends JPanel implements Runnable{
+    private static final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
+    private static final int SCALE = 3;
+    private static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // Size of the original tiles scaled by 3, 48x48
+    private static final int MAX_SCREEN_COLUMN = 10;
+    private static final int MAX_SCREEN_ROW = 14;
+    private static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
+    private static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
     // Game start & Game over
     private boolean gameStarted = false;
@@ -28,39 +20,35 @@ public class GamePanel extends JPanel implements Runnable {
 
     // score
     private int panelScore = 0;
-    private SaveScore highscore = new SaveScore();
+    private final transient SaveScore highscore = new SaveScore();
 
     // Birb
-    private Birb birb = new Birb();
-    private KeyControls keyControls = new KeyControls();
+    private final transient Birb birb = new Birb();
+    private final transient KeyControls keyControls = new KeyControls();
 
-    private UI ui = new UI();
+    private final transient UI USER_INTERFACE = new UI();
 
     // Obstacles
-    private List<Obstacle> obstacles;
-    private List<Obstacle> obstacles2;
-    private int spaceBetweenObstacles = 170;
+    private final transient List<Obstacle> obstacles;
+    private final transient List<Obstacle> obstacles2;
+    private static final int SPACE_BETWEEN_OBSTACLES = 170;
     private int pointZoneY;
     private int pointZoneY2;
 
-    // Frames Per Second
-    private final int FPS = 60;
-
     // Scroll
-    private final int SCROLL_SPEED = 5;
+    private static final int SCROLL_SPEED = 5;
     private int scrollPosition = 0;
 
     // Images
-    private Image backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
-    private Image groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
-    private Image bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
-    private Image topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
+    private transient Image backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
+    private transient Image groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
+    private transient Image bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
+    private transient Image topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
     //SoundPlayer
-    SoundPlayer soundPlayer = new SoundPlayer();
+    private final transient SoundPlayer soundPlayer = new SoundPlayer();
 
-    // Thread
-    Thread gameThread;
+    private transient Thread gameThread;
 
     public void startGame() {
         gameThread = new Thread(this);
@@ -90,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable {
         Obstacle.drawObstacle(g, obstacles2, gameStarted);
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
-        ui.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
+        USER_INTERFACE.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     }
 
@@ -112,12 +100,12 @@ public class GamePanel extends JPanel implements Runnable {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
         int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        int randTopHeight = bottomObstY - spaceBetweenObstacles;
+        int randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
 
         if (pointZone == pointZoneY) {
-            pointZoneY = (topObstY + bottomObstY) - spaceBetweenObstacles;
+            pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
         } else if (pointZone == pointZoneY2) {
-            pointZoneY2 = (topObstY + bottomObstY) - spaceBetweenObstacles;
+            pointZoneY2 = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
         }
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
@@ -126,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void ifPassPointZone(Obstacle obstacle, int pointZone) {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
-                obstacle.getOBSTACLE_WIDTH(), spaceBetweenObstacles);
+                obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
 
 
         if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
@@ -156,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
+    public void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStarted) {
             return;
         }
@@ -180,7 +168,6 @@ public class GamePanel extends JPanel implements Runnable {
                 return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
         }
-
     }
 
     private void changeBackground() {
@@ -207,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable {
      * update() is to be put in the run() method.
      * These methods contain the controls to the birb.
      */
-    private void update() {
+    void update() {
 
         if (!gameStarted) {
             if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
@@ -223,6 +210,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
 
         // Tell the system when to draw the screen again.
+        // Frames Per Second
+        int FPS = 60;
         double drawInterval = (double) 1000000000 / FPS; // 0.016666 seconds
         double nextDrawTime = System.nanoTime() + drawInterval;
 
@@ -230,17 +219,12 @@ public class GamePanel extends JPanel implements Runnable {
 
             // GAME OVER
             if (gameOver) {
-//                if (keyControls.getSpacebar()){
-//                    gameOver = false;
-//                    birb.setBirbY(SCREEN_HEIGHT/2);
-//                    continue;
-//                }
                 return;
             }
 
             update();
             //Update list 1.
-            updateObstacles(obstacles, pointZoneY); // This should be after update() if the objects should update
+            updateObstacles(obstacles, pointZoneY);
             //Update list 2.
             updateObstacles(obstacles2, pointZoneY2);
             scrollPosition = scrollPosition + SCROLL_SPEED;
