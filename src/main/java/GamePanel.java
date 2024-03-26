@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable{
     private static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
     private static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
+
     // Game start & Game over
     private boolean gameStarted = false;
     private boolean gameOver = false;
@@ -31,12 +32,12 @@ public class GamePanel extends JPanel implements Runnable{
     // Obstacles
     private final transient List<Obstacle> obstacles;
     private final transient List<Obstacle> obstacles2;
-    private static final int SPACE_BETWEEN_OBSTACLES = 170;
+    private static final int SPACE_BETWEEN_OBSTACLES = 200; // 200 = easy. 170 = normal and hard.
     private int pointZoneY;
     private int pointZoneY2;
 
     // Scroll
-    private static final int SCROLL_SPEED = 5;
+    private static final int SCROLL_SPEED = 2; //2 = easy. 3 = normal. 5 = hard.
     private int scrollPosition = 0;
 
     // Images
@@ -79,7 +80,6 @@ public class GamePanel extends JPanel implements Runnable{
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
         USER_INTERFACE.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
-
     }
 
     /**
@@ -130,21 +130,23 @@ public class GamePanel extends JPanel implements Runnable{
 
         // GAME OVER when birb hit obstacle
         if (obstacleHitbox.intersects(birb.getBirbHitbox())) {
-            soundPlayer.playSound("SoundFiles/Explosion.wav");
-            highscore.saveAndLoadScore(panelScore);
-            gameOver = true;
-            return;
+            afterDeath();
         }
-        
+
         // GAME OVER when birb hits edges of window
         if (birb.getHitboxY() + birb.getHITBOX_HEIGHT() >= SCREEN_HEIGHT - TILE_SIZE || birb.getHitboxY() <= 0) {
-            soundPlayer.playSound("SoundFiles/Explosion.wav");
-            highscore.saveAndLoadScore(panelScore);
-            gameOver = true;
+            afterDeath();
         }
     }
 
-    public void updateObstacles(List<Obstacle> obstacles, int pointZone) {
+    private void afterDeath() {
+        soundPlayer.playSound("SoundFiles/Explosion.wav");
+        birb.setDead(true);
+        gameOver = true;
+        highscore.saveAndLoadScore(panelScore);
+    }
+
+    private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStarted) {
             return;
         }
@@ -163,10 +165,18 @@ public class GamePanel extends JPanel implements Runnable{
 
             // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= -obstacle.getOBSTACLE_WIDTH()) {
-                removeObjects(iterator);
+                removeObstacle(iterator);
                 addObstacles(SCREEN_WIDTH, obstacles, pointZone);
                 return;// Exit the loop removeObjects(iterator); after removing obstacles
             }
+        }
+    }
+
+    private static void removeObstacle(Iterator<Obstacle> iterator) {
+        iterator.remove(); // Remove the current obstacle
+        if (iterator.hasNext()) {
+            iterator.next(); // Move to the next obstacle (bottom obstacle)
+            iterator.remove(); // Remove the bottom obstacle
         }
     }
 
@@ -179,14 +189,6 @@ public class GamePanel extends JPanel implements Runnable{
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
             topObstacle = new ImageIcon("Images/Obsticle_bat_night_top.png").getImage();
-        }
-    }
-
-    private static void removeObjects(Iterator<Obstacle> iterator) {
-        iterator.remove(); // Remove the current obstacle
-        if (iterator.hasNext()) {
-            iterator.next(); // Move to the next obstacle (bottom obstacle)
-            iterator.remove(); // Remove the bottom obstacle
         }
     }
 
