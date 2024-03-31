@@ -1,15 +1,34 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class UI{
+public class UI {
 
     private SaveScore highscore = new SaveScore();
 
     //Menu
-    private final int menuX = 80;
-    private final int menuY = 80;
-    private final int menuWidth = 480-160;
-    private final int menuHeight = 672-160;
+    private final int MENU_X = 80;
+    private final int MENU_Y = 80;
+    private final int MENU_WIDTH = 480 - 160;
+    private final int MENU_HEIGHT = 672 - 160;
+
+    //Menu controls
+    private int menuNumbers; //for the menu buttons
+
+    public int getMENU_X() {
+        return MENU_X;
+    }
+
+    public int getMENU_Y() {
+        return MENU_Y;
+    }
+
+    public int getMENU_WIDTH() {
+        return MENU_WIDTH;
+    }
+
+    public int getMENU_HEIGHT() {
+        return MENU_HEIGHT;
+    }
 
     /**
      * @param g draws the current panelScore
@@ -28,13 +47,13 @@ public class UI{
 //        }
 
         if (gameOver) {
-            menuWindow(menuX, menuY, menuWidth, menuHeight, g, SCREEN_WIDTH, SCREEN_HEIGHT);
+            menuWindow(MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             int you_diedY = 60;
             int currentScoreY = 130;
-            int highscoreY = currentScoreY+55;
-            int difficultyY = highscoreY+25;
+            int highscoreY = currentScoreY + 55;
+            int difficultyY = highscoreY + 25;
 
             String you_died = "YOU DIED";
             g.setFont(new Font("Serif", Font.PLAIN, 50));
@@ -57,17 +76,17 @@ public class UI{
             g.setColor(Color.green);
             String name_score = "name:";
             String score_text = "score:";
-            g.drawString(score_text, getxNameCenter(name_score, g, false, SCREEN_WIDTH), highscoreY+50);
-            g.drawString(name_score, getxNameCenter(score_text, g, true, SCREEN_WIDTH), highscoreY+50);
+            g.drawString(score_text, getxNameCenter(name_score, g, false, SCREEN_WIDTH), highscoreY + 50);
+            g.drawString(name_score, getxNameCenter(score_text, g, true, SCREEN_WIDTH), highscoreY + 50);
 
             // SCORES
             g.setFont(new Font("Serif", Font.BOLD, 18));
             g.setColor(Color.yellow);
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY+27); //Current Score
+            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); //Current Score
 
-            for(int i = 85; i <= 225; i = i +35){
-                g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY+i);
-                g.drawString(username, getxNameCenter(username, g, true, SCREEN_WIDTH), highscoreY+i);
+            for (int i = 85; i <= 225; i = i + 35) {
+                g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY + i);
+                g.drawString(username, getxNameCenter(username, g, true, SCREEN_WIDTH), highscoreY + i);
             }
 
         } else {
@@ -84,7 +103,7 @@ public class UI{
     }
 
     private int getxNameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
-        if(username){
+        if (username) {
             int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
             return SCREEN_WIDTH / 3 - length / 2;
         } else {
@@ -94,7 +113,7 @@ public class UI{
     }
 
     //MENU
-    public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH, int SCREEN_HEIGHT){
+    private void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         int roundedCorner = 35;
 
         //Transparent rectangle
@@ -106,7 +125,7 @@ public class UI{
 
         //Black border
         g.setColor(Color.black);
-        g.fillRoundRect(menuX-2, menuY-2, menuWidth+4, menuHeight+4, roundedCorner+2, roundedCorner+2);
+        g.fillRoundRect(menuX - 2, menuY - 2, menuWidth + 4, menuHeight + 4, roundedCorner + 2, roundedCorner + 2);
 
         //White border
         g.setColor(Color.white);
@@ -114,25 +133,86 @@ public class UI{
 
         //Main menu
         g.setColor(Color.black);
-        g.fillRoundRect(menuX+5, menuY+5, menuWidth-10, menuHeight-10, roundedCorner-10, roundedCorner-10);
+        g.fillRoundRect(menuX + 5, menuY + 5, menuWidth - 10, menuHeight - 10, roundedCorner - 10, roundedCorner - 10);
 
-        int buttonHeight = menuHeight/10;
-        int buttonWidth = menuWidth-200;
-        int leftButtonX = menuX + 30;
-        int rightButtonX = leftButtonX + buttonWidth + 20;
-        int topButtonY = menuY+360;
-        int bottomButtonY = menuY+420;
 
-        makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g);
-        makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g);
-        makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g);
-        makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g);
-
+        menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
     }
 
-    public void makeButton(int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g){
+    private void makeButton(int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g, Color color) {
         int roundedCorner = 35;
-        g.setColor(Color.lightGray);
+
+        g.setColor(color);
         g.fillRoundRect(buttonX, buttonY, buttonWidth, buttonHeight, roundedCorner, roundedCorner);
+    }
+
+    public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
+
+        int buttonHeight = menuHeight / 10;
+        int buttonWidth = menuWidth - 200;
+        int leftButtonX = menuX + 30;
+        int rightButtonX = leftButtonX + buttonWidth + 20;
+        int topButtonY = menuY + 360;
+        int bottomButtonY = menuY + 420;
+
+        switch (menuNumbers) {
+            case 0:
+                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                break;
+            case 1:
+                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                break;
+            case 2:
+                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                break;
+            case 3:
+                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                break;
+        }
+    }
+
+    public void menuControls(KeyControls keyControls) {
+        switch (menuNumbers) {
+            case 0 -> {
+                if (keyControls.Down()) {
+                    menuNumbers = 2;
+                } else if (keyControls.Right()) {
+                    menuNumbers = 1;
+                }
+            }
+            case 1 -> {
+                if (keyControls.Left()) {
+                    menuNumbers = 0;
+                } else if (keyControls.Down()) {
+                    menuNumbers = 3;
+                }
+            }
+            case 2 -> {
+                if (keyControls.Up()) {
+                    menuNumbers = 0;
+                } else if (keyControls.Right()) {
+                    menuNumbers = 3;
+                }
+            }
+            case 3 -> {
+                if (keyControls.Up()) {
+                    menuNumbers = 1;
+                } else if (keyControls.Left()) {
+                    menuNumbers = 2;
+                }
+            }
+        }
     }
 }

@@ -44,17 +44,29 @@ public class KeyControls implements KeyListener, MouseListener {
 
         if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
             up = true;
+            down = false;
+            right = false;
+            left = false;
         }
 
         if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
+            up = false;
             left = true;
+            down = false;
+            right = false;
         }
 
         if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+            up = false;
+            left = false;
             down = true;
+            right = false;
         }
 
         if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+            up = false;
+            left = false;
+            down = false;
             right = true;
         }
 
@@ -65,22 +77,6 @@ public class KeyControls implements KeyListener, MouseListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_SPACE) {
             spacebar = false;
-        }
-
-        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-            up = false;
-        }
-
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-            left = false;
-        }
-
-        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-            down = false;
-        }
-
-        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-            right = false;
         }
     }
 

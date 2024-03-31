@@ -60,7 +60,6 @@ public class Birb {
         } else {
             sprite = new ImageIcon("Images/birb_sprite.png").getImage();
         }
-
         if (dead) {
             sprite = new ImageIcon("Images/explosion.png").getImage();
         }
@@ -81,7 +80,7 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-            soundPlayer.playSound("SoundFiles/Jump.wav");
+            //soundPlayer.playSound("SoundFiles/Jump.wav");
             birbVelocity = -10;
 
         }

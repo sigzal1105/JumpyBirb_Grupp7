@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     private static final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     private static final int SCALE = 3;
     private static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // Size of the original tiles scaled by 3, 48x48
@@ -80,6 +80,8 @@ public class GamePanel extends JPanel implements Runnable{
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
         USER_INTERFACE.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
+        USER_INTERFACE.menuSelectionColor(g, USER_INTERFACE.getMENU_X(), USER_INTERFACE.getMENU_Y(),
+                USER_INTERFACE.getMENU_WIDTH(), USER_INTERFACE.getMENU_HEIGHT());
     }
 
     /**
@@ -140,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void afterDeath() {
-        soundPlayer.playSound("SoundFiles/Explosion.wav");
+        //soundPlayer.playSound("SoundFiles/Explosion.wav");
         birb.setDead(true);
         gameOver = true;
         highscore.saveAndLoadScore(panelScore);
@@ -205,7 +207,11 @@ public class GamePanel extends JPanel implements Runnable{
             return;
         }
 
-        birb.birbControls(keyControls);
+        if (gameOver) {
+            USER_INTERFACE.menuControls(keyControls);
+        } else {
+            birb.birbControls(keyControls);
+        }
     }
 
     @Override
@@ -221,16 +227,18 @@ public class GamePanel extends JPanel implements Runnable{
 
             // GAME OVER
             if (gameOver) {
-                return;
-            }
+                update();
+                SwingUtilities.invokeLater(this::repaint);
+            } else {
 
-            update();
-            //Update list 1.
-            updateObstacles(obstacles, pointZoneY);
-            //Update list 2.
-            updateObstacles(obstacles2, pointZoneY2);
-            scrollPosition = scrollPosition + SCROLL_SPEED;
-            SwingUtilities.invokeLater(this::repaint);
+                update();
+                //Update list 1.
+                updateObstacles(obstacles, pointZoneY);
+                //Update list 2.
+                updateObstacles(obstacles2, pointZoneY2);
+                scrollPosition = scrollPosition + SCROLL_SPEED;
+                SwingUtilities.invokeLater(this::repaint);
+            }
 
             try {
 
