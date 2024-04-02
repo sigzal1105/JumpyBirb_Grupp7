@@ -28,13 +28,12 @@ public class SaveScore {
                         try (BufferedWriter writer = Files.newBufferedWriter(Path.of("EasyHighScore.txt"))) {
                             writer.write(Integer.toString(panelScore));
                         } catch (IOException e) {
-                            System.err.println("Something went wrong" + e.getMessage());
+                            System.err.println("Something went wrong in Easy." + e.getMessage());
                         }
                     } else {
                         highScore = line;
                     }
                 }
-
             } catch (IOException e) {
                 System.err.println("Something went wrong" + e.getMessage());
             }
@@ -52,13 +51,12 @@ public class SaveScore {
                         try (BufferedWriter writer = Files.newBufferedWriter(Path.of("NormalHighScore.txt"))) {
                             writer.write(Integer.toString(panelScore));
                         } catch (IOException e) {
-                            System.err.println("Something went wrong" + e.getMessage());
+                            System.err.println("Something went wrong in Normal" + e.getMessage());
                         }
                     } else {
                         highScore = line;
                     }
                 }
-
             } catch (IOException e) {
                 System.err.println("Something went wrong" + e.getMessage());
             }
@@ -75,13 +73,12 @@ public class SaveScore {
                         try (BufferedWriter writer = Files.newBufferedWriter(Path.of("DeadlyHighScore.txt"))) {
                             writer.write(Integer.toString(panelScore));
                         } catch (IOException e) {
-                            System.err.println("Something went wrong" + e.getMessage());
+                            System.err.println("Something went wrong in Deadly" + e.getMessage());
                         }
                     } else {
                         highScore = line;
                     }
                 }
-
             } catch (IOException e) {
                 System.err.println("Something went wrong" + e.getMessage());
             }
