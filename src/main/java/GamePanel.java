@@ -214,14 +214,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void endGame(Window window, KeyControls keyControls){
-
-        if(USER_INTERFACE.getMenuNumbers() == 3 && keyControls.getSpacebar()){
-            window.ExitGame();
-        }
-    }
-
-
     @Override
     public void run() {
 

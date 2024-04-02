@@ -4,7 +4,6 @@ import java.awt.*;
 public class UI {
 
     private SaveScore highscore = new SaveScore();
-    private Window window = new Window();
 
     String difficulty;
     String easy = "Easy";
@@ -235,10 +234,6 @@ public class UI {
                 }
             }
         }
-
-//        if(menuNumbers == 3 && keyControls.getSpacebar()){
-//            window.ExitGame();
-//        }
 
     }
 }
