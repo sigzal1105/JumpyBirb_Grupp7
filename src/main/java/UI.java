@@ -149,18 +149,26 @@ public class UI {
         g.setFont(new Font("Courier", Font.BOLD, 23));
         g.setColor(Color.black);
 
+        int length = (int) g.getFontMetrics().getStringBounds(level, g).getWidth();
+        int buttonCenterX = buttonX + buttonWidth/2;
+        int textCenter = buttonCenterX - length/2;
+
         if(level.equals(easy)){
             difficulty = easy;
-            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+            g.drawString(difficulty, textCenter, buttonY + 32);
+
         } else if( level.equals(normal)){
             difficulty = normal;
-            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+            g.drawString(difficulty, textCenter, buttonY + 32);
+
         } else if(level.equals(deadly)){
             difficulty = deadly;
-            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+            g.drawString(difficulty, textCenter, buttonY + 32);
+
         } else if(level.equals(quit)){
             difficulty = quit;
-            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+            g.drawString(difficulty, textCenter, buttonY + 32);
+
         } else {
             throw new IllegalArgumentException();
         }
@@ -177,7 +185,7 @@ public class UI {
 
         makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
         makeButton(deadly,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(normal ,rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(normal,rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
         makeButton(quit,rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
 
         switch (menuNumbers) {
@@ -187,11 +195,11 @@ public class UI {
                 break;
             case 1:
 
-                makeButton(deadly, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 2:
 
-                makeButton(normal ,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(deadly ,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 3:
 
