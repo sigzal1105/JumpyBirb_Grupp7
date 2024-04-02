@@ -4,6 +4,7 @@ import java.awt.*;
 public class UI {
 
     private SaveScore highscore = new SaveScore();
+    private Window window = new Window();
 
     String difficulty;
     String easy = "Easy";
@@ -149,26 +150,25 @@ public class UI {
         g.setFont(new Font("Courier", Font.BOLD, 23));
         g.setColor(Color.black);
 
+        //Get text height and width to find center
+        int height = (int) g.getFontMetrics().getStringBounds(level, g).getHeight();
         int length = (int) g.getFontMetrics().getStringBounds(level, g).getWidth();
-        int buttonCenterX = buttonX + buttonWidth/2;
-        int textCenter = buttonCenterX - length/2;
+        int buttonCenterX = (buttonX + buttonWidth/2) - length/2;
+        int buttonYcenter = (buttonY + buttonHeight/2) + height/3;
 
+        //Button texts
         if(level.equals(easy)){
             difficulty = easy;
-            g.drawString(difficulty, textCenter, buttonY + 32);
-
+            g.drawString(difficulty, buttonCenterX, buttonYcenter);
         } else if( level.equals(normal)){
             difficulty = normal;
-            g.drawString(difficulty, textCenter, buttonY + 32);
-
+            g.drawString(difficulty, buttonCenterX, buttonYcenter);
         } else if(level.equals(deadly)){
             difficulty = deadly;
-            g.drawString(difficulty, textCenter, buttonY + 32);
-
+            g.drawString(difficulty, buttonCenterX, buttonYcenter);
         } else if(level.equals(quit)){
             difficulty = quit;
-            g.drawString(difficulty, textCenter, buttonY + 32);
-
+            g.drawString(difficulty, buttonCenterX, buttonYcenter);
         } else {
             throw new IllegalArgumentException();
         }
@@ -190,19 +190,15 @@ public class UI {
 
         switch (menuNumbers) {
             case 0:
-
                 makeButton(easy,  leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 1:
-
                 makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 2:
-
                 makeButton(deadly ,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 3:
-
                 makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
         }
@@ -239,5 +235,10 @@ public class UI {
                 }
             }
         }
+
+//        if(menuNumbers == 3 && keyControls.getSpacebar()){
+//            window.ExitGame();
+//        }
+
     }
 }
