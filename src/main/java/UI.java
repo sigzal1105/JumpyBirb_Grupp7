@@ -14,6 +14,10 @@ public class UI {
     //Menu controls
     private int menuNumbers; //for the menu buttons
 
+    public int getMenuNumbers() {
+        return menuNumbers;
+    }
+
     public int getMENU_X() {
         return MENU_X;
     }
@@ -155,29 +159,26 @@ public class UI {
         int topButtonY = menuY + 360;
         int bottomButtonY = menuY + 420;
 
+        makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+
         switch (menuNumbers) {
             case 0:
+
                 makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
                 break;
             case 1:
-                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+
                 makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
                 break;
             case 2:
-                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+
                 makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
                 break;
             case 3:
-                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+
                 makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
         }
