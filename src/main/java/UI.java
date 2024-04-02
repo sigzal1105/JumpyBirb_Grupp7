@@ -5,6 +5,12 @@ public class UI {
 
     private SaveScore highscore = new SaveScore();
 
+    String difficulty;
+    String easy = "Easy";
+    String normal = "Normal";
+    String deadly = "Deadly";
+    String quit = "Quit";
+
     //Menu
     private final int MENU_X = 80;
     private final int MENU_Y = 80;
@@ -39,16 +45,7 @@ public class UI {
      */
     public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         String panelScoreString = Integer.toString(panelScore);
-        String difficulty = "'easy'";
         String username = "ULF";
-
-//        if(SCROLL_SPEED==2){
-//            difficulty = "'easy'";
-//        } else if(SCROLL_SPEED==3){
-//            difficulty = "'medium'";
-//        } else if (SCROLL_SPEED==5) {
-//            difficulty = "'hard'";
-//        }
 
         if (gameOver) {
             menuWindow(MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -80,8 +77,8 @@ public class UI {
             g.setColor(Color.green);
             String name_score = "name:";
             String score_text = "score:";
-            g.drawString(score_text, getxNameCenter(name_score, g, false, SCREEN_WIDTH), highscoreY + 50);
-            g.drawString(name_score, getxNameCenter(score_text, g, true, SCREEN_WIDTH), highscoreY + 50);
+            g.drawString(score_text, getxNameCenter(score_text, g, false, SCREEN_WIDTH), highscoreY + 50);
+            g.drawString(name_score, getxNameCenter(name_score, g, true, SCREEN_WIDTH), highscoreY + 50);
 
             // SCORES
             g.setFont(new Font("Serif", Font.BOLD, 18));
@@ -143,11 +140,30 @@ public class UI {
         menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
     }
 
-    private void makeButton(int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g, Color color) {
+    private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g, Color color) {
         int roundedCorner = 35;
 
         g.setColor(color);
         g.fillRoundRect(buttonX, buttonY, buttonWidth, buttonHeight, roundedCorner, roundedCorner);
+
+        g.setFont(new Font("Courier", Font.BOLD, 23));
+        g.setColor(Color.black);
+
+        if(level.equals(easy)){
+            difficulty = easy;
+            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+        } else if( level.equals(normal)){
+            difficulty = normal;
+            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+        } else if(level.equals(deadly)){
+            difficulty = deadly;
+            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+        } else if(level.equals(quit)){
+            difficulty = quit;
+            g.drawString(difficulty, buttonX + 32, buttonY + 32);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
@@ -159,27 +175,27 @@ public class UI {
         int topButtonY = menuY + 360;
         int bottomButtonY = menuY + 420;
 
-        makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(deadly,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(normal ,rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(quit,rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
 
         switch (menuNumbers) {
             case 0:
 
-                makeButton(leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(easy,  leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 1:
 
-                makeButton(rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(deadly, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 2:
 
-                makeButton(leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(normal ,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 3:
 
-                makeButton(rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
         }
     }
