@@ -3,9 +3,10 @@ import java.awt.*;
 
 public class Window {
 
+    JFrame window = new JFrame();
+    
     public Window() {
-        JFrame window = new JFrame();
-
+        
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Jumpy Birb");
@@ -19,5 +20,9 @@ public class Window {
         window.setVisible(true);
         gamePanel.startGame();
 
+    }
+
+    public void ExitGame() {
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
