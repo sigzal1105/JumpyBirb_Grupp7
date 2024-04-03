@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 public class KeyControls implements KeyListener, MouseListener {
     private boolean spacebar;
+    private boolean enter;
     private boolean up;
     private boolean down;
     private boolean left;
@@ -13,6 +14,10 @@ public class KeyControls implements KeyListener, MouseListener {
 
     public boolean getSpacebar() {
         return spacebar;
+    }
+
+    public boolean getEnter(){
+        return enter;
     }
 
     public boolean Up() {
@@ -40,6 +45,10 @@ public class KeyControls implements KeyListener, MouseListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_SPACE) {
             spacebar = true;
+        }
+
+        if (keyCode == KeyEvent.VK_ENTER) {
+            enter = true;
         }
 
         if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
@@ -75,8 +84,13 @@ public class KeyControls implements KeyListener, MouseListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
+
         if (keyCode == KeyEvent.VK_SPACE) {
             spacebar = false;
+        }
+
+        if (keyCode == KeyEvent.VK_ENTER) {
+            enter = false;
         }
     }
 

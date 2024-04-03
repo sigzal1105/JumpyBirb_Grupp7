@@ -259,7 +259,7 @@ public class UI implements ActionListener {
                     menuNumbers = 1;
                 } else if (keyControls.Left()) {
                     menuNumbers = 2;
-                } else if (keyControls.getSpacebar()){
+                } else if (keyControls.getEnter()){
                     StartGame.getWindow().exitGame();
                 }
             }

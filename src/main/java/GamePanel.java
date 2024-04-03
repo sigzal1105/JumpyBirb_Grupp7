@@ -34,12 +34,13 @@ public class GamePanel extends JPanel implements Runnable {
     // Obstacles
     private final transient List<Obstacle> obstacles;
     private final transient List<Obstacle> obstacles2;
-    private static final int SPACE_BETWEEN_OBSTACLES = 200; // 200 = easy. 170 = normal and hard.
+
+    private static int SPACE_BETWEEN_OBSTACLES = 200; // 200 = easy. 170 = normal and hard.
     private int pointZoneY;
     private int pointZoneY2;
 
     // Scroll
-    private static final int SCROLL_SPEED = 2; //2 = easy. 3 = normal. 5 = hard.
+    private static int SCROLL_SPEED = 2; //2 = easy. 3 = normal. 5 = hard.
     private int scrollPosition = 0;
 
     // Images
@@ -70,6 +71,14 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         //Adds to list 2.
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
+    }
+
+    public static void setSpaceBetweenObstacles(int spaceBetweenObstacles) {
+        SPACE_BETWEEN_OBSTACLES = spaceBetweenObstacles;
+    }
+
+    public static void setScrollSpeed(int scrollSpeed) {
+        SCROLL_SPEED = scrollSpeed;
     }
 
     @Override
