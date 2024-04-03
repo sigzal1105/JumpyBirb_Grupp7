@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Game start & Game over
     private boolean gameStarted = false;
     private boolean gameOver = false;
+    private boolean enterNameState = false;
 
     // score
     private int panelScore = 0;
@@ -27,7 +28,9 @@ public class GamePanel extends JPanel implements Runnable {
     private final transient Birb birb = new Birb();
     private final transient KeyControls keyControls = new KeyControls();
 
+    //UI
     private final transient UI USER_INTERFACE = new UI();
+
 
     // Obstacles
     private final transient List<Obstacle> obstacles;
@@ -118,7 +121,6 @@ public class GamePanel extends JPanel implements Runnable {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
                 obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
 
-
         if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
 
             panelScore++;
@@ -144,6 +146,7 @@ public class GamePanel extends JPanel implements Runnable {
     private void afterDeath() {
         //soundPlayer.playSound("SoundFiles/Explosion.wav");
         birb.setDead(true);
+        enterNameState = true;
         gameOver = true;
         highscore.saveAndLoadScore(panelScore);
     }
@@ -225,10 +228,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (gameThread != null) {
 
+            if (enterNameState) {
+
+                this.add(USER_INTERFACE.getInputPanel());
+                enterNameState = false;
+            }
             // GAME OVER
-            if (gameOver) {
+            else if (gameOver) {
                 update();
                 SwingUtilities.invokeLater(this::repaint);
+
             } else {
 
                 update();

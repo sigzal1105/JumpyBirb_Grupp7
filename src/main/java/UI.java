@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class UI {
+public class UI implements ActionListener {
 
     private SaveScore highscore = new SaveScore();
 
@@ -13,6 +15,31 @@ public class UI {
 
     //Menu controls
     private int menuNumbers; //for the menu buttons
+
+    //Panel
+    private JPanel inputPanel = new JPanel(new BorderLayout());
+    private JLabel labelEnterName = new JLabel("Enter your name");
+    private JTextArea nameInputField = new JTextArea();
+    private JButton submitNameButton = new JButton("Enter");
+
+    //Name input
+    private String username;
+
+    public UI() {
+
+        inputPanel.add(labelEnterName, BorderLayout.NORTH);
+        inputPanel.add(nameInputField, BorderLayout.CENTER);
+        inputPanel.add(submitNameButton, BorderLayout.SOUTH);
+        submitNameButton.addActionListener(this);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public JPanel getInputPanel() {
+        return inputPanel;
+    }
 
     public int getMenuNumbers() {
         return menuNumbers;
@@ -42,15 +69,8 @@ public class UI {
         String difficulty = "'easy'";
         String username = "ULF";
 
-//        if(SCROLL_SPEED==2){
-//            difficulty = "'easy'";
-//        } else if(SCROLL_SPEED==3){
-//            difficulty = "'medium'";
-//        } else if (SCROLL_SPEED==5) {
-//            difficulty = "'hard'";
-//        }
-
         if (gameOver) {
+
             menuWindow(MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -117,7 +137,7 @@ public class UI {
     }
 
     //MENU
-    private void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+    public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         int roundedCorner = 35;
 
         //Transparent rectangle
@@ -215,5 +235,11 @@ public class UI {
                 }
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        username = nameInputField.getText();
     }
 }
