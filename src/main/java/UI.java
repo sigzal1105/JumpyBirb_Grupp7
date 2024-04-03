@@ -36,6 +36,8 @@ public class UI implements ActionListener {
         inputPanel.add(labelEnterName, BorderLayout.NORTH);
         inputPanel.add(nameInputField, BorderLayout.CENTER);
         inputPanel.add(submitNameButton, BorderLayout.SOUTH);
+        inputPanel.setBackground(Color.BLACK);
+        labelEnterName.setForeground(Color.GREEN);
         submitNameButton.addActionListener(this);
     }
 
@@ -180,20 +182,20 @@ public class UI implements ActionListener {
         //Get text height and width to find center
         int height = (int) g.getFontMetrics().getStringBounds(level, g).getHeight();
         int length = (int) g.getFontMetrics().getStringBounds(level, g).getWidth();
-        int buttonCenterX = (buttonX + buttonWidth/2) - length/2;
-        int buttonYcenter = (buttonY + buttonHeight/2) + height/3;
+        int buttonCenterX = (buttonX + buttonWidth / 2) - length / 2;
+        int buttonYcenter = (buttonY + buttonHeight / 2) + height / 3;
 
         //Button texts
-        if(level.equals(easy)){
+        if (level.equals(easy)) {
             difficulty = easy;
             g.drawString(difficulty, buttonCenterX, buttonYcenter);
-        } else if( level.equals(normal)){
+        } else if (level.equals(normal)) {
             difficulty = normal;
             g.drawString(difficulty, buttonCenterX, buttonYcenter);
-        } else if(level.equals(deadly)){
+        } else if (level.equals(deadly)) {
             difficulty = deadly;
             g.drawString(difficulty, buttonCenterX, buttonYcenter);
-        } else if(level.equals(quit)){
+        } else if (level.equals(quit)) {
             difficulty = quit;
             g.drawString(difficulty, buttonCenterX, buttonYcenter);
         } else {
@@ -211,19 +213,19 @@ public class UI implements ActionListener {
         int bottomButtonY = menuY + 420;
 
         makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(deadly,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(normal,rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(quit,rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
 
         switch (menuNumbers) {
             case 0:
-                makeButton(easy,  leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 1:
                 makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 2:
-                makeButton(deadly ,leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
             case 3:
                 makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
@@ -259,7 +261,7 @@ public class UI implements ActionListener {
                     menuNumbers = 1;
                 } else if (keyControls.Left()) {
                     menuNumbers = 2;
-                } else if (keyControls.getEnter()){
+                } else if (keyControls.getEnter()) {
                     StartGame.getWindow().exitGame();
                 }
             }
@@ -272,7 +274,7 @@ public class UI implements ActionListener {
 
         username = nameInputField.getText();
 
-        if(e.getSource() == submitNameButton){
+        if (e.getSource() == submitNameButton) {
             //Do something with the username
         }
     }

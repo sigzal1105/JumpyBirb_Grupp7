@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public GamePanel() {
+        //this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
@@ -237,14 +238,23 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             if (enterNameState) {
+
                 this.add(USER_INTERFACE.getInputPanel());
                 enterNameState = false;
             }
             // GAME OVER
             else if (gameOver) {
-                update();
-                SwingUtilities.invokeLater(this::repaint);
+
+                if (USER_INTERFACE.getUsername() != null) {
+
+                    this.remove(USER_INTERFACE.getInputPanel());
+                    update();
+                    SwingUtilities.invokeLater(this::repaint);
+                    System.out.println(USER_INTERFACE.getUsername());
+                }
+
             } else {
+
                 update();
                 //Update list 1.
                 updateObstacles(obstacles, pointZoneY);
