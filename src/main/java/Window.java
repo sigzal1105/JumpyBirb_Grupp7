@@ -4,7 +4,7 @@ import java.awt.*;
 public class Window {
 
     JFrame window = new JFrame();
-
+    private static GamePanel gamePanel;
     
     public Window() {
         
@@ -12,7 +12,7 @@ public class Window {
         window.setResizable(false);
         window.setTitle("Jumpy Birb");
 
-        GamePanel gamePanel = new GamePanel();
+        gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack();
 
@@ -21,6 +21,10 @@ public class Window {
         window.setVisible(true);
 
         gamePanel.startGame();
+    }
+
+    public static GamePanel getGamePanel(){
+        return gamePanel;
     }
 
     public void exitGame() {

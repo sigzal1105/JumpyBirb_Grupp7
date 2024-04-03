@@ -233,28 +233,35 @@ public class UI implements ActionListener {
 
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {
-            case 0 -> {
+            case 0 -> { // Easy
                 if (keyControls.Down()) {
                     menuNumbers = 2;
                 } else if (keyControls.Right()) {
                     menuNumbers = 1;
+                } else if(keyControls.getEnter()){
+                    Window.getGamePanel().restartGame(2, 200);
                 }
+
             }
-            case 1 -> {
+            case 1 -> { // Normal
                 if (keyControls.Left()) {
                     menuNumbers = 0;
                 } else if (keyControls.Down()) {
                     menuNumbers = 3;
+                } else if(keyControls.getEnter()){
+                    Window.getGamePanel().restartGame(3, 185);
                 }
             }
-            case 2 -> {
+            case 2 -> { // Deadly
                 if (keyControls.Up()) {
                     menuNumbers = 0;
                 } else if (keyControls.Right()) {
                     menuNumbers = 3;
+                } else if(keyControls.getEnter()){
+                    Window.getGamePanel().restartGame(4, 170);
                 }
             }
-            case 3 -> {
+            case 3 -> { // Quit
                 if (keyControls.Up()) {
                     menuNumbers = 1;
                 } else if (keyControls.Left()) {
