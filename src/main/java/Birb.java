@@ -49,6 +49,14 @@ public class Birb {
 
     SoundPlayer soundPlayer = new SoundPlayer();
 
+    public void reset(){
+        birbY = 278;
+        sprite = new ImageIcon("Images/birb_sprite.png").getImage();
+        birbVelocity = 0;
+        dead = false;
+        hitboxY = 293;
+    }
+
     /**
      * @param g This method draws the birb.
      */
