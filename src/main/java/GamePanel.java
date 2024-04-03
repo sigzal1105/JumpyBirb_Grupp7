@@ -31,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable {
     //UI
     private final transient UI USER_INTERFACE = new UI();
 
-
     // Obstacles
     private final transient List<Obstacle> obstacles;
     private final transient List<Obstacle> obstacles2;
@@ -229,7 +228,6 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             if (enterNameState) {
-
                 this.add(USER_INTERFACE.getInputPanel());
                 enterNameState = false;
             }
@@ -237,9 +235,7 @@ public class GamePanel extends JPanel implements Runnable {
             else if (gameOver) {
                 update();
                 SwingUtilities.invokeLater(this::repaint);
-
             } else {
-
                 update();
                 //Update list 1.
                 updateObstacles(obstacles, pointZoneY);

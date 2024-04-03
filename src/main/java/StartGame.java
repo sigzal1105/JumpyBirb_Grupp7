@@ -1,8 +1,13 @@
 import java.io.IOException;
 
 public class StartGame {
+    private static Window window;
 
     public static void main(String[] args) {
-        Window window = new Window();
+        window = new Window();
+    }
+
+    public static Window getWindow(){
+        return window;
     }
 }

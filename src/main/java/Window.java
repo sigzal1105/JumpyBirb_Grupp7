@@ -4,6 +4,7 @@ import java.awt.*;
 public class Window {
 
     JFrame window = new JFrame();
+
     
     public Window() {
         
@@ -18,11 +19,12 @@ public class Window {
         window.setLocationRelativeTo(null);
         gamePanel.requestFocusInWindow();
         window.setVisible(true);
-        gamePanel.startGame();
 
+        gamePanel.startGame();
     }
 
-    public void ExitGame() {
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void exitGame() {
+        window.dispose();
+        System.exit(0);
     }
 }

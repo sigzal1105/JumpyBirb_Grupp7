@@ -132,10 +132,10 @@ public class UI implements ActionListener {
     }
 
     private int getxNameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
-        if (username) {
+        if (username) {// left text
             int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
             return SCREEN_WIDTH / 3 - length / 2;
-        } else {
+        } else { // right text
             int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
             return (SCREEN_WIDTH / 3) * 2 - length / 2;
         }
@@ -259,6 +259,8 @@ public class UI implements ActionListener {
                     menuNumbers = 1;
                 } else if (keyControls.Left()) {
                     menuNumbers = 2;
+                } else if (keyControls.getSpacebar()){
+                    StartGame.getWindow().exitGame();
                 }
             }
         }
@@ -269,5 +271,9 @@ public class UI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         username = nameInputField.getText();
+
+        if(e.getSource() == submitNameButton){
+            //Do something with the username
+        }
     }
 }
