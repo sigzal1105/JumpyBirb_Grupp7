@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class UI implements ActionListener {
 
-    private SaveScore highscore = new SaveScore();
+    private final SaveScore highscore = new SaveScore();
 
     String difficulty;
     String easy = "Easy";
@@ -23,16 +23,15 @@ public class UI implements ActionListener {
     private int menuNumbers; //for the menu buttons
 
     //Panel
-    private JPanel inputPanel = new JPanel(new BorderLayout());
-    private JLabel labelEnterName = new JLabel("Enter your name");
-    private JTextArea nameInputField = new JTextArea();
-    private JButton submitNameButton = new JButton("Enter");
+    private final JPanel inputPanel = new JPanel(new BorderLayout());
+    private final JTextArea nameInputField = new JTextArea();
+    private final JButton submitNameButton = new JButton("Enter");
 
     //Name input
     private String username;
 
     public UI() {
-
+        JLabel labelEnterName = new JLabel("Enter your name");
         inputPanel.add(labelEnterName, BorderLayout.NORTH);
         inputPanel.add(nameInputField, BorderLayout.CENTER);
         inputPanel.add(submitNameButton, BorderLayout.SOUTH);
@@ -72,7 +71,8 @@ public class UI implements ActionListener {
      */
     public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         String panelScoreString = Integer.toString(panelScore);
-        String username = "ULF";
+        username = "ULF";
+        String serif = "Serif";
 
         if (gameOver) {
 
@@ -85,53 +85,53 @@ public class UI implements ActionListener {
             int difficultyY = highscoreY + 25;
 
             String you_died = "YOU DIED";
-            g.setFont(new Font("Serif", Font.PLAIN, 50));
+            g.setFont(new Font(serif, Font.PLAIN, 50));
             g.setColor(Color.red);
-            g.drawString(you_died, getxtextCenter(you_died, g, SCREEN_WIDTH), you_diedY);
+            g.drawString(you_died, getXtextCenter(you_died, g, SCREEN_WIDTH), you_diedY);
 
             String current_score = "Current score";
             String highScore_text = "Highscore";
-            g.setFont(new Font("Serif", Font.PLAIN, 25));
+            g.setFont(new Font(serif, Font.PLAIN, 25));
             g.setColor(Color.green);
-            g.drawString(current_score, getxtextCenter(current_score, g, SCREEN_WIDTH), currentScoreY);
-            g.drawString(highScore_text, getxtextCenter(highScore_text, g, SCREEN_WIDTH), highscoreY);
+            g.drawString(current_score, getXtextCenter(current_score, g, SCREEN_WIDTH), currentScoreY);
+            g.drawString(highScore_text, getXtextCenter(highScore_text, g, SCREEN_WIDTH), highscoreY);
 
             //Difficulty
-            g.setFont(new Font("Serif", Font.PLAIN, 23));
+            g.setFont(new Font(serif, Font.PLAIN, 23));
             g.setColor(Color.cyan);
-            g.drawString(difficulty, getxtextCenter(difficulty, g, SCREEN_WIDTH), difficultyY);
+            g.drawString(difficulty, getXtextCenter(difficulty, g, SCREEN_WIDTH), difficultyY);
 
-            g.setFont(new Font("Serif", Font.PLAIN, 19));
+            g.setFont(new Font(serif, Font.PLAIN, 19));
             g.setColor(Color.green);
             String name_score = "name:";
             String score_text = "score:";
-            g.drawString(score_text, getxNameCenter(score_text, g, false, SCREEN_WIDTH), highscoreY + 50);
-            g.drawString(name_score, getxNameCenter(name_score, g, true, SCREEN_WIDTH), highscoreY + 50);
+            g.drawString(score_text, getXnameCenter(score_text, g, false, SCREEN_WIDTH), highscoreY + 50);
+            g.drawString(name_score, getXnameCenter(name_score, g, true, SCREEN_WIDTH), highscoreY + 50);
 
             // SCORES
-            g.setFont(new Font("Serif", Font.BOLD, 18));
+            g.setFont(new Font(serif, Font.BOLD, 18));
             g.setColor(Color.yellow);
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); //Current Score
+            g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); //Current Score
 
             for (int i = 85; i <= 225; i = i + 35) {
-                g.drawString(highscore.getHighScore(), getxNameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY + i);
-                g.drawString(username, getxNameCenter(username, g, true, SCREEN_WIDTH), highscoreY + i);
+                g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY + i);
+                g.drawString(username, getXnameCenter(username, g, true, SCREEN_WIDTH), highscoreY + i);
             }
 
         } else {
 
             g.setColor(Color.green.darker());
-            g.setFont(new Font("Serif", Font.BOLD, 50));
-            g.drawString(panelScoreString, getxtextCenter(panelScoreString, g, SCREEN_WIDTH), 50);
+            g.setFont(new Font(serif, Font.BOLD, 50));
+            g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), 50);
         }
     }
 
-    private int getxtextCenter(String text, Graphics g, int SCREEN_WIDTH) {
+    private int getXtextCenter(String text, Graphics g, int SCREEN_WIDTH) {
         int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
         return SCREEN_WIDTH / 2 - length / 2;
     }
 
-    private int getxNameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
+    private int getXnameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
         if (username) {// left text
             int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
             return SCREEN_WIDTH / 3 - length / 2;
@@ -228,50 +228,61 @@ public class UI implements ActionListener {
             case 3:
                 makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
                 break;
+            default:
+                System.err.println("Invalid menu button " + menuNumbers);
+                break;
         }
     }
 
+
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {
-            case 0 -> { // Easy
-                if (keyControls.Down()) {
-                    menuNumbers = 2;
-                } else if (keyControls.Right()) {
-                    menuNumbers = 1;
-                } else if(keyControls.getEnter()){
-                    Window.getGamePanel().restartGame(2, 200);
-                }
-
-            }
-            case 1 -> { // Normal
-                if (keyControls.Left()) {
-                    menuNumbers = 0;
-                } else if (keyControls.Down()) {
-                    menuNumbers = 3;
-                } else if(keyControls.getEnter()){
-                    Window.getGamePanel().restartGame(3, 185);
-                }
-            }
-            case 2 -> { // Deadly
-                if (keyControls.Up()) {
-                    menuNumbers = 0;
-                } else if (keyControls.Right()) {
-                    menuNumbers = 3;
-                } else if(keyControls.getEnter()){
-                    Window.getGamePanel().restartGame(4, 170);
-                }
-            }
-            case 3 -> { // Quit
-                if (keyControls.Up()) {
-                    menuNumbers = 1;
-                } else if (keyControls.Left()) {
-                    menuNumbers = 2;
-                } else if (keyControls.getEnter()){
-                    StartGame.getWindow().exitGame();
-                }
-            }
+            case 0 -> handleEasyButton(keyControls);
+            case 1 -> handleNormalButton(keyControls);
+            case 2 -> handleDeadlyButton(keyControls);
+            case 3 -> handleQuitButton(keyControls);
+            default -> System.err.println("ERROR: Invalid menu button " + menuNumbers);
         }
+    }
 
+    private void handleQuitButton(KeyControls keyControls) {
+        if (keyControls.Up()) {
+            menuNumbers = 1;
+        } else if (keyControls.Left()) {
+            menuNumbers = 2;
+        } else if (keyControls.getEnter()){
+            StartGame.getWindow().exitGame();
+        }
+    }
+
+    private void handleDeadlyButton(KeyControls keyControls) {
+        if (keyControls.Up()) {
+            menuNumbers = 0;
+        } else if (keyControls.Right()) {
+            menuNumbers = 3;
+        } else if(keyControls.getEnter()){
+            Window.getGamePanel().restartGame(4, 170);
+        }
+    }
+
+    private void handleNormalButton(KeyControls keyControls) {
+        if (keyControls.Left()) {
+            menuNumbers = 0;
+        } else if (keyControls.Down()) {
+            menuNumbers = 3;
+        } else if(keyControls.getEnter()){
+            Window.getGamePanel().restartGame(3, 185);
+        }
+    }
+
+    public void handleEasyButton(KeyControls keyControls){
+        if (keyControls.Down()) {
+            menuNumbers = 2;
+        } else if (keyControls.Right()) {
+            menuNumbers = 1;
+        } else if(keyControls.getEnter()){
+            Window.getGamePanel().restartGame(2, 200);
+        }
     }
 
     @Override
