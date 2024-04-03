@@ -118,6 +118,7 @@ public class UI implements ActionListener {
             for (int i = 85; i <= 225; i = i + 35) {
                 g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY + i);
                 g.drawString(printName, getXnameCenter(printName, g, true, SCREEN_WIDTH), highscoreY + i);
+
             }
 
         } else {
@@ -253,6 +254,7 @@ public class UI implements ActionListener {
             menuNumbers = 1;
         } else if (keyControls.Left()) {
             menuNumbers = 2;
+
         } else if (keyControls.getEnter()) {
             StartGame.getWindow().exitGame();
         }
@@ -277,6 +279,7 @@ public class UI implements ActionListener {
             Window.getGamePanel().restartGame(3, 185);
         }
     }
+
 
     public void handleEasyButton(KeyControls keyControls) {
         if (keyControls.Down()) {

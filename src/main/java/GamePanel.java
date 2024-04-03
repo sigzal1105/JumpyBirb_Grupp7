@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
     private static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
+
     // Game start & Game over
     private boolean GAME_START = false;
     private boolean GAME_OVER = false;
@@ -178,6 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+
     private void afterDeath() {
         //soundPlayer.playSound("SoundFiles/Explosion.wav");
         birb.setDead(true);
@@ -220,6 +222,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+
     private void changeBackground() {
         if (panelScore > 300 && panelScore < 500) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
@@ -259,6 +262,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (GAME_OVER) {
             USER_INTERFACE.menuControls(keyControls);
+
         } else {
             birb.birbControls(keyControls);
         }
@@ -282,12 +286,10 @@ public class GamePanel extends JPanel implements Runnable {
             // GAME OVER
             else if (GAME_OVER) {
                 if (USER_INTERFACE.getUsername() != null) {
+
                     this.remove(USER_INTERFACE.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
-
-                    //For test
-                    //System.out.println(USER_INTERFACE.getUsername());
                 }
             } else {
                 update();
