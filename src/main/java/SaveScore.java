@@ -23,7 +23,7 @@ public class SaveScore {
         } else if (menyNum.getMenuNumbers() == 1) {
             filePath = "Hiscores/NormalHighScore.txt";
         } else if (menyNum.getMenuNumbers() == 2) {
-            filePath = "Highscores/DeadlyHighScore";
+            filePath = "Highscores/DeadlyHighScore.txt";
         }
 
         // Easy:

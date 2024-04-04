@@ -185,7 +185,6 @@ public class GamePanel extends JPanel implements Runnable {
         birb.setDead(true);
         ENTER_NAME_STATE = true;
         GAME_OVER = true;
-        highscore.saveAndLoadScore(panelScore);
     }
 
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
@@ -224,7 +223,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     private void changeBackground() {
-        if (panelScore > 300 && panelScore < 500) {
+        if (panelScore > 3000 && panelScore < 5000) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
             switch (SPACE_BETWEEN_OBSTACLES) {
                 case 170 -> SCROLL_SPEED = 5;
@@ -233,7 +232,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
-        if (panelScore >= 500) {
+        if (panelScore >= 5000) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
@@ -287,10 +286,12 @@ public class GamePanel extends JPanel implements Runnable {
             else if (GAME_OVER) {
                 if (USER_INTERFACE.getUsername() != null) {
 
+                    highscore.saveAndLoadScore(panelScore);
                     this.remove(USER_INTERFACE.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
                 }
+
             } else {
                 update();
                 //Update list 1.
