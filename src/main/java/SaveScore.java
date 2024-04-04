@@ -14,9 +14,8 @@ public class SaveScore {
         return highScore;
     }
 
-    public void saveAndLoadScore(int panelScore) {
+    public void saveAndLoadScore(int panelScore, String userName) {
         UI menyNum = new UI();
-        UI userName = new UI();
 
         if (menyNum.getMenuNumbers() == 0) {
             filePath = "Highscores/EasyHighScore.txt";
@@ -35,7 +34,7 @@ public class SaveScore {
 
                     highScore = Integer.toString(panelScore);
                     try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
-                        writer.write(Integer.toString(panelScore) + " " + userName.getUsername());
+                        writer.write(Integer.toString(panelScore) + " " + userName);
                     } catch (IOException e) {
                         System.err.println("Something went wrong in: " + filePath + e.getMessage());
                     }

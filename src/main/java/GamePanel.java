@@ -185,7 +185,7 @@ public class GamePanel extends JPanel implements Runnable {
         birb.setDead(true);
         ENTER_NAME_STATE = true;
         GAME_OVER = true;
-        highscore.saveAndLoadScore(panelScore);
+       
     }
 
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
@@ -286,7 +286,7 @@ public class GamePanel extends JPanel implements Runnable {
             // GAME OVER
             else if (GAME_OVER) {
                 if (USER_INTERFACE.getUsername() != null) {
-
+                    highscore.saveAndLoadScore(panelScore, USER_INTERFACE.getUsername());
                     this.remove(USER_INTERFACE.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
