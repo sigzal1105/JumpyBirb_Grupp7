@@ -23,30 +23,28 @@ public class SaveScore {
         } else if (menyNum.getMenuNumbers() == 1) {
             filePath = "Hiscores/NormalHighScore.txt";
         } else if (menyNum.getMenuNumbers() == 2) {
-            filePath = "Highscores/DeadlyHighScore";
+            filePath = "Highscores/DeadlyHighScore.txt";
         }
 
-        // Easy:
-        if (menyNum.getMenuNumbers() == 0) {
-            try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath));) {
-                String line;
-                while ((line = reader.readLine()) != null) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath));) {
+            String line;
 
-                    if (Integer.parseInt(line) < panelScore) {
+            while ((line = reader.readLine()) != null) {
 
-                        highScore = Integer.toString(panelScore);
-                        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
-                            writer.write(Integer.toString(panelScore) + userName.getUsername());
-                        } catch (IOException e) {
-                            System.err.println("Something went wrong in: " + filePath + e.getMessage());
-                        }
-                    } else {
-                        highScore = line;
+                if (Integer.parseInt(line) < panelScore) {
+
+                    highScore = Integer.toString(panelScore);
+                    try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
+                        writer.write(Integer.toString(panelScore) + " " + userName.getUsername());
+                    } catch (IOException e) {
+                        System.err.println("Something went wrong in: " + filePath + e.getMessage());
                     }
+                } else {
+                    highScore = line;
                 }
-            } catch (IOException e) {
-                System.err.println("Something went wrong" + e.getMessage());
             }
+        } catch (IOException e) {
+            System.err.println("Something went wrong" + e.getMessage());
         }
 
     }
