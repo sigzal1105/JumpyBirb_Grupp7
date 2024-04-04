@@ -286,7 +286,7 @@ public class GamePanel extends JPanel implements Runnable {
             else if (GAME_OVER) {
                 if (USER_INTERFACE.getUsername() != null) {
 
-                    highscore.saveAndLoadScore(panelScore);
+                    highscore.saveAndLoadScore(panelScore, USER_INTERFACE.getUsername());
                     this.remove(USER_INTERFACE.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
