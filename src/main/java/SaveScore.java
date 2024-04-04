@@ -30,11 +30,13 @@ public class SaveScore {
 
             while ((line = reader.readLine()) != null) {
 
-                if (Integer.parseInt(line) < panelScore) {
+               String[] points= line.split(" ");
+
+                if (Integer.parseInt(points[1]) < panelScore) {
 
                     highScore = Integer.toString(panelScore);
                     try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
-                        writer.write(Integer.toString(panelScore) + " " + userName);
+                        writer.write(userName + " " + Integer.toString(panelScore));
                     } catch (IOException e) {
                         System.err.println("Something went wrong in: " + filePath + e.getMessage());
                     }
