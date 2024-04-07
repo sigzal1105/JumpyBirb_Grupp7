@@ -38,10 +38,10 @@ public class SoundPlayer {
     public void playSound(Clip clip) {
         try {
             if (clip != null) {
+                clip.setFramePosition(0);
                 if (clip.isRunning()) {
                     clip.stop();
                 }
-                clip.setFramePosition(0);
                 clip.start();
             }
 

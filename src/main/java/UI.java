@@ -97,7 +97,7 @@ public class UI implements ActionListener {
     public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
             int SCREEN_HEIGHT) {
         String panelScoreString = Integer.toString(panelScore);
-        String printName = "ULF";
+        String printName = highscore.getHighScore(); //Här har jag ändrat från ulf!/TF
         String serif = "Serif";
 
         if (gameOver) {
