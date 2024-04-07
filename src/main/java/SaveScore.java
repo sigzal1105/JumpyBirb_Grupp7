@@ -13,18 +13,18 @@ public class SaveScore {
     }
 
     public void saveAndLoadScore(int panelScore, String userName, int menyNum, KeyControls keyControls) {
-    
-        if (menyNum == 0) {
 
-                filePath = "Highscores/EasyHighScore.txt";
+        if (menyNum == 0 && keyControls.getMouseClick() || keyControls.getSpacebar()) {
 
-        } else if (menyNum == 1) {
+            filePath = "Highscores/EasyHighScore.txt";
 
-                filePath = "Highscores/NormalHighScore.txt";
+        } else if (menyNum == 1 && keyControls.getMouseClick() || keyControls.getSpacebar()) {
 
-        } else if (menyNum == 2) {
+            filePath = "Highscores/NormalHighScore.txt";
 
-                filePath = "Highscores/DeadlyHighScore.txt";
+        } else if (menyNum == 2 && keyControls.getMouseClick() || keyControls.getSpacebar()) {
+
+            filePath = "Highscores/DeadlyHighScore.txt";
         }
 
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath));) {

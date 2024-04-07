@@ -186,19 +186,19 @@ public class GamePanel extends JPanel implements Runnable {
         enterNameState = true;
         gameOver = true;
     }
-
+    
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStart) {
             return;
         }
-
+        
         Iterator<Obstacle> iterator = obstacles.iterator();
-
+        
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
             // This method runs if birb gets points.
             ifPassPointZone(obstacle, pointZone);
-
+            
             // This method runs if birb dies.
             ifDie(obstacle);
 
