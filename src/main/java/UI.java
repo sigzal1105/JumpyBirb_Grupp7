@@ -23,20 +23,28 @@ public class UI implements ActionListener {
     private int menuNumbers; //for the menu buttons
 
     //Panel
-    private final JPanel inputPanel = new JPanel(new BorderLayout());
-    private final JTextArea nameInputField = new JTextArea();
-    private final JButton submitNameButton = new JButton("Enter");
+    private JPanel inputPanel = new JPanel();
+    private JTextArea nameInputField = new JTextArea();
+    private JButton submitNameButton = new JButton("Enter");
 
     //Name input
     private String username;
 
     public UI() {
-        JLabel labelEnterName = new JLabel("Enter your name");
-        inputPanel.add(labelEnterName, BorderLayout.NORTH);
-        inputPanel.add(nameInputField, BorderLayout.CENTER);
-        inputPanel.add(submitNameButton, BorderLayout.SOUTH);
+
+        inputPanel.setLayout(new GridLayout(0, 1));
         inputPanel.setBackground(Color.BLACK);
+
+        JLabel text = new JLabel("     New score!");
+        text.setForeground(Color.GREEN);
+        JLabel labelEnterName = new JLabel("Enter your name:");
         labelEnterName.setForeground(Color.GREEN);
+
+        inputPanel.add(text);
+        inputPanel.add(labelEnterName);
+        inputPanel.add(nameInputField);
+        inputPanel.add(submitNameButton);
+
         submitNameButton.addActionListener(this);
     }
 
@@ -46,6 +54,10 @@ public class UI implements ActionListener {
 
     public JPanel getInputPanel() {
         return inputPanel;
+    }
+
+    public void setInputPanel(JPanel inputPanel) {
+        this.inputPanel = inputPanel;
     }
 
     public int getMenuNumbers() {
@@ -236,7 +248,6 @@ public class UI implements ActionListener {
                 break;
         }
     }
-
 
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {

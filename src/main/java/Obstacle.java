@@ -1,4 +1,9 @@
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Obstacle {
@@ -44,6 +49,7 @@ public class Obstacle {
         if (!gameStarted) {
             return;
         }
+
         for (Obstacle obstacle : obstacles) {
 
             //g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),

@@ -36,8 +36,10 @@ public class SaveScore {
 
                     highScore = Integer.toString(panelScore);
                     try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
+
                         writer.write(userName + " " + Integer.toString(panelScore));
                     } catch (IOException e) {
+                        
                         System.err.println("Something went wrong in: " + filePath + e.getMessage());
                     }
                 } else {

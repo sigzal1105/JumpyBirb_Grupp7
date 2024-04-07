@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final transient KeyControls keyControls = new KeyControls();
 
     //UI
-    private final transient UI USER_INTERFACE = new UI();
+    private UI USER_INTERFACE = new UI();
 
     // Obstacles
     private final transient List<Obstacle> obstacles;
@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public GamePanel() {
+        this.setLayout(null);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
@@ -280,6 +281,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (ENTER_NAME_STATE) {
                 this.add(USER_INTERFACE.getInputPanel());
+                USER_INTERFACE.getInputPanel().setBounds(200, 300, 100, 100);
                 ENTER_NAME_STATE = false;
             }
             // GAME OVER
