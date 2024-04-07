@@ -66,12 +66,15 @@ public class Birb {
     public void drawBirb(Graphics g, KeyControls keyControls, boolean dead) {
 
         if (birbVelocity < 0) {
+
             sprite = new ImageIcon("Images/birb_sprite2.png").getImage();
 
         } else {
+
             sprite = new ImageIcon("Images/birb_sprite.png").getImage();
         }
         if (dead) {
+
             sprite = new ImageIcon("Images/explosion.png").getImage();
         }
 
@@ -91,10 +94,10 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
+            
             birbVelocity = -10;
             SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
             SOUND_PLAYER.stopSound();
-
         }
         updateHitbox();
     }

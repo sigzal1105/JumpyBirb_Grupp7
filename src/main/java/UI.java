@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UI implements ActionListener {
 
@@ -13,21 +15,21 @@ public class UI implements ActionListener {
     String deadly = "Deadly";
     String quit = "Quit";
 
-    //Menu
+    // Menu
     private final int MENU_X = 80;
     private final int MENU_Y = 80;
     private final int MENU_WIDTH = 480 - 160;
     private final int MENU_HEIGHT = 672 - 160;
 
-    //Menu controls
-    private int menuNumbers; //for the menu buttons
+    // Menu controls
+    private int menuNumbers; // for the menu buttons
 
-    //Panel
+    // Panel
     private JPanel inputPanel = new JPanel();
     private JTextArea nameInputField = new JTextArea();
     private JButton submitNameButton = new JButton("Enter");
 
-    //Name input
+    // Name input
     private String username;
 
     public UI() {
@@ -45,6 +47,15 @@ public class UI implements ActionListener {
         inputPanel.add(nameInputField);
         inputPanel.add(submitNameButton);
 
+        nameInputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    submitName();
+                }
+            }
+        });
+        
         submitNameButton.addActionListener(this);
     }
 
@@ -83,7 +94,8 @@ public class UI implements ActionListener {
     /**
      * @param g draws the current panelScore
      */
-    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
+            int SCREEN_HEIGHT) {
         String panelScoreString = Integer.toString(panelScore);
         String printName = "ULF";
         String serif = "Serif";
@@ -110,7 +122,7 @@ public class UI implements ActionListener {
             g.drawString(current_score, getXtextCenter(current_score, g, SCREEN_WIDTH), currentScoreY);
             g.drawString(highScore_text, getXtextCenter(highScore_text, g, SCREEN_WIDTH), highscoreY);
 
-            //Difficulty
+            // Difficulty
             g.setFont(new Font(serif, Font.PLAIN, 23));
             g.setColor(Color.cyan);
             g.drawString(difficulty, getXtextCenter(difficulty, g, SCREEN_WIDTH), difficultyY);
@@ -125,10 +137,12 @@ public class UI implements ActionListener {
             // SCORES
             g.setFont(new Font(serif, Font.BOLD, 18));
             g.setColor(Color.yellow);
-            g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); //Current Score
+            g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); // Current
+                                                                                                                   // Score
 
             for (int i = 85; i <= 225; i = i + 35) {
-                g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH), highscoreY + i);
+                g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH),
+                        highscoreY + i);
                 g.drawString(printName, getXnameCenter(printName, g, true, SCREEN_WIDTH), highscoreY + i);
 
             }
@@ -156,34 +170,35 @@ public class UI implements ActionListener {
         }
     }
 
-    //MENU
-    public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+    // MENU
+    public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH,
+            int SCREEN_HEIGHT) {
         int roundedCorner = 35;
 
-        //Transparent rectangle
+        // Transparent rectangle
         int whiteValue = 255;
-        int alpha = 127;//50% transparency
+        int alpha = 127;// 50% transparency
         Color transparentColor = new Color(whiteValue, whiteValue, whiteValue, alpha);
         g.setColor(transparentColor);
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        //Black border
+        // Black border
         g.setColor(Color.black);
         g.fillRoundRect(menuX - 2, menuY - 2, menuWidth + 4, menuHeight + 4, roundedCorner + 2, roundedCorner + 2);
 
-        //White border
+        // White border
         g.setColor(Color.white);
         g.fillRoundRect(menuX, menuY, menuWidth, menuHeight, roundedCorner, roundedCorner);
 
-        //Main menu
+        // Main menu
         g.setColor(Color.black);
         g.fillRoundRect(menuX + 5, menuY + 5, menuWidth - 10, menuHeight - 10, roundedCorner - 10, roundedCorner - 10);
-
 
         menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
     }
 
-    private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g, Color color) {
+    private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g,
+            Color color) {
         int roundedCorner = 35;
 
         g.setColor(color);
@@ -192,13 +207,13 @@ public class UI implements ActionListener {
         g.setFont(new Font("Courier", Font.BOLD, 23));
         g.setColor(Color.black);
 
-        //Get text height and width to find center
+        // Get text height and width to find center
         int height = (int) g.getFontMetrics().getStringBounds(level, g).getHeight();
         int length = (int) g.getFontMetrics().getStringBounds(level, g).getWidth();
         int buttonCenterX = (buttonX + buttonWidth / 2) - length / 2;
         int buttonYcenter = (buttonY + buttonHeight / 2) + height / 3;
 
-        //Button texts
+        // Button texts
         if (level.equals(easy)) {
             difficulty = easy;
             g.drawString(difficulty, buttonCenterX, buttonYcenter);
@@ -291,7 +306,6 @@ public class UI implements ActionListener {
         }
     }
 
-
     public void handleEasyButton(KeyControls keyControls) {
         if (keyControls.Down()) {
             menuNumbers = 2;
@@ -302,13 +316,17 @@ public class UI implements ActionListener {
         }
     }
 
+    private void submitName() {
+
+        username = nameInputField.getText();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        username = nameInputField.getText();
-
         if (e.getSource() == submitNameButton) {
-            //Do something with the username
+            
+            submitName();
         }
     }
 }
