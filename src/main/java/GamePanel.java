@@ -180,7 +180,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void afterDeath() {
-        // soundPlayer.playSound("SoundFiles/Explosion.wav");
+        SOUND_PLAYER.playSound(SOUND_PLAYER.getClipDeath());
+        SOUND_PLAYER.stopSound();
         birb.setDead(true);
         enterNameState = true;
         gameOver = true;

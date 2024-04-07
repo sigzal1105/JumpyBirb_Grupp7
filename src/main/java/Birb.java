@@ -1,3 +1,4 @@
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +11,7 @@ public class Birb {
 
     private int birbVelocity = 0;
     private final int BIRB_GRAVITY = 1;
-
+    
     private final int HITBOX_X = 110;
     private int hitboxY = 293;
     private final int HITBOX_WIDTH = 45;
@@ -18,6 +19,9 @@ public class Birb {
     private Rectangle birbHitbox;
     private Image sprite;
     private boolean dead;
+    
+    //Soundplayer
+    private final transient SoundPlayer SOUND_PLAYER = new SoundPlayer();
 
     public Birb() {
         this.birbHitbox = new Rectangle(HITBOX_X, hitboxY, HITBOX_WIDTH, HITBOX_HEIGHT);
@@ -47,7 +51,6 @@ public class Birb {
         this.dead = dead;
     }
 
-    SoundPlayer soundPlayer = new SoundPlayer();
 
     public void reset(){
         birbY = 278;
@@ -88,8 +91,9 @@ public class Birb {
         flight();
 
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-            //soundPlayer.playSound("SoundFiles/Jump.wav");
             birbVelocity = -10;
+            SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
+            SOUND_PLAYER.stopSound();
 
         }
         updateHitbox();

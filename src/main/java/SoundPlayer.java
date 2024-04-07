@@ -4,44 +4,58 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class SoundPlayer {
+    private Clip clipJump;
+    private Clip clipDeath;
     private Clip clip;
     private boolean isPlaying = false;
 
-    public void playSound(String SoundFilePath) {
+    public SoundPlayer() {
         try {
+            AudioInputStream audioISJump = AudioSystem.getAudioInputStream(new File("SoundFiles/Jump.wav"));
+            AudioInputStream audioISDeath = AudioSystem.getAudioInputStream(new File("SoundFiles/Explosion.wav"));
 
-            /*  If a sound is already playing, don't play it again. 
-            If this is not here the game will lag.*/
-            if (clip != null && clip.isRunning()) {
-                return; 
-            }
+            // Öppna Clips för ljudklippen
+            clipJump = AudioSystem.getClip();
+            clipJump.open(audioISJump);
 
-            File soundFile = new File(SoundFilePath);
-
-            if (!soundFile.exists()) {
-                System.out.println("The file doesn't exists." + SoundFilePath);
-                return;
-            }
-
-            AudioInputStream audioIS = AudioSystem.getAudioInputStream(soundFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioIS);
-            clip.start();
-
-            clip.addLineListener(event -> {
-                if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP) {
-                    clip.close(); // Stäng klippet för att frigöra resurser
-                }
-            });
+            clipDeath = AudioSystem.getClip();
+            clipDeath.open(audioISDeath);
 
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("Error loading clips: " + ex.getMessage());
+
+        }
+    }
+
+    public Clip getClipJump() {
+        return clipJump;
+    }
+
+    public Clip getClipDeath() {
+        return clipDeath;
+    }
+
+    public void playSound(Clip clip) {
+        try {
+            if (clip != null) {
+                if (clip.isRunning()) {
+                    clip.stop();
+                }
+                clip.setFramePosition(0);
+                clip.start();
+            }
+
+        } catch (Exception ex) {
+            System.err.println("Error playing sound: " + ex.getMessage());
         }
     }
 
     public void stopSound() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
+        if (clipJump != null && clipJump.isRunning()) {
+            clipJump.stop();
+        }
+        if (clipDeath != null && clipDeath.isRunning()) {
+            clipDeath.stop();
         }
     }
 }
