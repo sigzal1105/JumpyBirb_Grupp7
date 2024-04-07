@@ -73,13 +73,13 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
     }
 
-    public void restartGame(int scrollSpeed, int spaceBetweenObstacles) {
+    public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
         gameStart = false;
         gameOver = false;
         enterNameState = false;
 
-        scrollSpeed = scrollSpeed;
-        spaceBetweenObstacles = spaceBetweenObstacles;
+        scrollSpeed = selectedScrollSpeed;
+        spaceBetweenObstacles = selectedSpaceBetweenObstacles;
 
         // reset score
         panelScore = 0;
