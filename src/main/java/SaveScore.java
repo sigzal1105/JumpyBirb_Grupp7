@@ -6,11 +6,7 @@ import java.nio.file.Path;
 
 public class SaveScore {
     private String highScore = "0";
-    private String filePath;
-
-    public String getHighScore() {
-        return highScore;
-    }
+    private String filePath = "Highscores/EasyHighScore.txt";
 
     public void saveAndLoadScore(int panelScore, String userName, int menyNum, KeyControls keyControls) {
 
@@ -33,24 +29,30 @@ public class SaveScore {
             while ((line = reader.readLine()) != null) {
 
                 String[] points = line.split(" ");
+                for (String point : points) {
 
-                if (Integer.parseInt(points[1]) < panelScore) {
+                    if (Integer.parseInt(points[1]) < panelScore) {
 
-                    highScore = Integer.toString(panelScore);
-                    try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
+                        highScore = Integer.toString(panelScore);
+                        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
 
-                        writer.write(userName + " " + Integer.toString(panelScore));
-                    } catch (IOException e) {
+                            writer.write(userName + " " + Integer.toString(panelScore));
+                        } catch (IOException e) {
 
-                        System.err.println("Something went wrong in: " + filePath + e.getMessage());
+                            System.err.println("Something went wrong in: " + filePath + e.getMessage());
+                        }
+                    } else {
+                        highScore = line;
                     }
-                } else {
-                    highScore = line;
                 }
             }
         } catch (IOException e) {
             System.err.println("Something went wrong" + e.getMessage());
         }
 
+    }
+
+    public String getHighScore() {
+        return highScore;
     }
 }
