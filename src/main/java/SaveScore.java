@@ -14,15 +14,19 @@ public class SaveScore {
         return highScore;
     }
 
-    public void saveAndLoadScore(int panelScore, String userName) {
-        UI menyNum = new UI();
+    public void saveAndLoadScore(int panelScore, String userName, int menyNum, KeyControls keyControls) {
+    
+        if (menyNum == 0) {
 
-        if (menyNum.getMenuNumbers() == 0) {
-            filePath = "Highscores/EasyHighScore.txt";
-        } else if (menyNum.getMenuNumbers() == 1) {
-            filePath = "Hiscores/NormalHighScore.txt";
-        } else if (menyNum.getMenuNumbers() == 2) {
-            filePath = "Highscores/DeadlyHighScore.txt";
+                filePath = "Highscores/EasyHighScore.txt";
+
+        } else if (menyNum == 1) {
+
+                filePath = "Highscores/NormalHighScore.txt";
+
+        } else if (menyNum == 2) {
+
+                filePath = "Highscores/DeadlyHighScore.txt";
         }
 
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath));) {
@@ -30,7 +34,7 @@ public class SaveScore {
 
             while ((line = reader.readLine()) != null) {
 
-               String[] points= line.split(" ");
+                String[] points = line.split(" ");
 
                 if (Integer.parseInt(points[1]) < panelScore) {
 
@@ -39,7 +43,7 @@ public class SaveScore {
 
                         writer.write(userName + " " + Integer.toString(panelScore));
                     } catch (IOException e) {
-                        
+
                         System.err.println("Something went wrong in: " + filePath + e.getMessage());
                     }
                 } else {

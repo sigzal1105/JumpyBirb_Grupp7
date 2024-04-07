@@ -14,11 +14,10 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COLUMN; // 480 pixels
     private static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 672 pixels
 
-
     // Game start & Game over
-    private boolean GAME_START = false;
-    private boolean GAME_OVER = false;
-    private boolean ENTER_NAME_STATE = false;
+    private boolean gameStart = false;
+    private boolean gameOver = false;
+    private boolean enterNameState = false;
 
     // score
     private int panelScore = 0;
@@ -28,19 +27,19 @@ public class GamePanel extends JPanel implements Runnable {
     private final transient Birb birb = new Birb();
     private final transient KeyControls keyControls = new KeyControls();
 
-    //UI
-    private UI USER_INTERFACE = new UI();
+    // UI
+    private transient UI userInterface = new UI();
 
     // Obstacles
     private final transient List<Obstacle> obstacles;
     private final transient List<Obstacle> obstacles2;
 
-    private int SPACE_BETWEEN_OBSTACLES = 200; // 200 = easy. 170 = normal and hard.
+    private int spaceBetweenObstacles = 200; // 200 = easy. 170 = normal and hard.
     private int pointZoneY;
     private int pointZoneY2;
 
     // Scroll
-    private int SCROLL_SPEED = 2; //2 = easy. 3 = normal. 5 = hard.
+    private int scrollSpeed = 2; // 2 = easy. 3 = normal. 5 = hard.
     private int scrollPosition = 0;
 
     // Images
@@ -49,8 +48,8 @@ public class GamePanel extends JPanel implements Runnable {
     private transient Image bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
     private transient Image topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
-    //SoundPlayer
-    private final transient SoundPlayer soundPlayer = new SoundPlayer();
+    // SoundPlayer
+    private final transient SoundPlayer SOUND_PLAYER = new SoundPlayer();
 
     private transient Thread gameThread;
 
@@ -68,33 +67,33 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         this.obstacles2 = new ArrayList<>();
-        //Adds to list 1.
+        // Adds to list 1.
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
-        //Adds to list 2.
+        // Adds to list 2.
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
     }
 
     public void restartGame(int scrollSpeed, int spaceBetweenObstacles) {
-        GAME_START = false;
-        GAME_OVER = false;
-        ENTER_NAME_STATE = false;
+        gameStart = false;
+        gameOver = false;
+        enterNameState = false;
 
-        SCROLL_SPEED = scrollSpeed;
-        SPACE_BETWEEN_OBSTACLES = spaceBetweenObstacles;
+        scrollSpeed = scrollSpeed;
+        spaceBetweenObstacles = spaceBetweenObstacles;
 
-        //reset score
+        // reset score
         panelScore = 0;
 
-        //reset scroll position
+        // reset scroll position
         scrollPosition = 0;
 
-        //reset images
+        // reset images
         backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
         topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
-        //reset birb and hitbox position
+        // reset birb and hitbox position
         birb.reset();
 
         // Clear obstacles lists and add new obstacles
@@ -115,13 +114,13 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
-        Obstacle.drawObstacle(g, obstacles, GAME_START);
-        Obstacle.drawObstacle(g, obstacles2, GAME_START);
+        Obstacle.drawObstacle(g, obstacles, gameStart);
+        Obstacle.drawObstacle(g, obstacles2, gameStart);
         drawGround(g);
-        birb.drawBirb(g, keyControls, GAME_OVER);
-        USER_INTERFACE.drawScore(g, panelScore, GAME_OVER, this, SCREEN_WIDTH, SCREEN_HEIGHT);
-        USER_INTERFACE.menuSelectionColor(g, USER_INTERFACE.getMENU_X(), USER_INTERFACE.getMENU_Y(),
-                USER_INTERFACE.getMENU_WIDTH(), USER_INTERFACE.getMENU_HEIGHT());
+        birb.drawBirb(g, keyControls, gameOver);
+        userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
+        userInterface.menuSelectionColor(g, userInterface.getMENU_X(), userInterface.getMENU_Y(),
+                userInterface.getMENU_WIDTH(), userInterface.getMENU_HEIGHT());
     }
 
     /**
@@ -142,12 +141,12 @@ public class GamePanel extends JPanel implements Runnable {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
         int bottomObstY = SCREEN_HEIGHT - randBottomHeight;
-        int randTopHeight = bottomObstY - SPACE_BETWEEN_OBSTACLES;
+        int randTopHeight = bottomObstY - spaceBetweenObstacles;
 
         if (pointZone == pointZoneY) {
-            pointZoneY = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+            pointZoneY = (topObstY + bottomObstY) - spaceBetweenObstacles;
         } else if (pointZone == pointZoneY2) {
-            pointZoneY2 = (topObstY + bottomObstY) - SPACE_BETWEEN_OBSTACLES;
+            pointZoneY2 = (topObstY + bottomObstY) - spaceBetweenObstacles;
         }
 
         obstacles.add(new Obstacle(topObstacle, x, topObstY, randTopHeight));
@@ -156,7 +155,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void ifPassPointZone(Obstacle obstacle, int pointZone) {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
-                obstacle.getOBSTACLE_WIDTH(), SPACE_BETWEEN_OBSTACLES);
+                obstacle.getOBSTACLE_WIDTH(), spaceBetweenObstacles);
 
         if (pointZoneHitbox.intersects(birb.getBirbHitbox())) {
 
@@ -180,16 +179,15 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-
     private void afterDeath() {
-        //soundPlayer.playSound("SoundFiles/Explosion.wav");
+        // soundPlayer.playSound("SoundFiles/Explosion.wav");
         birb.setDead(true);
-        ENTER_NAME_STATE = true;
-        GAME_OVER = true;
+        enterNameState = true;
+        gameOver = true;
     }
 
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
-        if (!GAME_START) {
+        if (!gameStart) {
             return;
         }
 
@@ -197,13 +195,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
-            //This method runs if birb gets points.
+            // This method runs if birb gets points.
             ifPassPointZone(obstacle, pointZone);
 
-            //This method runs if birb dies.
+            // This method runs if birb dies.
             ifDie(obstacle);
 
-            obstacle.setObstacleX(obstacle.getObstacleX() - SCROLL_SPEED);
+            obstacle.setObstacleX(obstacle.getObstacleX() - scrollSpeed);
 
             // Remove object when it reaches the end of the screen
             if (obstacle.getObstacleX() + obstacle.getOBSTACLE_WIDTH() <= -obstacle.getOBSTACLE_WIDTH()) {
@@ -222,14 +220,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-
     private void changeBackground() {
         if (panelScore > 3000 && panelScore < 5000) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
-            switch (SPACE_BETWEEN_OBSTACLES) {
-                case 170 -> SCROLL_SPEED = 5;
-                case 185 -> SCROLL_SPEED = 4;
-                case 200 -> SCROLL_SPEED = 3;
+            switch (spaceBetweenObstacles) {
+                case 170 -> scrollSpeed = 5;
+                case 185 -> scrollSpeed = 4;
+                case 200 -> scrollSpeed = 3;
+                default -> System.err.println("Illegitimate choice");
             }
 
         }
@@ -239,10 +237,11 @@ public class GamePanel extends JPanel implements Runnable {
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
             topObstacle = new ImageIcon("Images/Obsticle_night_top_bat.png").getImage();
 
-            switch (SPACE_BETWEEN_OBSTACLES) {
-                case 170 -> SCROLL_SPEED = 6;
-                case 185 -> SCROLL_SPEED = 5;
-                case 200 -> SCROLL_SPEED = 4;
+            switch (spaceBetweenObstacles) {
+                case 170 -> scrollSpeed = 6;
+                case 185 -> scrollSpeed = 5;
+                case 200 -> scrollSpeed = 4;
+                default -> System.err.println("Illegitimate choice");
             }
         }
     }
@@ -253,15 +252,15 @@ public class GamePanel extends JPanel implements Runnable {
      */
     void update() {
 
-        if (!GAME_START) {
+        if (!gameStart) {
             if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-                GAME_START = true;
+                gameStart = true;
             }
             return;
         }
 
-        if (GAME_OVER) {
-            USER_INTERFACE.menuControls(keyControls);
+        if (gameOver) {
+            userInterface.menuControls(keyControls);
 
         } else {
             birb.birbControls(keyControls);
@@ -273,34 +272,36 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Tell the system when to draw the screen again.
         // Frames Per Second
-        int FPS = 60;
-        double drawInterval = (double) 1000000000 / FPS; // 0.016666 seconds
+        int fps = 60;
+        double drawInterval = (double) 1000000000 / fps; // 0.016666 seconds
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
 
-            if (ENTER_NAME_STATE) {
-                this.add(USER_INTERFACE.getInputPanel());
-                USER_INTERFACE.getInputPanel().setBounds(200, 300, 100, 100);
-                ENTER_NAME_STATE = false;
+            if (enterNameState) {
+
+                this.add(userInterface.getInputPanel());
+                userInterface.getInputPanel().setBounds(196, 311, 100, 100);
+                enterNameState = false;
             }
             // GAME OVER
-            else if (GAME_OVER) {
-                if (USER_INTERFACE.getUsername() != null) {
+            else if (gameOver) {
+                if (userInterface.getUsername() != null) {
 
-                    highscore.saveAndLoadScore(panelScore, USER_INTERFACE.getUsername());
-                    this.remove(USER_INTERFACE.getInputPanel());
+                    this.remove(userInterface.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
+                    highscore.saveAndLoadScore(panelScore, userInterface.getUsername(), userInterface.getMenuNumbers(),
+                            keyControls);
                 }
 
             } else {
                 update();
-                //Update list 1.
+                // Update list 1.
                 updateObstacles(obstacles, pointZoneY);
-                //Update list 2.
+                // Update list 2.
                 updateObstacles(obstacles2, pointZoneY2);
-                scrollPosition = scrollPosition + SCROLL_SPEED;
+                scrollPosition = scrollPosition + scrollSpeed;
                 SwingUtilities.invokeLater(this::repaint);
             }
 

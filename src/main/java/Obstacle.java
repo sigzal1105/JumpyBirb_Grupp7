@@ -1,9 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Obstacle {
@@ -54,7 +49,7 @@ public class Obstacle {
 
             //g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
                     //obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
-            g.drawImage(obstacle.img, (int) obstacle.getObstacleX(), obstacle.getObstacleY(),
+            g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
         }
     }

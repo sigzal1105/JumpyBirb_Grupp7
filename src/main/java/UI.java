@@ -37,7 +37,7 @@ public class UI implements ActionListener {
 
         JLabel text = new JLabel("     New score!");
         text.setForeground(Color.GREEN);
-        JLabel labelEnterName = new JLabel("Enter your name:");
+        JLabel labelEnterName = new JLabel("     Enter name:");
         labelEnterName.setForeground(Color.GREEN);
 
         inputPanel.add(text);
