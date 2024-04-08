@@ -96,8 +96,14 @@ public class Birb {
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
             
             birbVelocity = -10;
+<<<<<<< HEAD
             SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
             SOUND_PLAYER.stopSound();
+=======
+            //SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
+            //SOUND_PLAYER.stopSound();
+
+>>>>>>> 38fb978 (fixing things)
         }
         updateHitbox();
     }
