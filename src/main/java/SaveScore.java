@@ -1,17 +1,20 @@
-import java.awt.List;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SaveScore {
     private String highScore = "0";
-    // private List<String> scoreAndName = new List();
+    private List<ScoreEntry> usersList = new ArrayList<>();
     private String filePath = "Highscores/EasyHighScore.txt";
 
-    public void saveAndLoadScore(int panelScore, String userName, int menyNum, KeyControls keyControls) {
+    public void saveAndLoadScore(int panelScore, String userName, int menyNum, KeyControls keyControls,
+            ScoreEntry scoreEntry) {
 
         if (menyNum == 0 && keyControls.getMouseClick() || keyControls.getSpacebar()) {
             filePath = "Highscores/EasyHighScore.txt";
@@ -23,30 +26,42 @@ public class SaveScore {
 
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath))) {
             String line;
+            int i = 0;
 
             while ((line = reader.readLine()) != null) {
-
                 String[] points = line.split(" ");
 
-                if (Integer.parseInt(points[1]) < panelScore) {
-                    highScore = Integer.toString(panelScore);
-                    try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
-                        writer.write(userName + " " + Integer.toString(panelScore));
-                    } catch (IOException e) {
-                        System.err.println("Something went wrong in: " + filePath + e.getMessage());
-                    }
-                } else {
-                    highScore = line;
-                }
-
+                ScoreEntry listEntry = new ScoreEntry(points[0],points[1]);
+                usersList.add(listEntry);
+                
+                
+                // ScoreEntry scoreEntry = new ScoreEntry(userName, panelScore);
+                
             }
         } catch (IOException e) {
             System.err.println("Something went wrong" + e.getMessage());
         }
+        usersList.add(scoreEntry);
+        Collections.sort(usersList);
+        
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(filePath))) {
+    
+            for (ScoreEntry se : usersList) {
+    
+                writer.write(se.toString());
+            }
+        } catch (IOException e) {
+            System.err.println("Something went wrong in: " + filePath + e.getMessage());
+        }
+    }
 
+    public List<ScoreEntry> getUsersList() {
+        return usersList;
     }
 
     public String getHighScore() {
         return highScore;
     }
 }
+
+// writer.write(userName + " " + Integer.toString(panelScore));

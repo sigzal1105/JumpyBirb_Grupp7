@@ -18,8 +18,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Game start & Game over
     private boolean gameStart = false;
-    private boolean gameOver = false ;
+    private boolean gameOver = false;
     private boolean enterNameState = false;
+
+    ScoreEntry scoreEntry;
 
     // score
     private int panelScore = 0;
@@ -60,6 +62,37 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    private void mouseMenu(int x, int y) {
+
+        // EASY
+        if (x >= 110 && x <= 230 && y >= 440 && y <= 491) {
+
+            userInterface.setMenuNumbers(0);
+            Window.getGamePanel().restartGame(2, 200);
+        }
+
+        // NORMAL
+        else if (x >= 250 && x <= 370 && y >= 440 && y <= 491) {
+
+            userInterface.setMenuNumbers(1);
+            Window.getGamePanel().restartGame(3, 185);
+        }
+
+        // DEADLY
+        else if (x >= 110 && x <= 230 && y >= 500 && y <= 551) {
+
+            userInterface.setMenuNumbers(2);
+            Window.getGamePanel().restartGame(4, 170);
+        }
+
+        // QUIT
+        else if (x >= 250 && x <= 370 && y >= 500 && y <= 551) {
+
+            userInterface.setMenuNumbers(3);
+            StartGame.getWindow().exitGame();
+        }
+    }
+
     public GamePanel() {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -70,14 +103,17 @@ public class GamePanel extends JPanel implements Runnable {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                if (gameOver && userInterface.getUsername() != null) {
-                    int x = e.getX();
-                    int y = e.getY();
+                int x = e.getX();
+                int y = e.getY();
 
-                    if (x >= 100 && x <= 300 && y >= 100 && y <= 200) {
+                if (gameOver) {
 
-                        System.out.println("Hello");
-                    }
+                    mouseMenu(x, y);
+                }
+
+                else if (!gameStart) {
+
+                    mouseMenu(x, y);
                 }
             }
         });
@@ -91,7 +127,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
-        gameStart = false;
+        gameStart = true;
         gameOver = false;
         enterNameState = false;
 
@@ -135,6 +171,7 @@ public class GamePanel extends JPanel implements Runnable {
         Obstacle.drawObstacle(g, obstacles2, gameStart);
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
+        userInterface.drawStartMenu(g, gameStart, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         userInterface.menuSelectionColor(g, userInterface.getMENU_X(), userInterface.getMENU_Y(),
                 userInterface.getMENU_WIDTH(), userInterface.getMENU_HEIGHT());
@@ -266,20 +303,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     /**
      * update() is to be put in the run() method.
-     * These methods contain the controls to the birb.
+     * These methods contain the controls to the birb and menu.
      */
     void update() {
 
         if (!gameStart) {
-            if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-                gameStart = true;
-            }
+            userInterface.menuControls(keyControls);
             return;
         }
 
         if (gameOver) {
             userInterface.menuControls(keyControls);
-
         } else {
             birb.birbControls(keyControls);
         }
@@ -297,21 +331,23 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             if (enterNameState) {
-
                 this.add(userInterface.getInputPanel());
+                // scoreEntry = new ScoreEntry(userInterface.getUsername(),
+                // Integer.toString(panelScore));
                 userInterface.getInputPanel().setBounds(196, 311, 100, 100);
-                enterNameState = false;   
+
+                enterNameState = false;
             }
+
             // GAME OVER
             else if (gameOver) {
-                if (userInterface.getUsername() != null) {
 
-                    this.remove(userInterface.getInputPanel());
-                    update();
-                    SwingUtilities.invokeLater(this::repaint);
-                    highscore.saveAndLoadScore(panelScore, userInterface.getUsername(), userInterface.getMenuNumbers(),
-                            keyControls);
-                }
+                this.remove(userInterface.getInputPanel());
+                update();
+                SwingUtilities.invokeLater(this::repaint);
+                // highscore.saveAndLoadScore(panelScore, userInterface.getUsername(),
+                // userInterface.getMenuNumbers(),
+                // keyControls, scoreEntry);
 
             } else {
                 update();
