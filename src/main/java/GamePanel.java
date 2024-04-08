@@ -19,6 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean gameOver = false;
     private boolean enterNameState = false;
 
+    ScoreEntry scoreEntry;
+
     // score
     private int panelScore = 0;
     private final transient SaveScore highscore = new SaveScore();
@@ -28,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final transient KeyControls keyControls = new KeyControls();
 
     // UI
-    private final transient UI userInterface = new UI();
+    private transient UI userInterface = new UI();
 
     // Obstacles
     private final transient List<Obstacle> obstacles;
@@ -187,19 +189,19 @@ public class GamePanel extends JPanel implements Runnable {
         enterNameState = true;
         gameOver = true;
     }
-    
+
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStart) {
             return;
         }
-        
+
         Iterator<Obstacle> iterator = obstacles.iterator();
-        
+
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
             // This method runs if birb gets points.
             ifPassPointZone(obstacle, pointZone);
-            
+
             // This method runs if birb dies.
             ifDie(obstacle);
 
@@ -278,8 +280,8 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             if (enterNameState) {
-
                 this.add(userInterface.getInputPanel());
+                scoreEntry = new ScoreEntry(userInterface.getUsername(), Integer.toString(panelScore));
                 userInterface.getInputPanel().setBounds(196, 311, 100, 100);
                 enterNameState = false;
             } else if (gameOver) { // GAME OVER
@@ -289,7 +291,7 @@ public class GamePanel extends JPanel implements Runnable {
                     update();
                     SwingUtilities.invokeLater(this::repaint);
                     highscore.saveAndLoadScore(panelScore, userInterface.getUsername(), userInterface.getMenuNumbers(),
-                            keyControls);
+                            keyControls, scoreEntry);
                 }
 
             } else {

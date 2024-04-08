@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-hhh 3248
-=======
-bruh
-
-
-
- 576
->>>>>>> 38fb978 (fixing things)
+sdfg 7
+cvb 8
+dfghj 8
+vbn 67
+vbnm 6
