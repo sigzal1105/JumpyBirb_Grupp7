@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Obstacle {
@@ -8,7 +10,6 @@ public class Obstacle {
     private final int OBSTACLE_WIDTH = 100;
     private int obstacleHeight;
     private Image img;
-
 
     public Obstacle(Image img, int obstacleX, int obstacleY, int obstacleHeight) {
         this.img = img;
@@ -45,10 +46,13 @@ public class Obstacle {
             return;
         }
 
-        for (Obstacle obstacle : obstacles) {
+        List<Obstacle> obstaclesCopy = new ArrayList<>(obstacles);
 
-            //g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
-                    //obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws Obstacle hitbox for testing.
+        for (Obstacle obstacle : obstaclesCopy) {
+
+            // g.fillRect(obstacle.getObstacleX(), obstacle.getObstacleY(),
+            // obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight()); // Draws
+            // Obstacle hitbox for testing.
             g.drawImage(obstacle.img, obstacle.getObstacleX(), obstacle.getObstacleY(),
                     obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight(), null);
         }

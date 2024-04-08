@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public class SaveScore {
     private String highScore = "0";
@@ -20,7 +21,7 @@ public class SaveScore {
             filePath = "Highscores/DeadlyHighScore.txt";
         }
 
-        try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath));) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath))) {
             String line;
 
             while ((line = reader.readLine()) != null) {

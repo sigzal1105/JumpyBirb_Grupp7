@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Game start & Game over
     private boolean gameStart = false;
-    private boolean gameOver = false;
+    private boolean gameOver = false ;
     private boolean enterNameState = false;
 
     // score
@@ -64,6 +66,21 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyControls);
         this.addMouseListener(keyControls);
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (gameOver && userInterface.getUsername() != null) {
+                    int x = e.getX();
+                    int y = e.getY();
+
+                    if (x >= 100 && x <= 300 && y >= 100 && y <= 200) {
+
+                        System.out.println("Hello");
+                    }
+                }
+            }
+        });
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         this.obstacles2 = new ArrayList<>();
@@ -186,19 +203,19 @@ public class GamePanel extends JPanel implements Runnable {
         enterNameState = true;
         gameOver = true;
     }
-    
+
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStart) {
             return;
         }
-        
+
         Iterator<Obstacle> iterator = obstacles.iterator();
-        
+
         while (iterator.hasNext()) {
             Obstacle obstacle = iterator.next();
             // This method runs if birb gets points.
             ifPassPointZone(obstacle, pointZone);
-            
+
             // This method runs if birb dies.
             ifDie(obstacle);
 
@@ -283,7 +300,7 @@ public class GamePanel extends JPanel implements Runnable {
 
                 this.add(userInterface.getInputPanel());
                 userInterface.getInputPanel().setBounds(196, 311, 100, 100);
-                enterNameState = false;
+                enterNameState = false;   
             }
             // GAME OVER
             else if (gameOver) {

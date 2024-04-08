@@ -6,7 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class UI implements ActionListener {
-
+  
     private final SaveScore highscore = new SaveScore();
 
     String difficulty;
