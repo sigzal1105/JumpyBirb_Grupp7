@@ -15,11 +15,17 @@ public class UI implements ActionListener {
     String deadly = "Deadly";
     String quit = "Quit";
 
+    //Start menu
+    private final int START_MENU_X = 80;
+    private final int START_MENU_Y = 338;
+    private final int START_MENU_WIDTH = 480 - 160; // 320
+    private final int START_MENU_HEIGHT = 672 - (START_MENU_X+START_MENU_Y ); // 254
+
     // Menu
     private final int MENU_X = 80;
     private final int MENU_Y = 80;
-    private final int MENU_WIDTH = 480 - 160;
-    private final int MENU_HEIGHT = 672 - 160;
+    private final int MENU_WIDTH = 480 - 160; // 320
+    private final int MENU_HEIGHT = 672 - 160; // 512
 
     // Menu controls
     private int menuNumbers; // for the menu buttons
@@ -91,6 +97,23 @@ public class UI implements ActionListener {
         return MENU_HEIGHT;
     }
 
+
+    public void drawStartMenu(Graphics g, boolean gameStart, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+        if(!gameStart){
+            menuWindow(START_MENU_X, START_MENU_Y, START_MENU_WIDTH, START_MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+            gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+            String serif = "Serif";
+
+            int choose_levelY = START_MENU_Y + (g.getFont().getSize()) + 35;
+            String choose_level = "CHOOSE LEVEL";
+            g.setFont(new Font(serif, Font.PLAIN, 30));
+            g.setColor(Color.red);
+            g.drawString(choose_level, getXtextCenter(choose_level,g, SCREEN_WIDTH), choose_levelY);
+        }
+
+    }
+
     /**
      * @param g draws the current panelScore
      */
@@ -102,7 +125,7 @@ public class UI implements ActionListener {
 
         if (gameOver) {
 
-            menuWindow(MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT);
+            menuWindow(MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT, true);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             int you_diedY = 60;
@@ -172,7 +195,7 @@ public class UI implements ActionListener {
 
     // MENU
     public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH,
-            int SCREEN_HEIGHT) {
+            int SCREEN_HEIGHT, boolean gameOver) {
         int roundedCorner = 35;
 
         // Transparent rectangle
@@ -194,9 +217,56 @@ public class UI implements ActionListener {
         g.setColor(Color.black);
         g.fillRoundRect(menuX + 5, menuY + 5, menuWidth - 10, menuHeight - 10, roundedCorner - 10, roundedCorner - 10);
 
-        menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
+        if(gameOver) {
+            menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
+        }
+        else {
+            menuHeight = MENU_HEIGHT;
+            menuY = MENU_Y;
+            menuSelectionColor(g, menuHeight , menuWidth, menuX, menuY);
+        }
     }
 
+    /*
+     * Create buttons && ...
+     * When menuNumber changes then change button color
+     * */
+    public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
+
+        int buttonHeight = menuHeight/10; // 51
+        int buttonWidth = menuWidth - 200; // 120
+        int leftButtonX = menuX + 30; // 110
+        int rightButtonX = leftButtonX + buttonWidth + 20; // 250
+        int topButtonY = menuY + 360; // 440
+        int bottomButtonY = menuY + 420; // 500
+
+        makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+        makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
+
+        switch (menuNumbers) {
+            case 0:
+                makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                break;
+            case 1:
+                makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                break;
+            case 2:
+                makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                break;
+            case 3:
+                makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
+                break;
+            default:
+                System.err.println("Invalid menu button " + menuNumbers);
+                break;
+        }
+    }
+
+    /*
+    * Create the menu buttons placement, color and text depending on arguments
+    * */
     private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g,
             Color color) {
         int roundedCorner = 35;
@@ -231,38 +301,6 @@ public class UI implements ActionListener {
         }
     }
 
-    public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
-
-        int buttonHeight = menuHeight / 10;
-        int buttonWidth = menuWidth - 200;
-        int leftButtonX = menuX + 30;
-        int rightButtonX = leftButtonX + buttonWidth + 20;
-        int topButtonY = menuY + 360;
-        int bottomButtonY = menuY + 420;
-
-        makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-        makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.lightGray);
-
-        switch (menuNumbers) {
-            case 0:
-                makeButton(easy, leftButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                break;
-            case 1:
-                makeButton(normal, rightButtonX, topButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                break;
-            case 2:
-                makeButton(deadly, leftButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                break;
-            case 3:
-                makeButton(quit, rightButtonX, bottomButtonY, buttonWidth, buttonHeight, g, Color.cyan);
-                break;
-            default:
-                System.err.println("Invalid menu button " + menuNumbers);
-                break;
-        }
-    }
 
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {
@@ -281,7 +319,7 @@ public class UI implements ActionListener {
         } else if (keyControls.Left()) {
             menuNumbers = 2;
 
-        } else if (keyControls.getEnter()) {
+        } else if (keyControls.getSpacebar()) {
             StartGame.getWindow().exitGame();
         }
     }
@@ -291,7 +329,7 @@ public class UI implements ActionListener {
             menuNumbers = 0;
         } else if (keyControls.Right()) {
             menuNumbers = 3;
-        } else if (keyControls.getEnter()) {
+        } else if (keyControls.getSpacebar()) {
             Window.getGamePanel().restartGame(4, 170);
         }
     }
@@ -301,7 +339,7 @@ public class UI implements ActionListener {
             menuNumbers = 0;
         } else if (keyControls.Down()) {
             menuNumbers = 3;
-        } else if (keyControls.getEnter()) {
+        } else if (keyControls.getSpacebar()) {
             Window.getGamePanel().restartGame(3, 185);
         }
     }
@@ -311,7 +349,7 @@ public class UI implements ActionListener {
             menuNumbers = 2;
         } else if (keyControls.Right()) {
             menuNumbers = 1;
-        } else if (keyControls.getEnter()) {
+        } else if (keyControls.getSpacebar()) {
             Window.getGamePanel().restartGame(2, 200);
         }
     }
@@ -329,4 +367,5 @@ public class UI implements ActionListener {
             submitName();
         }
     }
+
 }

@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final transient KeyControls keyControls = new KeyControls();
 
     // UI
-    private transient UI userInterface = new UI();
+    private final transient UI userInterface = new UI();
 
     // Obstacles
     private final transient List<Obstacle> obstacles;
@@ -74,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
-        gameStart = false;
+        gameStart = true;
         gameOver = false;
         enterNameState = false;
 
@@ -118,6 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
         Obstacle.drawObstacle(g, obstacles2, gameStart);
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
+        userInterface.drawStartMenu(g, gameStart, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         userInterface.menuSelectionColor(g, userInterface.getMENU_X(), userInterface.getMENU_Y(),
                 userInterface.getMENU_WIDTH(), userInterface.getMENU_HEIGHT());
@@ -249,20 +250,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     /**
      * update() is to be put in the run() method.
-     * These methods contain the controls to the birb.
+     * These methods contain the controls to the birb and menu.
      */
     void update() {
 
         if (!gameStart) {
-            if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-                gameStart = true;
-            }
+            userInterface.menuControls(keyControls);
             return;
         }
 
         if (gameOver) {
             userInterface.menuControls(keyControls);
-
         } else {
             birb.birbControls(keyControls);
         }
@@ -284,9 +282,7 @@ public class GamePanel extends JPanel implements Runnable {
                 this.add(userInterface.getInputPanel());
                 userInterface.getInputPanel().setBounds(196, 311, 100, 100);
                 enterNameState = false;
-            }
-            // GAME OVER
-            else if (gameOver) {
+            } else if (gameOver) { // GAME OVER
                 if (userInterface.getUsername() != null) {
 
                     this.remove(userInterface.getInputPanel());
