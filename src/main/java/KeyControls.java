@@ -40,6 +40,11 @@ public class KeyControls implements KeyListener, MouseListener {
         return mouseClick;
     }
 
+    /**
+     * Handles key presses and sets corresponding boolean flags based on the pressed keys.
+     *
+     * @param e The KeyEvent object representing the key press event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -81,6 +86,11 @@ public class KeyControls implements KeyListener, MouseListener {
 
     }
 
+    /**
+     * Handles key releases and resets corresponding boolean flags based on the released keys.
+     *
+     * @param e The KeyEvent object representing the key release event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -94,6 +104,11 @@ public class KeyControls implements KeyListener, MouseListener {
         }
     }
 
+    /**
+     * Handles mouse releases and resets the mouseClick flag when the left mouse button is released.
+     *
+     * @param e The MouseEvent object representing the mouse release event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -101,6 +116,11 @@ public class KeyControls implements KeyListener, MouseListener {
         }
     }
 
+    /**
+     * Handles mouse presses and sets the mouseClick flag to true when the left mouse button is pressed.
+     *
+     * @param e The MouseEvent object representing the mouse press event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
