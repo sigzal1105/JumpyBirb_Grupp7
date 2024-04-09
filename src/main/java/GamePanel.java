@@ -63,6 +63,12 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    /**
+     * Handles mouse events for menu interaction.
+     *
+     * @param x The x-coordinate of the mouse click.
+     * @param y The y-coordinate of the mouse click.
+     */
     private void mouseMenu(int x, int y) {
 
         // EASY
@@ -94,6 +100,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Constructor for GamePanel.
+     */
     public GamePanel() {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -111,12 +120,12 @@ public class GamePanel extends JPanel implements Runnable {
 
                     mouseMenu(x, y);
                 }
-
                 else if (!gameStart) {
                     mouseMenu(x, y);
                 }
             }
         });
+
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         this.obstacles2 = new ArrayList<>();
@@ -130,27 +139,32 @@ public class GamePanel extends JPanel implements Runnable {
         userInterface.getInputPanel().setVisible(false);
     }
 
+    /**
+     * Restarts the game with the selected scroll speed and space between obstacles.
+     *
+     * @param selectedScrollSpeed The selected scroll speed for the game.
+     * @param selectedSpaceBetweenObstacles The selected space between obstacles.
+     */
     public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
         gameStart = true;
         gameOver = false;
         enterNameState = false;
-
         scrollSpeed = selectedScrollSpeed;
         spaceBetweenObstacles = selectedSpaceBetweenObstacles;
 
-        // reset score
+        // Reset score
         panelScore = 0;
 
-        // reset scroll position
+        // Reset scroll position
         scrollPosition = 0;
 
-        // reset images
+        // Reset images
         backgroundImage = new ImageIcon("Images/BackgroundStart2.png").getImage();
         groundImage = new ImageIcon("Images/ground_flowers.png").getImage();
         bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
         topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
 
-        // reset birb and hitbox position
+        // Reset birb and hitbox position
         birb.reset();
 
         // Clear obstacles lists and add new obstacles
@@ -159,12 +173,19 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
 
+        // Reset user interface
         userInterface.setUsername(null);
         this.add(userInterface.getInputPanel());
         userInterface.getInputPanel().setBounds(196, 311, 100, 100);
         userInterface.getInputPanel().setVisible(false);
 
-        // Restart the game thread
+        restartGameThread();
+    }
+
+    /**
+     * Restarts the game thread if it is not currently alive.
+     */
+    private void restartGameThread() {
         if (gameThread != null && !gameThread.isAlive()) {
             gameThread = new Thread(this);
             gameThread.start();
@@ -187,7 +208,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * @param g This method loops the ground tiles.
+     * Draws the ground tiles on the game panel.
+     *
+     * @param g The graphics context used for drawing.
      */
     private void drawGround(Graphics g) {
         int visibleTiles = (SCREEN_WIDTH / TILE_SIZE) + 2;
@@ -200,6 +223,13 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Adds obstacles to the specified list at the given x-coordinate.
+     *
+     * @param x          The x-coordinate at which to add the obstacles.
+     * @param obstacles  The list of obstacles to add to.
+     * @param pointZone  The y-coordinate of the point zone used for scoring.
+     */
     private void addObstacles(int x, List<Obstacle> obstacles, int pointZone) {
         int topObstY = 0;
         int randBottomHeight = ThreadLocalRandom.current().nextInt(SCREEN_HEIGHT / 4, (SCREEN_HEIGHT / 4) * 3);
@@ -216,6 +246,13 @@ public class GamePanel extends JPanel implements Runnable {
         obstacles.add(new Obstacle(bottomObstacle, x, bottomObstY, randBottomHeight));
     }
 
+    /**
+     * Checks if the birb passes through the point zone of the obstacle and updates the score.
+     * If the birb passes through the point zone, increments the score and may change the background.
+     *
+     * @param obstacle   The obstacle to check.
+     * @param pointZone  The y-coordinate of the point zone.
+     */
     private void ifPassPointZone(Obstacle obstacle, int pointZone) {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
                 obstacle.getOBSTACLE_WIDTH(), spaceBetweenObstacles);
@@ -227,6 +264,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Checks if the birb collides with the obstacle or hits the edges of the window, resulting in game over.
+     *
+     * @param obstacle  The obstacle to check collision with.
+     */
     private void ifDie(Obstacle obstacle) {
         Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
                 obstacle.getOBSTACLE_WIDTH(), obstacle.getObstacleHeight());
@@ -242,6 +284,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Actions to be performed after the birb's death, including playing death sound,
+     * stopping background sound, setting birb state to dead, and managing game states.
+     */
     private void afterDeath() {
 
         SOUND_PLAYER.playSound(SOUND_PLAYER.getClipDeath());
@@ -251,6 +297,13 @@ public class GamePanel extends JPanel implements Runnable {
         gameOver = true;
     }
 
+    /**
+     * Updates the positions of obstacles and checks for birb interactions.
+     * If the game has not started, no updates are performed.
+     *
+     * @param obstacles  The list of obstacles to update.
+     * @param pointZone  The y-coordinate of the point zone.
+     */
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStart) {
             return;
@@ -277,6 +330,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Removes the current obstacle and its corresponding bottom obstacle from the iterator.
+     *
+     * @param iterator  The iterator containing the obstacles.
+     */
     private static void removeObstacle(Iterator<Obstacle> iterator) {
         iterator.remove(); // Remove the current obstacle
         if (iterator.hasNext()) {
@@ -285,6 +343,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Changes the background and obstacle images based on the current score,
+     * adjusting the scroll speed accordingly.
+     */
     private void changeBackground() {
         if (panelScore > 300 && panelScore < 800) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
@@ -329,6 +391,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * The main game loop that updates the game state and renders the screen.
+     */
     @Override
     public void run() {
 
@@ -340,16 +405,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (gameThread != null) {
 
+            // Show input panel if entering name
             if (enterNameState) {
-
                 userInterface.getInputPanel().setVisible(true);
                 enterNameState = false;
                 idk = true;
             }
-
-            // GAME OVER
+            // Handle game over state
             else if (gameOver && !enterNameState) {
-
+                // Save and load scores if username is provided
                 if (userInterface.getUsername() != null) {
                     if (idk) {
 
@@ -365,6 +429,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             } else {
                 update();
+                // Update obstacles
                 // Update list 1.
                 updateObstacles(obstacles, pointZoneY);
                 // Update list 2.
@@ -374,7 +439,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             try {
-
+                // Calculate time until next frame
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;
 

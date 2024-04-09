@@ -38,6 +38,16 @@ public class UI implements ActionListener {
     // Name input
     private String username;
 
+    /**
+     * Constructs a new UI object.
+     * This constructor initializes the UI components:
+     * including a panel for input,
+     * a label for displaying a new score message,
+     * a label prompting the user to enter their name,
+     * a text field for entering the name,
+     * and a button for submitting the name.
+     * It also sets up event listeners for the name input field and the submit button.
+     */
     public UI() {
 
         inputPanel.setLayout(new GridLayout(0, 1));
@@ -105,6 +115,14 @@ public class UI implements ActionListener {
         return MENU_HEIGHT;
     }
 
+    /**
+     * This method is responsible for rendering the start menu, including the option to choose a level,
+     * when the game is initiated.
+     *
+     * @param g The Graphics object used for rendering.
+     * @param gameStart A boolean indicating whether the game has started or not.
+     * @param gamePanel The GamePanel object associated with the game.
+     */
     public void drawStartMenu(Graphics g, boolean gameStart, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         if (!gameStart) {
             menuWindow(START_MENU_X, START_MENU_Y, START_MENU_WIDTH, START_MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -119,11 +137,16 @@ public class UI implements ActionListener {
             g.setColor(Color.red);
             g.drawString(choose_level, getXtextCenter(choose_level, g, SCREEN_WIDTH), choose_levelY);
         }
-
     }
 
     /**
-     * @param g draws the current panelScore
+     * Draw the current panelScore and game over screen if the game is over.
+     *
+     * @param g The Graphics object used for rendering.
+     * @param panelScore The current score to be displayed.
+     * @param gameOver A boolean indicating whether the game is over or not.
+     * @param gamePanel The GamePanel object associated with the game.
+     * @param idk An instance of SaveScore (not clear what it represents).
      */
     public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT, SaveScore idk) {
         String panelScoreString = Integer.toString(panelScore);
@@ -168,7 +191,7 @@ public class UI implements ActionListener {
             g.setFont(new Font(serif, Font.BOLD, 18));
             g.setColor(Color.yellow);
             g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); // Current
-                                                                                                                   // Score
+            // Score
 
             for (int i = 85; i <= 225; i = i + 35) {
 
@@ -185,11 +208,25 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Calculates the x-coordinate for centering text horizontally on the screen.
+     *
+     * @param text The text whose center position needs to be calculated.
+     * @return The x-coordinate for centering the text.
+     */
     private int getXtextCenter(String text, Graphics g, int SCREEN_WIDTH) {
         int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
         return SCREEN_WIDTH / 2 - length / 2;
     }
 
+    /**
+     * Calculates the x-coordinate for centering text horizontally on the screen,
+     * either towards the left or right side.
+     *
+     * @param text The text whose center position needs to be calculated.
+     * @param username A boolean indicating whether the text is for a username (left) or not (right).
+     * @return The x-coordinate for centering the text.
+     */
     private int getXnameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
         if (username) {// left text
             int length = (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
@@ -200,9 +237,13 @@ public class UI implements ActionListener {
         }
     }
 
-    // MENU
+    /**
+     * Renders a menu window on the screen.
+     *
+     * @param gameOver A boolean indicating whether the game is over or not.
+     */
     public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH,
-            int SCREEN_HEIGHT, boolean gameOver) {
+                           int SCREEN_HEIGHT, boolean gameOver) {
         int roundedCorner = 35;
 
         // Transparent rectangle
@@ -233,9 +274,8 @@ public class UI implements ActionListener {
         }
     }
 
-    /*
-     * Create buttons && ...
-     * When menuNumber changes then change button color
+    /**
+     * Adjusts button colors based on the current menu selection.
      */
     public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
 
@@ -270,11 +310,14 @@ public class UI implements ActionListener {
         }
     }
 
-    /*
-     * Create the menu buttons placement, color and text depending on arguments
+    /**
+     * Creates a button with the specified level, position, dimensions, and color.
+     *
+     * @param level The text displayed on the button.
+     * @param color The color of the button.
      */
     private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g,
-            Color color) {
+                            Color color) {
         int roundedCorner = 35;
 
         g.setColor(color);
@@ -307,6 +350,11 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Controls menu navigation based on the current menu selection.
+     *
+     * @param keyControls The KeyControls object used for menu navigation.
+     */
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {
 
@@ -318,6 +366,11 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Handles button actions for the quit button.
+     *
+     * @param keyControls The KeyControls object used for button actions.
+     */
     private void handleQuitButton(KeyControls keyControls) {
         if (keyControls.Up()) {
             menuNumbers = 1;
@@ -329,6 +382,9 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Handles button actions for the deadly button.
+     */
     private void handleDeadlyButton(KeyControls keyControls) {
         if (keyControls.Up()) {
             menuNumbers = 0;
@@ -339,6 +395,9 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Handles button actions for the normal button.
+     */
     private void handleNormalButton(KeyControls keyControls) {
         if (keyControls.Left()) {
             menuNumbers = 0;
@@ -349,6 +408,9 @@ public class UI implements ActionListener {
         }
     }
 
+    /**
+     * Handles button actions for the easy button.
+     */
     public void handleEasyButton(KeyControls keyControls) {
         if (keyControls.Down()) {
             menuNumbers = 2;
