@@ -9,6 +9,9 @@ public class SoundPlayer {
     private Clip clip;
     private boolean isPlaying = false;
 
+    /**
+     * Initializes the SoundPlayer by loading audio clips.
+     */
     public SoundPlayer() {
         try {
             AudioInputStream audioISJump = AudioSystem.getAudioInputStream(new File("SoundFiles/Jump.wav"));
@@ -35,6 +38,11 @@ public class SoundPlayer {
         return clipDeath;
     }
 
+    /**
+     * Plays the specified sound clip.
+     *
+     * @param clip The Clip to play
+     */
     public void playSound(Clip clip) {
         try {
             if (clip != null) {
@@ -50,6 +58,9 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Stops any currently playing sound clips.
+     */
     public void stopSound() {
         if (clipJump != null && clipJump.isRunning()) {
             clipJump.stop();
