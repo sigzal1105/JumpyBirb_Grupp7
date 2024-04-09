@@ -112,7 +112,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
 
                 else if (!gameStart) {
-
                     mouseMenu(x, y);
                 }
             }
@@ -276,7 +275,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void changeBackground() {
-        if (panelScore > 3000 && panelScore < 5000) {
+        if (panelScore > 300 && panelScore < 800) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
             switch (spaceBetweenObstacles) {
                 case 170 -> scrollSpeed = 5;
@@ -286,7 +285,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
-        if (panelScore >= 5000) {
+        if (panelScore >= 800) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
