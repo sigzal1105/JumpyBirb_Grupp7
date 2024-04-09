@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Constructor for GamePanel.
      */
     public GamePanel() {
+        SOUND_PLAYER.playSound(SOUND_PLAYER.getClipBackground());
         this.setLayout(null);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
