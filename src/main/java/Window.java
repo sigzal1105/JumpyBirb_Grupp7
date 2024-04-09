@@ -5,9 +5,12 @@ public class Window {
 
     JFrame window = new JFrame();
     private static GamePanel gamePanel;
-    
+
+    /**
+     * Constructs the game window.
+     */
     public Window() {
-        
+
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Jumpy Birb");
@@ -23,10 +26,18 @@ public class Window {
         gamePanel.startGame();
     }
 
+    /**
+     * Retrieves the game panel instance.
+     *
+     * @return The game panel instance
+     */
     public static GamePanel getGamePanel(){
         return gamePanel;
     }
 
+    /**
+     * Exits the game by disposing the window and exiting the program.
+     */
     public void exitGame() {
         window.dispose();
         System.exit(0);
