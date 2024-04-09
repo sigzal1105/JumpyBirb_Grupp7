@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean gameStart = false;
     private boolean gameOver = false;
     private boolean enterNameState = false;
-    private boolean idk = false;
+    private boolean enterScoreState = false;
 
     ScoreEntry scoreEntry;
 
@@ -109,7 +109,9 @@ public class GamePanel extends JPanel implements Runnable {
 
                 if (gameOver) {
 
-                    mouseMenu(x, y);
+                    if (userInterface.getUsername() != null) {
+                        mouseMenu(x, y);
+                    }
                 }
 
                 else if (!gameStart) {
@@ -121,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         this.obstacles2 = new ArrayList<>();
+
         // Adds to list 1.
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         // Adds to list 2.
@@ -345,18 +348,18 @@ public class GamePanel extends JPanel implements Runnable {
 
                 userInterface.getInputPanel().setVisible(true);
                 enterNameState = false;
-                idk = true;
+                enterScoreState = true;
             }
 
             // GAME OVER
             else if (gameOver && !enterNameState) {
 
                 if (userInterface.getUsername() != null) {
-                    if (idk) {
+                    if (enterScoreState) {
 
                         scoreEntry = new ScoreEntry(userInterface.getUsername(), panelScore);
                         highscore.saveAndLoadScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
-                        idk = false;
+                        enterScoreState = false;
                         continue;
                     }
                     this.remove(userInterface.getInputPanel());

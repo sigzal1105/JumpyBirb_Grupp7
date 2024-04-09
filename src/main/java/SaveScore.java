@@ -56,6 +56,7 @@ public class SaveScore {
                     break;
                 }
 
+                System.out.println(scoreEntry2);
                 writeScore.add(scoreEntry2);
             }
 
