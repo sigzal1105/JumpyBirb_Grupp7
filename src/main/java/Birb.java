@@ -95,7 +95,6 @@ public class Birb {
 
             birbVelocity = -10;
             SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
-            //SOUND_PLAYER.stopSound();
 
         }
         updateHitbox();

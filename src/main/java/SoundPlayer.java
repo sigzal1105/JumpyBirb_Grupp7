@@ -6,8 +6,7 @@ import javax.sound.sampled.Clip;
 public class SoundPlayer {
     private Clip clipJump;
     private Clip clipDeath;
-    private Clip clip;
-    private boolean isPlaying = false;
+    private Clip clipBackground;
 
     /**
      * Initializes the SoundPlayer by loading audio clips.
@@ -16,6 +15,7 @@ public class SoundPlayer {
         try {
             AudioInputStream audioISJump = AudioSystem.getAudioInputStream(new File("SoundFiles/Jump.wav"));
             AudioInputStream audioISDeath = AudioSystem.getAudioInputStream(new File("SoundFiles/Explosion.wav"));
+            AudioInputStream audioISBackground = AudioSystem.getAudioInputStream(new File("SoundFiles/BackgroundSound.wav"));
 
             // Öppna Clips för ljudklippen
             clipJump = AudioSystem.getClip();
@@ -23,6 +23,9 @@ public class SoundPlayer {
 
             clipDeath = AudioSystem.getClip();
             clipDeath.open(audioISDeath);
+
+            clipBackground = AudioSystem.getClip();
+            clipBackground.open(audioISBackground);
 
         } catch (Exception ex) {
             System.err.println("Error loading clips: " + ex.getMessage());
@@ -38,11 +41,17 @@ public class SoundPlayer {
         return clipDeath;
     }
 
+
     /**
      * Plays the specified sound clip.
      *
      * @param clip The Clip to play
      */
+
+    public Clip getClipBackground(){
+        return clipBackground;
+    }
+
     public void playSound(Clip clip) {
         try {
             if (clip != null) {
