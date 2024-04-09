@@ -21,7 +21,6 @@ public class SaveScore {
      * @param scoreEntry  The ScoreEntry to be saved
      */
     public void saveAndLoadScore(int menuNum, KeyControls keyControls, ScoreEntry scoreEntry) {
-
         writeScore.clear();
         filePath = determineFilePath(menuNum, keyControls);
         writeScoreToFile(scoreEntry, filePath);
@@ -79,11 +78,15 @@ public class SaveScore {
             String line;
             List<ScoreEntry> usersList = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
+                // Split each line into username and score
                 String[] points = line.split(" ");
+                // Create a ScoreEntry object from the data and add it to the list
                 ScoreEntry listEntry = new ScoreEntry(points[0], Integer.parseInt(points[1]));
                 usersList.add(listEntry);
             }
+            // Sort the list based on scores
             Collections.sort(usersList);
+            // Add the top 5 scores to the writeScore list
             for (ScoreEntry scoreEntry2 : usersList) {
                 if (usersList.size() > 5) {
                     break;
@@ -91,9 +94,11 @@ public class SaveScore {
                 writeScore.add(scoreEntry2);
             }
         } catch (IOException e) {
-            System.err.println("Something went wrong" + e.getMessage());
+            // Handle IOException
+            System.err.println("Error loading scores from file: " + e.getMessage());
         }
     }
+
 
     public List<ScoreEntry> getWriteScore() {
         return writeScore;

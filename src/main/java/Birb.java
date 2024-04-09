@@ -50,6 +50,9 @@ public class Birb {
         this.dead = dead;
     }
 
+    /**
+     * Resets the birb to its initial state.
+     */
     public void reset() {
         birbY = 278;
         sprite = new ImageIcon("Images/birb_sprite.png").getImage();
@@ -59,7 +62,11 @@ public class Birb {
     }
 
     /**
-     * @param g This method draws the birb.
+     * Draws the birb.
+     *
+     * @param g     The graphics context to draw on.
+     * @param keyControls The key controls for the birb.
+     * @param dead  A boolean indicating whether the birb is dead.
      */
     public void drawBirb(Graphics g, KeyControls keyControls, boolean dead) {
 
@@ -82,22 +89,40 @@ public class Birb {
                 BIRB_WIDTH, BIRB_HEIGHT, null);
     }
 
+    /**
+     * Simulates the birb's flight.
+     * Adjusts the birb's velocity and position based on gravity.
+     */
     private void flight() {
+        // Update birb's velocity with gravity
         birbVelocity = birbVelocity + BIRB_GRAVITY;
+
+        // Update birb's position based on velocity
         birbY = birbY + birbVelocity;
         hitboxY = hitboxY + birbVelocity;
     }
 
+
+    /**
+     * Handles birb's controls.
+     * Updates birb's flight, velocity, and hitbox based on user input.
+     * Plays jump sound when birb jumps.
+     *
+     * @param keyControls The KeyControls object handling user input.
+     */
     public void birbControls(KeyControls keyControls) {
+        // Simulate birb's flight
         flight();
 
+        // Check for jump input
         if (keyControls.getSpacebar() || keyControls.getMouseClick()) {
-
-            birbVelocity = -10;
+            // Birb jumps
+            birbVelocity = -10; // Set birb's velocity to a negative value to make it jump
+            // Play jump sound
             SOUND_PLAYER.playSound(SOUND_PLAYER.getClipJump());
-            //SOUND_PLAYER.stopSound();
-
         }
+
         updateHitbox();
     }
+
 }
