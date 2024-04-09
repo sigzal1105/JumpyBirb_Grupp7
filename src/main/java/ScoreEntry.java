@@ -2,35 +2,35 @@ import java.util.Comparator;
 
 public class ScoreEntry implements Comparable<ScoreEntry> {
 
-    private String name;
-    private String score;
+	private String name;
+	private int score;
 
-    public ScoreEntry(String name, String score) {
-        this.name = name;
-        this.score = score;
-    }
+	public ScoreEntry(String name, int score) {
+		this.name = name;
+		this.score = score;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("%s %s%n", name, score);
-    }
+	@Override
+	public String toString() {
+		return String.format("%s %s%n", name, score);
+	}
 
-    @Override
-    public int compareTo(ScoreEntry o) {
-        Comparator<ScoreEntry> comp = Comparator.comparing(ScoreEntry::getScore).reversed();
-        return comp.compare(this, o);
-    }
+	@Override
+	public int compareTo(ScoreEntry o) {
+		Comparator<ScoreEntry> comp = Comparator.comparing(ScoreEntry::getScore).reversed();
+		return comp.compare(this, o);
+	}
 
-    public String getScore() {
-        return score;
-    }
+	public int getScore() {
+		return score;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((score == null) ? 0 : score.hashCode());
+		result = prime * result + score;
 		return result;
 	}
 
@@ -48,10 +48,7 @@ public class ScoreEntry implements Comparable<ScoreEntry> {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (score == null) {
-			if (other.score != null)
-				return false;
-		} else if (!score.equals(other.score))
+		if (score != other.score)
 			return false;
 		return true;
 	}

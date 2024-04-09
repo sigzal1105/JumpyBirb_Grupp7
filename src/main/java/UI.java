@@ -6,7 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class UI implements ActionListener {
-  
+
     private final SaveScore highscore = new SaveScore();
 
     String difficulty;
@@ -15,11 +15,11 @@ public class UI implements ActionListener {
     String deadly = "Deadly";
     String quit = "Quit";
 
-    //Start menu
+    // Start menu
     private final int START_MENU_X = 80;
     private final int START_MENU_Y = 338;
     private final int START_MENU_WIDTH = 480 - 160; // 320
-    private final int START_MENU_HEIGHT = 672 - (START_MENU_X+START_MENU_Y ); // 254
+    private final int START_MENU_HEIGHT = 672 - (START_MENU_X + START_MENU_Y); // 254
 
     // Menu
     private final int MENU_X = 80;
@@ -61,7 +61,7 @@ public class UI implements ActionListener {
                 }
             }
         });
-        
+
         submitNameButton.addActionListener(this);
     }
 
@@ -77,11 +77,13 @@ public class UI implements ActionListener {
         this.inputPanel = inputPanel;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public int getMenuNumbers() {
         return menuNumbers;
     }
-
-    
 
     public void setMenuNumbers(int menuNumbers) {
         this.menuNumbers = menuNumbers;
@@ -103,10 +105,10 @@ public class UI implements ActionListener {
         return MENU_HEIGHT;
     }
 
-
     public void drawStartMenu(Graphics g, boolean gameStart, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
-        if(!gameStart){
-            menuWindow(START_MENU_X, START_MENU_Y, START_MENU_WIDTH, START_MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+        if (!gameStart) {
+            menuWindow(START_MENU_X, START_MENU_Y, START_MENU_WIDTH, START_MENU_HEIGHT, g, SCREEN_WIDTH, SCREEN_HEIGHT,
+                    false);
             gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             String serif = "Serif";
@@ -115,7 +117,7 @@ public class UI implements ActionListener {
             String choose_level = "CHOOSE LEVEL";
             g.setFont(new Font(serif, Font.PLAIN, 30));
             g.setColor(Color.red);
-            g.drawString(choose_level, getXtextCenter(choose_level,g, SCREEN_WIDTH), choose_levelY);
+            g.drawString(choose_level, getXtextCenter(choose_level, g, SCREEN_WIDTH), choose_levelY);
         }
 
     }
@@ -123,10 +125,9 @@ public class UI implements ActionListener {
     /**
      * @param g draws the current panelScore
      */
-    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
-            int SCREEN_HEIGHT) {
+    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT, SaveScore idk) {
         String panelScoreString = Integer.toString(panelScore);
-        String printName = highscore.getHighScore(); //Här har jag ändrat från ulf!/TF
+        String printName = highscore.getHighScore(); // Här har jag ändrat från ulf!/TF
         String serif = "Serif";
 
         if (gameOver) {
@@ -170,10 +171,10 @@ public class UI implements ActionListener {
                                                                                                                    // Score
 
             for (int i = 85; i <= 225; i = i + 35) {
+
                 g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH),
                         highscoreY + i);
                 g.drawString(printName, getXnameCenter(printName, g, true, SCREEN_WIDTH), highscoreY + i);
-
             }
 
         } else {
@@ -223,23 +224,22 @@ public class UI implements ActionListener {
         g.setColor(Color.black);
         g.fillRoundRect(menuX + 5, menuY + 5, menuWidth - 10, menuHeight - 10, roundedCorner - 10, roundedCorner - 10);
 
-        if(gameOver) {
+        if (gameOver) {
             menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
-        }
-        else {
+        } else {
             menuHeight = MENU_HEIGHT;
             menuY = MENU_Y;
-            menuSelectionColor(g, menuHeight , menuWidth, menuX, menuY);
+            menuSelectionColor(g, menuHeight, menuWidth, menuX, menuY);
         }
     }
 
     /*
      * Create buttons && ...
      * When menuNumber changes then change button color
-     * */
+     */
     public void menuSelectionColor(Graphics g, int menuHeight, int menuWidth, int menuX, int menuY) {
 
-        int buttonHeight = menuHeight/10; // 51
+        int buttonHeight = menuHeight / 10; // 51
         int buttonWidth = menuWidth - 200; // 120
         int leftButtonX = menuX + 30; // 110
         int rightButtonX = leftButtonX + buttonWidth + 20; // 250
@@ -271,8 +271,8 @@ public class UI implements ActionListener {
     }
 
     /*
-    * Create the menu buttons placement, color and text depending on arguments
-    * */
+     * Create the menu buttons placement, color and text depending on arguments
+     */
     private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g,
             Color color) {
         int roundedCorner = 35;
@@ -306,7 +306,6 @@ public class UI implements ActionListener {
             throw new IllegalArgumentException();
         }
     }
-
 
     public void menuControls(KeyControls keyControls) {
         switch (menuNumbers) {
@@ -369,7 +368,7 @@ public class UI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == submitNameButton) {
-            
+
             submitName();
         }
     }

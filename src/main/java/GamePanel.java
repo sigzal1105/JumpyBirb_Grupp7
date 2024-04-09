@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean gameStart = false;
     private boolean gameOver = false;
     private boolean enterNameState = false;
+    private boolean idk = false;
 
     ScoreEntry scoreEntry;
 
@@ -123,6 +124,10 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         // Adds to list 2.
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
+
+        this.add(userInterface.getInputPanel());
+        userInterface.getInputPanel().setBounds(196, 311, 100, 100);
+        userInterface.getInputPanel().setVisible(false);
     }
 
     public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
@@ -154,6 +159,11 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
 
+        userInterface.setUsername(null);
+        this.add(userInterface.getInputPanel());
+        userInterface.getInputPanel().setBounds(196, 311, 100, 100);
+        userInterface.getInputPanel().setVisible(false);
+
         // Restart the game thread
         if (gameThread != null && !gameThread.isAlive()) {
             gameThread = new Thread(this);
@@ -166,12 +176,12 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT + 50, null);
+        userInterface.drawStartMenu(g, gameStart, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         Obstacle.drawObstacle(g, obstacles, gameStart);
         Obstacle.drawObstacle(g, obstacles2, gameStart);
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
-        userInterface.drawStartMenu(g, gameStart, this, SCREEN_WIDTH, SCREEN_HEIGHT);
-        userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
+        userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT, highscore);
         userInterface.menuSelectionColor(g, userInterface.getMENU_X(), userInterface.getMENU_Y(),
                 userInterface.getMENU_WIDTH(), userInterface.getMENU_HEIGHT());
     }
@@ -233,6 +243,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void afterDeath() {
+
         SOUND_PLAYER.playSound(SOUND_PLAYER.getClipDeath());
         SOUND_PLAYER.stopSound();
         birb.setDead(true);
@@ -330,23 +341,27 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             if (enterNameState) {
-                this.add(userInterface.getInputPanel());
-                // scoreEntry = new ScoreEntry(userInterface.getUsername(),
-                // Integer.toString(panelScore));
-                userInterface.getInputPanel().setBounds(196, 311, 100, 100);
 
+                userInterface.getInputPanel().setVisible(true);
                 enterNameState = false;
+                idk = true;
             }
 
             // GAME OVER
-            else if (gameOver) {
+            else if (gameOver && !enterNameState) {
 
-                this.remove(userInterface.getInputPanel());
-                update();
-                SwingUtilities.invokeLater(this::repaint);
-                // highscore.saveAndLoadScore(panelScore, userInterface.getUsername(),
-                // userInterface.getMenuNumbers(),
-                // keyControls, scoreEntry);
+                if (userInterface.getUsername() != null) {
+                    if (idk) {
+
+                        scoreEntry = new ScoreEntry(userInterface.getUsername(), panelScore);
+                        highscore.saveAndLoadScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
+                        idk = false;
+                        continue;
+                    }
+                    this.remove(userInterface.getInputPanel());
+                    update();
+                    SwingUtilities.invokeLater(this::repaint);
+                }
 
             } else {
                 update();

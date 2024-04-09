@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 public class StartGame {
     private static Window window;
 
