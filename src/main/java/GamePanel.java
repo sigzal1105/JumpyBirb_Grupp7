@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean gameStart = false;
     private boolean gameOver = false;
     private boolean enterNameState = false;
-    private boolean idk = false;
+    private boolean enterScoreState = false;
 
     ScoreEntry scoreEntry;
 
@@ -119,9 +119,10 @@ public class GamePanel extends JPanel implements Runnable {
 
                 if (gameOver) {
 
-                    mouseMenu(x, y);
-                }
-                else if (!gameStart) {
+                    if (userInterface.getUsername() != null) {
+                        mouseMenu(x, y);
+                    }
+                } else if (!gameStart) {
                     mouseMenu(x, y);
                 }
             }
@@ -130,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.obstacles = new ArrayList<>();
         this.obstacles2 = new ArrayList<>();
+
         // Adds to list 1.
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         // Adds to list 2.
@@ -143,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Restarts the game with the selected scroll speed and space between obstacles.
      *
-     * @param selectedScrollSpeed The selected scroll speed for the game.
+     * @param selectedScrollSpeed           The selected scroll speed for the game.
      * @param selectedSpaceBetweenObstacles The selected space between obstacles.
      */
     public void restartGame(int selectedScrollSpeed, int selectedSpaceBetweenObstacles) {
@@ -227,9 +229,9 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Adds obstacles to the specified list at the given x-coordinate.
      *
-     * @param x          The x-coordinate at which to add the obstacles.
-     * @param obstacles  The list of obstacles to add to.
-     * @param pointZone  The y-coordinate of the point zone used for scoring.
+     * @param x         The x-coordinate at which to add the obstacles.
+     * @param obstacles The list of obstacles to add to.
+     * @param pointZone The y-coordinate of the point zone used for scoring.
      */
     private void addObstacles(int x, List<Obstacle> obstacles, int pointZone) {
         int topObstY = 0;
@@ -248,11 +250,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Checks if the birb passes through the point zone of the obstacle and updates the score.
-     * If the birb passes through the point zone, increments the score and may change the background.
+     * Checks if the birb passes through the point zone of the obstacle and updates
+     * the score.
+     * If the birb passes through the point zone, increments the score and may
+     * change the background.
      *
-     * @param obstacle   The obstacle to check.
-     * @param pointZone  The y-coordinate of the point zone.
+     * @param obstacle  The obstacle to check.
+     * @param pointZone The y-coordinate of the point zone.
      */
     private void ifPassPointZone(Obstacle obstacle, int pointZone) {
         Rectangle pointZoneHitbox = new Rectangle(obstacle.getObstacleX(), pointZone,
@@ -266,9 +270,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Checks if the birb collides with the obstacle or hits the edges of the window, resulting in game over.
+     * Checks if the birb collides with the obstacle or hits the edges of the
+     * window, resulting in game over.
      *
-     * @param obstacle  The obstacle to check collision with.
+     * @param obstacle The obstacle to check collision with.
      */
     private void ifDie(Obstacle obstacle) {
         Rectangle obstacleHitbox = new Rectangle(obstacle.getObstacleX(), obstacle.getObstacleY(),
@@ -286,8 +291,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Actions to be performed after the birb's death, including playing death sound,
-     * stopping background sound, setting birb state to dead, and managing game states.
+     * Actions to be performed after the birb's death, including playing death
+     * sound,
+     * stopping background sound, setting birb state to dead, and managing game
+     * states.
      */
     private void afterDeath() {
 
@@ -302,8 +309,8 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the positions of obstacles and checks for birb interactions.
      * If the game has not started, no updates are performed.
      *
-     * @param obstacles  The list of obstacles to update.
-     * @param pointZone  The y-coordinate of the point zone.
+     * @param obstacles The list of obstacles to update.
+     * @param pointZone The y-coordinate of the point zone.
      */
     private void updateObstacles(List<Obstacle> obstacles, int pointZone) {
         if (!gameStart) {
@@ -332,9 +339,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Removes the current obstacle and its corresponding bottom obstacle from the iterator.
+     * Removes the current obstacle and its corresponding bottom obstacle from the
+     * iterator.
      *
-     * @param iterator  The iterator containing the obstacles.
+     * @param iterator The iterator containing the obstacles.
      */
     private static void removeObstacle(Iterator<Obstacle> iterator) {
         iterator.remove(); // Remove the current obstacle
@@ -410,16 +418,18 @@ public class GamePanel extends JPanel implements Runnable {
             if (enterNameState) {
                 userInterface.getInputPanel().setVisible(true);
                 enterNameState = false;
-                idk = true;
+                enterScoreState = true;
             }
             // Handle game over state
             else if (gameOver && !enterNameState) {
                 // Save and load scores if username is provided
                 if (userInterface.getUsername() != null) {
-                    if (idk) {
+
+                    if (enterScoreState) {
+
                         scoreEntry = new ScoreEntry(userInterface.getUsername(), panelScore);
                         highscore.saveAndLoadScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
-                        idk = false;
+                        enterScoreState = false;
                         continue;
                     }
                     this.remove(userInterface.getInputPanel());

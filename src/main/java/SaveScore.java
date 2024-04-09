@@ -91,6 +91,8 @@ public class SaveScore {
                 if (usersList.size() > 5) {
                     break;
                 }
+
+                System.out.println(scoreEntry2);
                 writeScore.add(scoreEntry2);
             }
         } catch (IOException e) {
