@@ -416,7 +416,6 @@ public class GamePanel extends JPanel implements Runnable {
                 // Save and load scores if username is provided
                 if (userInterface.getUsername() != null) {
                     if (idk) {
-
                         scoreEntry = new ScoreEntry(userInterface.getUsername(), panelScore);
                         highscore.saveAndLoadScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
                         idk = false;
