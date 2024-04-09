@@ -35,8 +35,8 @@ public class SaveScore {
      * @return The file path corresponding to the specified menu number and input controls
      */
     private String determineFilePath(int menuNum, KeyControls keyControls) {
-        String filePath = "";
-        if ((menuNum == 0 || menuNum == 1 || menuNum == 2) && (keyControls.getMouseClick() || keyControls.getSpacebar())) {
+
+        if ((menuNum == 0 || menuNum == 1 || menuNum == 2)) {
             switch (menuNum) {
                 case 0:
                     filePath = "Highscores/EasyHighScore.txt";

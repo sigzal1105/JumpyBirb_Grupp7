@@ -46,7 +46,8 @@ public class UI implements ActionListener {
      * a label prompting the user to enter their name,
      * a text field for entering the name,
      * and a button for submitting the name.
-     * It also sets up event listeners for the name input field and the submit button.
+     * It also sets up event listeners for the name input field and the submit
+     * button.
      */
     public UI() {
 
@@ -116,10 +117,11 @@ public class UI implements ActionListener {
     }
 
     /**
-     * This method is responsible for rendering the start menu, including the option to choose a level,
+     * This method is responsible for rendering the start menu, including the option
+     * to choose a level,
      * when the game is initiated.
      *
-     * @param g The Graphics object used for rendering.
+     * @param g         The Graphics object used for rendering.
      * @param gameStart A boolean indicating whether the game has started or not.
      * @param gamePanel The GamePanel object associated with the game.
      */
@@ -142,13 +144,14 @@ public class UI implements ActionListener {
     /**
      * Draw the current panelScore and game over screen if the game is over.
      *
-     * @param g The Graphics object used for rendering.
+     * @param g          The Graphics object used for rendering.
      * @param panelScore The current score to be displayed.
-     * @param gameOver A boolean indicating whether the game is over or not.
-     * @param gamePanel The GamePanel object associated with the game.
-     * @param idk An instance of SaveScore (not clear what it represents).
+     * @param gameOver   A boolean indicating whether the game is over or not.
+     * @param gamePanel  The GamePanel object associated with the game.
+     * @param idk        An instance of SaveScore (not clear what it represents).
      */
-    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT, SaveScore idk) {
+    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
+            int SCREEN_HEIGHT, SaveScore idk) {
         String panelScoreString = Integer.toString(panelScore);
         String printName = highscore.getHighScore(); // Här har jag ändrat från ulf!/TF
         String serif = "Serif";
@@ -223,8 +226,9 @@ public class UI implements ActionListener {
      * Calculates the x-coordinate for centering text horizontally on the screen,
      * either towards the left or right side.
      *
-     * @param text The text whose center position needs to be calculated.
-     * @param username A boolean indicating whether the text is for a username (left) or not (right).
+     * @param text     The text whose center position needs to be calculated.
+     * @param username A boolean indicating whether the text is for a username
+     *                 (left) or not (right).
      * @return The x-coordinate for centering the text.
      */
     private int getXnameCenter(String text, Graphics g, boolean username, int SCREEN_WIDTH) {
@@ -243,7 +247,7 @@ public class UI implements ActionListener {
      * @param gameOver A boolean indicating whether the game is over or not.
      */
     public void menuWindow(int menuX, int menuY, int menuWidth, int menuHeight, Graphics g, int SCREEN_WIDTH,
-                           int SCREEN_HEIGHT, boolean gameOver) {
+            int SCREEN_HEIGHT, boolean gameOver) {
         int roundedCorner = 35;
 
         // Transparent rectangle
@@ -317,7 +321,7 @@ public class UI implements ActionListener {
      * @param color The color of the button.
      */
     private void makeButton(String level, int buttonX, int buttonY, int buttonWidth, int buttonHeight, Graphics g,
-                            Color color) {
+            Color color) {
         int roundedCorner = 35;
 
         g.setColor(color);
@@ -423,7 +427,7 @@ public class UI implements ActionListener {
 
     private void submitName() {
 
-        username = nameInputField.getText();
+        username = nameInputField.getText().trim();
     }
 
     @Override

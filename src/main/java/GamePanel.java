@@ -432,6 +432,7 @@ public class GamePanel extends JPanel implements Runnable {
                         enterScoreState = false;
                         continue;
                     }
+                    userInterface.getInputPanel();
                     this.remove(userInterface.getInputPanel());
                     update();
                     SwingUtilities.invokeLater(this::repaint);
