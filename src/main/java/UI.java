@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class UI implements ActionListener {
 
@@ -150,8 +151,7 @@ public class UI implements ActionListener {
      * @param gamePanel  The GamePanel object associated with the game.
      * @param idk        An instance of SaveScore (not clear what it represents).
      */
-    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
-            int SCREEN_HEIGHT, SaveScore idk) {
+    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
         String panelScoreString = Integer.toString(panelScore);
         String printName = highscore.getHighScore(); // Här har jag ändrat från ulf!/TF
         String serif = "Serif";
@@ -195,6 +195,7 @@ public class UI implements ActionListener {
             g.setColor(Color.yellow);
             g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); // Current
             // Score
+
 
             for (int i = 85; i <= 225; i = i + 35) {
 
@@ -427,7 +428,7 @@ public class UI implements ActionListener {
 
     private void submitName() {
 
-        username = nameInputField.getText().trim();
+        username = nameInputField.getText().trim().replaceAll("\\s+", "_");
     }
 
     @Override

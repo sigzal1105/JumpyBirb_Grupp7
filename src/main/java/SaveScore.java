@@ -13,18 +13,24 @@ public class SaveScore {
     List<ScoreEntry> writeScore = new ArrayList<>();
     private String filePath;
 
+    public String getFilePath() {
+        return filePath;
+    }
+
     /**
-     * Saves the score to the appropriate high score file based on the menu number and input controls.
+     * Saves the score to the appropriate high score file based on the menu number
+     * and input controls.
      *
      * @param menuNum     The menu number indicating the difficulty level
      * @param keyControls The KeyControls instance to determine input controls
      * @param scoreEntry  The ScoreEntry to be saved
      */
-    public void saveAndLoadScore(int menuNum, KeyControls keyControls, ScoreEntry scoreEntry) {
+    public void saveScore(int menuNum, KeyControls keyControls, ScoreEntry scoreEntry) {
+
         writeScore.clear();
         filePath = determineFilePath(menuNum, keyControls);
         writeScoreToFile(scoreEntry, filePath);
-        loadScoresFromFile(filePath);
+        // loadScoresFromFile(filePath);
     }
 
     /**
@@ -32,7 +38,8 @@ public class SaveScore {
      *
      * @param menuNum     The menu number indicating the difficulty level
      * @param keyControls The KeyControls instance to determine input controls
-     * @return The file path corresponding to the specified menu number and input controls
+     * @return The file path corresponding to the specified menu number and input
+     *         controls
      */
     private String determineFilePath(int menuNum, KeyControls keyControls) {
 
@@ -73,10 +80,11 @@ public class SaveScore {
      *
      * @param filePath The file path from which scores will be loaded
      */
-    private void loadScoresFromFile(String filePath) {
+    public List<ScoreEntry> loadScore(String filePath) {
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath))) {
             String line;
             List<ScoreEntry> usersList = new ArrayList<>();
+
             while ((line = reader.readLine()) != null) {
                 // Split each line into username and score
                 String[] points = line.split(" ");
@@ -99,8 +107,9 @@ public class SaveScore {
             // Handle IOException
             System.err.println("Error loading scores from file: " + e.getMessage());
         }
-    }
 
+        return writeScore;
+    }
 
     public List<ScoreEntry> getWriteScore() {
         return writeScore;

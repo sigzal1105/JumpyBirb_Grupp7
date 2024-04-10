@@ -205,7 +205,7 @@ public class GamePanel extends JPanel implements Runnable {
         Obstacle.drawObstacle(g, obstacles2, gameStart);
         drawGround(g);
         birb.drawBirb(g, keyControls, gameOver);
-        userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT, highscore);
+        userInterface.drawScore(g, panelScore, gameOver, this, SCREEN_WIDTH, SCREEN_HEIGHT);
         userInterface.menuSelectionColor(g, userInterface.getMENU_X(), userInterface.getMENU_Y(),
                 userInterface.getMENU_WIDTH(), userInterface.getMENU_HEIGHT());
     }
@@ -428,9 +428,8 @@ public class GamePanel extends JPanel implements Runnable {
                     if (enterScoreState) {
 
                         scoreEntry = new ScoreEntry(userInterface.getUsername(), panelScore);
-                        highscore.saveAndLoadScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
+                        highscore.saveScore(userInterface.getMenuNumbers(), keyControls, scoreEntry);
                         enterScoreState = false;
-                        continue;
                     }
                     userInterface.getInputPanel();
                     this.remove(userInterface.getInputPanel());
