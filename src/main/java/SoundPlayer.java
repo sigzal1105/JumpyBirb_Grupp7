@@ -15,24 +15,31 @@ public class SoundPlayer {
         try {
             AudioInputStream audioISJump = AudioSystem.getAudioInputStream(new File("SoundFiles/Jump.wav"));
             AudioInputStream audioISDeath = AudioSystem.getAudioInputStream(new File("SoundFiles/Explosion.wav"));
-            AudioInputStream audioISBackground = AudioSystem.getAudioInputStream(new File("SoundFiles/BackgroundSound.wav"));
+            AudioInputStream audioISBackground = AudioSystem
+                    .getAudioInputStream(new File("SoundFiles/BackgroundSound.wav"));
 
             // Öppna Clips för ljudklippen
+            clipBackground = AudioSystem.getClip();
+            clipBackground.open(audioISBackground);
+
             clipJump = AudioSystem.getClip();
             clipJump.open(audioISJump);
 
             clipDeath = AudioSystem.getClip();
             clipDeath.open(audioISDeath);
 
-            clipBackground = AudioSystem.getClip();
-            clipBackground.open(audioISBackground);
-
         } catch (Exception ex) {
             System.err.println("Error loading clips: " + ex.getMessage());
 
         }
+
     }
 
+    /**
+     * Plays the specified sound clip.
+     *
+     * @param clip The Clip to play
+     */
     public Clip getClipJump() {
         return clipJump;
     }
@@ -41,14 +48,7 @@ public class SoundPlayer {
         return clipDeath;
     }
 
-
-    /**
-     * Plays the specified sound clip.
-     *
-     * @param clip The Clip to play
-     */
-
-    public Clip getClipBackground(){
+    public Clip getClipBackground() {
         return clipBackground;
     }
 
@@ -78,4 +78,11 @@ public class SoundPlayer {
             clipDeath.stop();
         }
     }
+
+    public static void playNonStop(Clip clip) {
+        if (clip != null) {
+            clip.loop(clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
 }

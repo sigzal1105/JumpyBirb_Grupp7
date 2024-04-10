@@ -104,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Constructor for GamePanel.
      */
     public GamePanel() {
-        SOUND_PLAYER.playSound(SOUND_PLAYER.getClipBackground());
+        SOUND_PLAYER.playNonStop(SOUND_PLAYER.getClipBackground());
         this.setLayout(null);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
@@ -123,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
                         mouseMenu(x, y);
                     }
                 } else if (!gameStart) {
+
                     mouseMenu(x, y);
                 }
             }
@@ -357,7 +358,7 @@ public class GamePanel extends JPanel implements Runnable {
      * adjusting the scroll speed accordingly.
      */
     private void changeBackground() {
-        if (panelScore > 300 && panelScore < 800) {
+        if (panelScore > 450 && panelScore < 900) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
             switch (spaceBetweenObstacles) {
                 case 170 -> scrollSpeed = 5;
@@ -367,11 +368,24 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
-        if (panelScore >= 800) {
+        if (panelScore >= 901) {
             backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
             groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
             bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
             topObstacle = new ImageIcon("Images/Obsticle_night_top_bat.png").getImage();
+
+            switch (spaceBetweenObstacles) {
+                case 170 -> scrollSpeed = 6;
+                case 185 -> scrollSpeed = 5;
+                case 200 -> scrollSpeed = 4;
+                default -> System.err.println("Illegitimate choice");
+            }
+        }
+        if (panelScore >= 1305) {
+            backgroundImage = new ImageIcon("Images/Desert.png").getImage();
+            groundImage = new ImageIcon("Images/ground_sand2.png").getImage();
+            bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
+            topObstacle = new ImageIcon("Images/Obsticle_start_top.png").getImage();
 
             switch (spaceBetweenObstacles) {
                 case 170 -> scrollSpeed = 6;
