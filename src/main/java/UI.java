@@ -4,17 +4,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UI implements ActionListener {
 
-    private final SaveScore highscore = new SaveScore();
+    // private final SaveScore highscore = new SaveScore();
 
-    String difficulty;
-    String easy = "Easy";
-    String normal = "Normal";
-    String deadly = "Deadly";
-    String quit = "Quit";
+    private String difficulty;
+    private String easy = "Easy";
+    private String normal = "Normal";
+    private String deadly = "Deadly";
+    private String quit = "Quit";
 
     // Start menu
     private final int START_MENU_X = 80;
@@ -151,9 +157,10 @@ public class UI implements ActionListener {
      * @param gamePanel  The GamePanel object associated with the game.
      * @param idk        An instance of SaveScore (not clear what it represents).
      */
-    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+    public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
+            int SCREEN_HEIGHT, SaveScore highScore) {
         String panelScoreString = Integer.toString(panelScore);
-        String printName = highscore.getHighScore(); // Här har jag ändrat från ulf!/TF
+        String printName = highScore.getHighScore(); // Här har jag ändrat från ulf!/TF
         String serif = "Serif";
 
         if (gameOver) {
@@ -199,9 +206,15 @@ public class UI implements ActionListener {
 
             for (int i = 85; i <= 225; i = i + 35) {
 
-                g.drawString(highscore.getHighScore(), getXnameCenter(highscore.getHighScore(), g, false, SCREEN_WIDTH),
-                        highscoreY + i);
-                g.drawString(printName, getXnameCenter(printName, g, true, SCREEN_WIDTH), highscoreY + i);
+                if (gameOver) {
+                    g.drawString(highScore.getHighScore(),
+                            getXnameCenter(highScore.getHighScore(), g, false, SCREEN_WIDTH),
+                            highscoreY + i);
+                    g.drawString(highScore.getHighScore(),
+                            getXnameCenter(highScore.getHighScore(), g, true, SCREEN_WIDTH),
+                            highscoreY + i);
+                }
+
             }
 
         } else {

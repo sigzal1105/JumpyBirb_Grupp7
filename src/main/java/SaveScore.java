@@ -10,11 +10,36 @@ import java.util.Collections;
 
 public class SaveScore {
     private String highScore = "0";
-    List<ScoreEntry> writeScore = new ArrayList<>();
+    private String printName;
     private String filePath;
+    private List<String> writeScore = new ArrayList<>();
 
     public String getFilePath() {
         return filePath;
+    }
+
+    public String getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(String highScore) {
+        this.highScore = highScore;
+    }
+
+    public String getPrintName() {
+        return printName;
+    }
+
+    public void setPrintName(String printName) {
+        this.printName = printName;
+    }
+
+    public List<String> getWriteScore() {
+        return writeScore;
+    }
+
+    public void setWriteScore(List<String> writeScore) {
+        this.writeScore = writeScore;
     }
 
     /**
@@ -27,7 +52,6 @@ public class SaveScore {
      */
     public void saveScore(int menuNum, KeyControls keyControls, ScoreEntry scoreEntry) {
 
-        writeScore.clear();
         filePath = determineFilePath(menuNum, keyControls);
         writeScoreToFile(scoreEntry, filePath);
         // loadScoresFromFile(filePath);
@@ -80,7 +104,7 @@ public class SaveScore {
      *
      * @param filePath The file path from which scores will be loaded
      */
-    public List<ScoreEntry> loadScore(String filePath) {
+    public void loadScore(String filePath) {
         try (BufferedReader reader = Files.newBufferedReader(Path.of(filePath))) {
             String line;
             List<ScoreEntry> usersList = new ArrayList<>();
@@ -96,30 +120,17 @@ public class SaveScore {
             Collections.sort(usersList);
             // Add the top 5 scores to the writeScore list
             for (ScoreEntry scoreEntry2 : usersList) {
-                if (usersList.size() > 5) {
+                if (writeScore.size() >= 5) {
                     break;
                 }
 
-                System.out.println(scoreEntry2);
-                writeScore.add(scoreEntry2);
+                writeScore.add(scoreEntry2.toString());
             }
         } catch (IOException e) {
             // Handle IOException
             System.err.println("Error loading scores from file: " + e.getMessage());
         }
 
-        return writeScore;
     }
 
-    public List<ScoreEntry> getWriteScore() {
-        return writeScore;
-    }
-
-    public void setWriteScore(List<ScoreEntry> writeScore) {
-        this.writeScore = writeScore;
-    }
-
-    public String getHighScore() {
-        return highScore;
-    }
 }
