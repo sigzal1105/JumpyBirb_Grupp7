@@ -4,13 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class UI implements ActionListener {
 
@@ -155,7 +148,7 @@ public class UI implements ActionListener {
      * @param panelScore The current score to be displayed.
      * @param gameOver   A boolean indicating whether the game is over or not.
      * @param gamePanel  The GamePanel object associated with the game.
-     * @param idk        An instance of SaveScore (not clear what it represents).
+     * @param highscore  An instance of SaveScore. Is used to retrieve the top 5 highscores.
      */
     public void drawScore(Graphics g, int panelScore, boolean gameOver, GamePanel gamePanel, int SCREEN_WIDTH,
             int SCREEN_HEIGHT, SaveScore highScore) {
@@ -203,16 +196,25 @@ public class UI implements ActionListener {
             g.drawString(panelScoreString, getXtextCenter(panelScoreString, g, SCREEN_WIDTH), currentScoreY + 27); // Current
             // Score
 
-
+            int j = 0;
             for (int i = 85; i <= 225; i = i + 35) {
 
-                if (gameOver) {
-                    g.drawString(highScore.getHighScore(),
-                            getXnameCenter(highScore.getHighScore(), g, false, SCREEN_WIDTH),
+                if (!highScore.getWriteScore().isEmpty()) {
+
+                    String[] splitter = highScore.getWriteScore().get(j).split(" ");
+
+                    g.drawString(splitter[0],
+                            getXnameCenter(splitter[0], g, false, SCREEN_WIDTH),
                             highscoreY + i);
-                    g.drawString(highScore.getHighScore(),
-                            getXnameCenter(highScore.getHighScore(), g, true, SCREEN_WIDTH),
+                    g.drawString(splitter[1],
+                            getXnameCenter(splitter[1], g, true, SCREEN_WIDTH),
                             highscoreY + i);
+
+                    j++;
+
+                    if (j >= 5) {
+                        j = 0;
+                    }
                 }
 
             }

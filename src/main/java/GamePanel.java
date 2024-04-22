@@ -179,6 +179,8 @@ public class GamePanel extends JPanel implements Runnable {
         addObstacles(SCREEN_WIDTH + 350, obstacles, pointZoneY);
         addObstacles(SCREEN_WIDTH, obstacles2, pointZoneY2);
 
+        highscore.getWriteScore().clear();
+
         // Reset user interface
         userInterface.setUsername(null);
         this.add(userInterface.getInputPanel());

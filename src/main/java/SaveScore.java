@@ -130,7 +130,6 @@ public class SaveScore {
             // Handle IOException
             System.err.println("Error loading scores from file: " + e.getMessage());
         }
-
     }
 
 }
