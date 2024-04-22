@@ -64,9 +64,9 @@ public class Birb {
     /**
      * Draws the birb.
      *
-     * @param g     The graphics context to draw on.
+     * @param g           The graphics context to draw on.
      * @param keyControls The key controls for the birb.
-     * @param dead  A boolean indicating whether the birb is dead.
+     * @param dead        A boolean indicating whether the birb is dead.
      */
     public void drawBirb(Graphics g, KeyControls keyControls, boolean dead) {
 
@@ -101,7 +101,6 @@ public class Birb {
         birbY = birbY + birbVelocity;
         hitboxY = hitboxY + birbVelocity;
     }
-
 
     /**
      * Handles birb's controls.
