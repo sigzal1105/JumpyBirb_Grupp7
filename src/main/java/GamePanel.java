@@ -399,21 +399,22 @@ public class GamePanel extends JPanel implements Runnable {
                 default -> System.err.println("Illegitimate choice");
             }
         }
-       /*
-        *  if (panelScore >= 1650) {
-            backgroundImage = new ImageIcon("Images/Desert.png").getImage();
-            groundImage = new ImageIcon("Images/ground_sand2.png").getImage();
-            bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
-
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 7;
-                case 185 -> scrollSpeed = 6;
-                case 200 -> scrollSpeed = 5;
-                default -> System.err.println("Illegitimate choice");
-            }
-        }
-        */
+        /*
+         * if (panelScore >= 1650) {
+         * backgroundImage = new ImageIcon("Images/Desert.png").getImage();
+         * groundImage = new ImageIcon("Images/ground_sand2.png").getImage();
+         * bottomObstacle = new
+         * ImageIcon("Images/Obsticle_start_bottom.png").getImage();
+         * topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
+         * 
+         * switch (spaceBetweenObstacles) {
+         * case 170 -> scrollSpeed = 7;
+         * case 185 -> scrollSpeed = 6;
+         * case 200 -> scrollSpeed = 5;
+         * default -> System.err.println("Illegitimate choice");
+         * }
+         * }
+         */
     }
 
     /**
@@ -450,6 +451,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             // Show input panel if entering name
             if (enterNameState) {
+
                 userInterface.getInputPanel().setVisible(true);
                 enterNameState = false;
                 enterScoreState = true;

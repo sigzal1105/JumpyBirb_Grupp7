@@ -203,10 +203,10 @@ public class UI implements ActionListener {
 
                     String[] splitter = highScore.getWriteScore().get(j).split(" ");
 
-                    g.drawString(splitter[0],
+                    g.drawString(splitter[1],
                             getXnameCenter(splitter[0], g, false, SCREEN_WIDTH),
                             highscoreY + i);
-                    g.drawString(splitter[1],
+                    g.drawString(splitter[0],
                             getXnameCenter(splitter[1], g, true, SCREEN_WIDTH),
                             highscoreY + i);
 
