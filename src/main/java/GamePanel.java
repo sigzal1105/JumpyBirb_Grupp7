@@ -359,72 +359,71 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
+     * Method to progressively increase difficulty at a certain score.
+     * 
+     * @param increasDeadly  - For increasing the difficulty on deadly
+     * @param increaseNormal - For increasing the difficulty on normal
+     * @param increaseEasy   - For increasing the difficulty on easy
+     */
+    private void increaseDifficulty(int increasDeadly, int increaseNormal, int increaseEasy) {
+        switch (spaceBetweenObstacles) {
+            case 170 -> scrollSpeed = increasDeadly;
+            case 185 -> scrollSpeed = increaseNormal;
+            case 200 -> scrollSpeed = increaseEasy;
+            default -> System.err.println("Illegitimate choice");
+        }
+    }
+
+    /**
+     * A method for changing images.
+     * 
+     * @param background
+     * @param ground
+     * @param bObsticle
+     * @param tObsticle
+     */
+    private void images(String background, String ground, String bObsticle, String tObsticle) {
+
+        backgroundImage = new ImageIcon(background).getImage();
+        groundImage = new ImageIcon(ground).getImage();
+        bottomObstacle = new ImageIcon(bObsticle).getImage();
+        topObstacle = new ImageIcon(tObsticle).getImage();
+    }
+
+    /**
      * Changes the background and obstacle images based on the current score,
      * adjusting the scroll speed accordingly.
      */
     private void changeBackground() {
         if (panelScore > 450 && panelScore < 900) {
             backgroundImage = new ImageIcon("Images/Background_sunset.png").getImage();
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 5;
-                case 185 -> scrollSpeed = 4;
-                case 200 -> scrollSpeed = 3;
-                default -> System.err.println("Illegitimate choice");
-            }
 
+            increaseDifficulty(5, 4, 3);
         }
         if (panelScore >= 901 && panelScore < 1305) {
-            backgroundImage = new ImageIcon("Images/Background_night.png").getImage();
-            groundImage = new ImageIcon("Images/ground_flowers_night.png").getImage();
-            bottomObstacle = new ImageIcon("Images/Obsticle_bat_night.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsticle_night_top_bat.png").getImage();
+            images("Images/Background_night.png", "Images/ground_flowers_night.png",
+                    "Images/Obsticle_bat_night.png", "Images/Obsticle_night_top_bat.png");
 
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 6;
-                case 185 -> scrollSpeed = 5;
-                case 200 -> scrollSpeed = 4;
-                default -> System.err.println("Illegitimate choice");
-            }
+            increaseDifficulty(6, 5, 4);
         }
         if (panelScore >= 1305 && panelScore < 1650) {
-            backgroundImage = new ImageIcon("Images/Background_sand.png").getImage();
-            groundImage = new ImageIcon("Images/ground_sand2.png").getImage();
-            bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
+            images("Images/Background_sand.png", "Images/ground_sand2.png",
+                    "Images/Obsticle_start_bottom.png", "Images/Obsticle_start_top_kiwi.png");
 
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 7;
-                case 185 -> scrollSpeed = 6;
-                case 200 -> scrollSpeed = 5;
-                default -> System.err.println("Illegitimate choice");
-            }
+            increaseDifficulty(7, 6, 5);
         }
 
         if (panelScore >= 1650 && panelScore < 2000) {
-            backgroundImage = new ImageIcon("Images/Background_beach.png").getImage();
-            groundImage = new ImageIcon("Images/ground_sand2.png").getImage();
-            bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
+            images("Images/Background_beach.png", "Images/ground_sand2.png",
+                    "Images/Obsticle_start_bottom.png", "Images/Obsticle_start_top_kiwi.png");
 
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 7;
-                case 185 -> scrollSpeed = 6;
-                case 200 -> scrollSpeed = 5;
-                default -> System.err.println("Illegitimate choice");
-            }
+            increaseDifficulty(7, 6, 5);
         }
         if (panelScore >= 2000) {
-            backgroundImage = new ImageIcon("Images/Background_snow.png").getImage();
-            groundImage = new ImageIcon("Images/Ground_snow.png").getImage();
-            bottomObstacle = new ImageIcon("Images/Obsticle_start_bottom.png").getImage();
-            topObstacle = new ImageIcon("Images/Obsticle_start_top_kiwi.png").getImage();
+            images("Images/Background_snow.png", "Images/Ground_snow.png",
+                    "Images/Obsticle_start_bottom.png", "Images/Obsticle_start_top_kiwi.png");
 
-            switch (spaceBetweenObstacles) {
-                case 170 -> scrollSpeed = 7;
-                case 185 -> scrollSpeed = 6;
-                case 200 -> scrollSpeed = 5;
-                default -> System.err.println("Illegitimate choice");
-            }
+            increaseDifficulty(7, 6, 5);
         }
     }
 

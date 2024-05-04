@@ -3,5 +3,3 @@ xxx 000
 xxx 000
 xxx 000
 xxx 000 
-Hello 96
-uuh 0
